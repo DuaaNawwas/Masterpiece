@@ -1,73 +1,37 @@
 import React from "react";
 import { useState } from "react";
+import Button from "../components/Button";
 import logo from "../images/logo.svg";
 
 export default function Navbar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const pages = ["Home", "Meals", "Plans", "About", "Contact"];
 
 	return (
-		<div className="px-4 py-3 mx-auto sm:max-w-full md:max-w-full lg:max-w-full md:px-24 lg:px-8 uppercase shadow-lg">
-			<div className="relative flex items-center justify-between">
+		<div className="sticky top-0 z-50 bg-main px-4 py-3 mx-auto sm:max-w-full md:max-w-full lg:max-w-full md:px-24 lg:px-8 uppercase shadow-lg">
+			<div className="z-50 relative flex items-center justify-between">
 				<div className="flex items-center gap-6">
 					<a
 						href="/"
 						aria-label="Company"
 						title="Company"
-						classNameName="inline-flex items-center mr-8"
+						className="inline-flex items-center mr-8"
 					>
 						<img src={logo} alt="" className="w-16" />
 					</a>
 					<ul className=" items-center hidden space-x-8 lg:flex text-darkRed">
-						<li>
-							<a
-								href="/"
-								aria-label="Home"
-								title="Home"
-								className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-							>
-								Home
-							</a>
-						</li>
-						<li>
-							<a
-								href="/"
-								aria-label="Meals"
-								title="Meals"
-								className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-							>
-								Meals
-							</a>
-						</li>
-						<li>
-							<a
-								href="/"
-								aria-label="Plans"
-								title="Plans"
-								className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-							>
-								Plans
-							</a>
-						</li>
-						<li>
-							<a
-								href="/"
-								aria-label="About us"
-								title="About us"
-								className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-							>
-								About us
-							</a>
-						</li>
-						<li>
-							<a
-								href="/"
-								aria-label="Contact us"
-								title="Contact us"
-								className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-							>
-								Contact us
-							</a>
-						</li>
+						{pages.map((page) => (
+							<li key={page}>
+								<a
+									href="/"
+									aria-label={page}
+									title={page}
+									className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
+								>
+									{page}
+								</a>
+							</li>
+						))}
 					</ul>
 				</div>
 				<ul className=" items-center hidden space-x-8 lg:flex">
@@ -82,14 +46,20 @@ export default function Navbar() {
 						</a>
 					</li>
 					<li>
-						<a
+						{/* <a
 							href="/"
 							className="inline-flex items-center justify-center py-2 px-5 text-main bg-darkRed font-medium  rounded shadow-md hover:bg-secRed hover:drop-shadow-lg focus:shadow-outline focus:outline-none tracking-wide transition duration-200"
 							aria-label="Sign up"
 							title="Sign up"
 						>
 							Sign up
-						</a>
+						</a> */}
+						<Button
+							textColor="text-main"
+							bgColor="bg-darkRed"
+							hoverColor="hover:bg-secRed"
+							text="Sign Up"
+						/>
 					</li>
 				</ul>
 
@@ -147,56 +117,18 @@ export default function Navbar() {
 								</div>
 								<nav>
 									<ul className="space-y-4">
-										<li>
-											<a
-												href="/"
-												aria-label="Home"
-												title="Home"
-												className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-											>
-												Home
-											</a>
-										</li>
-										<li>
-											<a
-												href="/"
-												aria-label="Meals"
-												title="Meals"
-												className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-											>
-												Meals
-											</a>
-										</li>
-										<li>
-											<a
-												href="/"
-												aria-label="Plans"
-												title="Plans"
-												className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-											>
-												Plans
-											</a>
-										</li>
-										<li>
-											<a
-												href="/"
-												aria-label="About us"
-												title="About us"
-												className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-											>
-												About us
-											</a>
-										</li>
-										<li>
-											<a
-												href="/"
-												aria-label="Contact us"
-												title="Contact us"
-												className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
-											>
-												Contact us
-											</a>
-										</li>
+										{pages.map((page) => (
+											<li key={page}>
+												<a
+													href="/"
+													aria-label={page}
+													title={page}
+													className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
+												>
+													{page}
+												</a>
+											</li>
+										))}
 										<ul className="flex align-middle gap-2">
 											<li>
 												<a

@@ -31,8 +31,8 @@ export default function Footer() {
 								accusantium doloremque laudantium, totam rem aperiam.
 							</p>
 							<p className="mt-4 text-sm text-deep-purple-50">
-								Eaque ipsa quae ab illo inventore veritatis et quasi architecto
-								beatae vitae dicta sunt explicabo.
+								Name Eaque ipsa quae ab illo inventore veritatis et quasi
+								architecto beatae vitae dicta sunt explicabo.
 							</p>
 						</div>
 					</div>
@@ -121,8 +121,8 @@ export default function Footer() {
 								Download our app
 							</p>
 							<ul className="mt-2 space-y-2">
-								<div class="flex mt-3 w-48 h-14 bg-black text-white rounded-lg items-center justify-center">
-									<div class="mr-3">
+								<div className="flex mt-3 w-48 h-14 bg-black text-white rounded-lg items-center justify-center">
+									<div className="mr-3">
 										<svg viewBox="30 336.7 120.9 129.2" width="30">
 											<path
 												fill="#FFD400"
@@ -143,15 +143,15 @@ export default function Footer() {
 										</svg>
 									</div>
 									<div>
-										<div class="text-xs">GET IT ON</div>
-										<div class="text-xl font-semibold font-sans -mt-1">
+										<div className="text-xs">GET IT ON</div>
+										<div className="text-xl font-semibold font-sans -mt-1">
 											Google Play
 										</div>
 									</div>
 								</div>
 
-								<div class="flex mt-3 w-48 h-14 bg-black text-white rounded-xl items-center justify-center">
-									<div class="mr-3">
+								<div className="flex mt-3 w-48 h-14 bg-black text-white rounded-xl items-center justify-center">
+									<div className="mr-3">
 										<svg viewBox="0 0 384 512" width="30">
 											<path
 												fill="currentColor"
@@ -160,8 +160,8 @@ export default function Footer() {
 										</svg>
 									</div>
 									<div>
-										<div class="text-xs">Download on the</div>
-										<div class="text-2xl font-semibold font-sans -mt-1">
+										<div className="text-xs">Download on the</div>
+										<div className="text-2xl font-semibold font-sans -mt-1">
 											App Store
 										</div>
 									</div>

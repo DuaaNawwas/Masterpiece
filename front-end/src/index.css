@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
-    font-family: 'Merriweather', serif;
-    background-color:#EEECEA;
+	font-family: "Merriweather", serif;
+	background-color: #eeecea;
+	position: relative;
 }
