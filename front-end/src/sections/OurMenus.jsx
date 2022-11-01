@@ -1,3 +1,4 @@
+import { Carousel } from "flowbite-react";
 import React from "react";
 import Button from "../components/Button";
 import CategoryCard from "../components/CategoryCard";
@@ -10,8 +11,8 @@ export default function OurMenus() {
 		<>
 			<div className="flex flex-col items-center">
 				<p className="text-darkRed text-4xl drop-shadow-md">Our Menus</p>
-				<div className="flex flex-wrap py-20 justify-center items-center gap-16">
-					<svg
+
+				{/* <svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
 						viewBox="0 0 24 24"
@@ -24,13 +25,27 @@ export default function OurMenus() {
 							strokeLinejoin="round"
 							d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 						/>
-					</svg>
-
+					</svg> */}
+				{/* <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+					<Carousel> */}
+				<div className="flex flex-wrap py-20 justify-center items-center gap-16">
 					<CategoryCard img={chicken} name="Chicken Recipes" />
 					<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
 					<CategoryCard img={meat} name="Meat Recipes" />
-
-					<svg
+				</div>
+				{/* <div className="flex flex-wrap py-20 justify-center items-center gap-16">
+							<CategoryCard img={chicken} name="Chicken Recipes" />
+							<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
+							<CategoryCard img={meat} name="Meat Recipes" />
+						</div>
+						<div className="flex flex-wrap py-20 justify-center items-center gap-16">
+							<CategoryCard img={chicken} name="Chicken Recipes" />
+							<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
+							<CategoryCard img={meat} name="Meat Recipes" />
+						</div> */}
+				{/* </Carousel>
+				</div> */}
+				{/* <svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
 						viewBox="0 0 24 24"
@@ -43,8 +58,8 @@ export default function OurMenus() {
 							strokeLinejoin="round"
 							d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 						/>
-					</svg>
-				</div>
+					</svg> */}
+
 				<Button
 					bgColor="bg-rusty"
 					hoverColor="hover:bg-rustySh"
@@ -52,6 +67,7 @@ export default function OurMenus() {
 					padding="px-10"
 				/>
 			</div>
+			<div className="text-myBlack border-t-4 h-2 w-1/2 mx-auto my-10"></div>
 		</>
 	);
 }

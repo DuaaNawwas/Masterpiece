@@ -1,18 +1,22 @@
+import { Route, Routes } from "react-router-dom";
+import "./index.css";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import Footer from "./sections/Footer";
 import Navbar from "./sections/Navbar";
-import "./index.css";
-import Hero from "./sections/Hero";
-import Features from "./sections/Features";
-import OurMenus from "./sections/OurMenus";
 
 function App() {
 	return (
 		<>
 			<Navbar />
-			<Hero />
-			<Features />
-			<OurMenus />
-			<div className="h-56"></div>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/about" element={<About />} />
+				<Route path="/contact" element={<Contact />} />
+				<Route path="*" element={<NotFound />} />
+			</Routes>
 			<Footer />
 		</>
 	);

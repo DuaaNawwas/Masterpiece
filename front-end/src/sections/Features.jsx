@@ -30,7 +30,7 @@ export default function Features() {
 					padding="px-10"
 				/>
 			</div>
-			<div class="text-myBlack border-t-4 h-2 w-1/2 mx-auto my-10"></div>
+			<div className="text-myBlack border-t-4 h-2 w-1/2 mx-auto my-10"></div>
 			{/* <hr className="text-myBlack h-2" /> */}
 		</>
 	);

@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ["./src/**/*.{js,jsx,ts,tsx}"],
+	content: [
+		"./src/**/*.{js,jsx,ts,tsx}",
+		"node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
+	],
 	theme: {
 		fontFamily: {
 			merri: ["Merriweather", "serif"],
@@ -30,5 +33,5 @@ module.exports = {
 		},
 	},
 	safelist: ["darkYellow", "lemonSh", "rusty"],
-	plugins: [],
+	plugins: [require("flowbite/plugin")],
 };
