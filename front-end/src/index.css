@@ -7,3 +7,8 @@ body {
 	background-color: #eeecea;
 	position: relative;
 }
+
+button[aria-selected="true"] {
+	color: #6a2e0a;
+	border-color: #6a2e0a;
+}

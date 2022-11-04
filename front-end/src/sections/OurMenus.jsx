@@ -26,25 +26,25 @@ export default function OurMenus() {
 							d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 						/>
 					</svg> */}
-				{/* <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-					<Carousel> */}
-				<div className="flex flex-wrap py-20 justify-center items-center gap-16">
-					<CategoryCard img={chicken} name="Chicken Recipes" />
-					<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
-					<CategoryCard img={meat} name="Meat Recipes" />
-				</div>
-				{/* <div className="flex flex-wrap py-20 justify-center items-center gap-16">
+				<div className="hidden lg:block h-56 sm:h-64 xl:h-96 2xl:h-96 container">
+					<Carousel className="w-full">
+						<div className="flex flex-wrap py-20 justify-center items-center gap-5">
 							<CategoryCard img={chicken} name="Chicken Recipes" />
 							<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
 							<CategoryCard img={meat} name="Meat Recipes" />
 						</div>
-						<div className="flex flex-wrap py-20 justify-center items-center gap-16">
+						<div className="flex flex-wrap py-20 justify-center items-center gap-5">
 							<CategoryCard img={chicken} name="Chicken Recipes" />
 							<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
 							<CategoryCard img={meat} name="Meat Recipes" />
-						</div> */}
-				{/* </Carousel>
-				</div> */}
+						</div>
+						<div className="flex flex-wrap py-20 justify-center items-center gap-5">
+							<CategoryCard img={chicken} name="duaa Recipes" />
+							<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
+							<CategoryCard img={meat} name="Meat Recipes" />
+						</div>
+					</Carousel>
+				</div>
 				{/* <svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
