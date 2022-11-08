@@ -32,6 +32,8 @@ export default function MealCard(props) {
 							hoverColor="hover:bg-rustySh"
 							text="MORE"
 							style="float-right"
+							type="button"
+							onClick={props.showModalRecipe}
 						/>
 						{/* <div class="mt-4">
 							<span class="text-teal-600 text-md font-semibold">

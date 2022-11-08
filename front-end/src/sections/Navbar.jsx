@@ -1,11 +1,12 @@
 import React from "react";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import Button from "../components/Button";
 import logo from "../images/logo.svg";
 
 export default function Navbar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const pages = ["Home", "Meals", "Plans", "About", "Contact"];
+	const pages = ["Home", "Menu", "Plans", "About", "Contact"];
 
 	return (
 		<div className="sticky top-0 z-50 bg-main px-4 py-3 mx-auto sm:max-w-full md:max-w-full lg:max-w-full md:px-24 lg:px-8 uppercase shadow-lg">
@@ -22,14 +23,14 @@ export default function Navbar() {
 					<ul className=" items-center hidden space-x-8 lg:flex text-darkRed">
 						{pages.map((page) => (
 							<li key={page}>
-								<a
-									href="/"
+								<NavLink
+									to={page == "Plans" ? "/subscribe/1" : "/" + page}
 									aria-label={page}
 									title={page}
 									className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
 								>
 									{page}
-								</a>
+								</NavLink>
 							</li>
 						))}
 					</ul>
@@ -58,7 +59,7 @@ export default function Navbar() {
 							textColor="text-main"
 							bgColor="bg-darkRed"
 							hoverColor="hover:bg-secRed"
-							text="Sign Up"
+							text="SIGN UP"
 						/>
 					</li>
 				</ul>

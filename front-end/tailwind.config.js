@@ -26,6 +26,7 @@ module.exports = {
 				rustySh: "rgba(187, 67, 20, 0.9)",
 				darkGreen: "#606E6B",
 				myBlack: "#241B0A",
+				modalColor: "#FFFCFC",
 			},
 			backgroundImage: {
 				"hero-bg": "url('/public/hero.png')",
