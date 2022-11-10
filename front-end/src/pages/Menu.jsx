@@ -54,7 +54,7 @@ export default function Menu() {
 				</Tabs.Item>
 				<Tabs.Item active={true} title="Chicken">
 					{/* remember to limit description length */}
-					<div className="p-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center items-center content-center">
+					<div className="p-5 md:p-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6 justify-center items-center content-center">
 						<MealCard
 							title="Chicken Flautas"
 							desc="Made with shredded chicken wrapped in flour tortillas."

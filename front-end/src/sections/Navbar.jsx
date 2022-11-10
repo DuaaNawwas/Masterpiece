@@ -1,6 +1,7 @@
+import { Avatar, Dropdown } from "flowbite-react";
 import React from "react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Button from "../components/Button";
 import logo from "../images/logo.svg";
 
@@ -8,8 +9,12 @@ export default function Navbar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const pages = ["Home", "Menu", "Plans", "About", "Contact"];
 
+	const [isUser, setIsUser] = useState(true);
 	return (
-		<div className="sticky top-0 z-50 bg-main px-4 py-3 mx-auto sm:max-w-full md:max-w-full lg:max-w-full md:px-24 lg:px-8 uppercase shadow-lg">
+		<div
+			className="sticky top-0 z-50 bg-main px-4 py-3 mx-auto sm:max-w-full md:max-w-full lg:max-w-full md:px-24 lg:px-8 uppercase shadow-lg"
+			id="navbar"
+		>
 			<div className="z-50 relative flex items-center justify-between">
 				<div className="flex items-center gap-6">
 					<a
@@ -24,7 +29,7 @@ export default function Navbar() {
 						{pages.map((page) => (
 							<li key={page}>
 								<NavLink
-									to={page == "Plans" ? "/subscribe/1" : "/" + page}
+									to={page == "Plans" ? "/subscribe" : "/" + page}
 									aria-label={page}
 									title={page}
 									className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
@@ -35,19 +40,48 @@ export default function Navbar() {
 						))}
 					</ul>
 				</div>
-				<ul className=" items-center hidden space-x-8 lg:flex">
-					<li>
-						<a
-							href="/"
-							aria-label="Sign in"
-							title="Sign in"
-							className="font-medium text-darkRed border-2 border-darkRed bg-main rounded py-2 px-5  transition duration-500  hover:bg-mainSh hover:drop-shadow-lg tracking-wide "
+				{isUser ? (
+					<div className="hidden lg:block">
+						<Dropdown
+							label={
+								<Avatar
+									alt="User settings"
+									img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+									rounded={true}
+								/>
+							}
+							arrowIcon={false}
+							inline={true}
 						>
-							Sign in
-						</a>
-					</li>
-					<li>
-						{/* <a
+							<Dropdown.Header>
+								<span className="block text-sm">Bonnie Green</span>
+								<span className="block truncate text-sm font-medium">
+									name@flowbite.com
+								</span>
+							</Dropdown.Header>
+							<Dropdown.Item>
+								<Link to="/profile">Profile </Link>
+							</Dropdown.Item>
+							<Dropdown.Item>Settings</Dropdown.Item>
+							<Dropdown.Item>Earnings</Dropdown.Item>
+							<Dropdown.Divider />
+							<Dropdown.Item>Sign out</Dropdown.Item>
+						</Dropdown>
+					</div>
+				) : (
+					<ul className=" items-center hidden space-x-8 lg:flex">
+						<li>
+							<a
+								href="/"
+								aria-label="Sign in"
+								title="Sign in"
+								className="font-medium text-darkRed border-2 border-darkRed bg-main rounded py-2 px-5  transition duration-500  hover:bg-mainSh hover:drop-shadow-lg tracking-wide "
+							>
+								Sign in
+							</a>
+						</li>
+						<li>
+							{/* <a
 							href="/"
 							className="inline-flex items-center justify-center py-2 px-5 text-main bg-darkRed font-medium  rounded shadow-md hover:bg-secRed hover:drop-shadow-lg focus:shadow-outline focus:outline-none tracking-wide transition duration-200"
 							aria-label="Sign up"
@@ -55,14 +89,15 @@ export default function Navbar() {
 						>
 							Sign up
 						</a> */}
-						<Button
-							textColor="text-main"
-							bgColor="bg-darkRed"
-							hoverColor="hover:bg-secRed"
-							text="SIGN UP"
-						/>
-					</li>
-				</ul>
+							<Button
+								textColor="text-main"
+								bgColor="bg-darkRed"
+								hoverColor="hover:bg-secRed"
+								text="SIGN UP"
+							/>
+						</li>
+					</ul>
+				)}
 
 				<div className="lg:hidden">
 					<button
@@ -120,28 +155,58 @@ export default function Navbar() {
 									<ul className="space-y-4">
 										{pages.map((page) => (
 											<li key={page}>
-												<a
-													href="/"
+												<NavLink
+													to={page == "Plans" ? "/subscribe" : "/" + page}
 													aria-label={page}
 													title={page}
 													className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
 												>
 													{page}
-												</a>
+												</NavLink>
 											</li>
 										))}
-										<ul className="flex align-middle gap-2">
-											<li>
-												<a
-													href="/"
-													aria-label="Sign in"
-													title="Sign in"
-													className="inline-flex items-center justify-center  font-medium text-darkRed border-2 border-darkRed bg-main rounded py-1 px-5  transition duration-500  hover:bg-darkRed hover:text-main hover:drop-shadow-lg tracking-wide "
-												>
-													Sign in
-												</a>
-											</li>
-										</ul>
+										{isUser ? (
+											<Dropdown
+												label={
+													<Avatar
+														alt="User settings"
+														img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+														rounded={true}
+													/>
+												}
+												arrowIcon={false}
+												inline={true}
+												// placement="top"
+											>
+												<Dropdown.Header>
+													<span className="block text-sm">Bonnie Green</span>
+													<span className="block truncate text-sm font-medium">
+														name@flowbite.com
+													</span>
+												</Dropdown.Header>
+												<Dropdown.Item>
+													{" "}
+													<Link to="/profile">Profile </Link>
+												</Dropdown.Item>
+												<Dropdown.Item>Settings</Dropdown.Item>
+												<Dropdown.Item>Earnings</Dropdown.Item>
+												<Dropdown.Divider />
+												<Dropdown.Item>Sign out</Dropdown.Item>
+											</Dropdown>
+										) : (
+											<ul className="flex align-middle gap-2">
+												<li>
+													<a
+														href="/"
+														aria-label="Sign in"
+														title="Sign in"
+														className="inline-flex items-center justify-center  font-medium text-darkRed border-2 border-darkRed bg-main rounded py-1 px-5  transition duration-500  hover:bg-darkRed hover:text-main hover:drop-shadow-lg tracking-wide "
+													>
+														Sign in
+													</a>
+												</li>
+											</ul>
+										)}
 									</ul>
 								</nav>
 							</div>

@@ -3,6 +3,7 @@ import "./index.css";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Menu from "./pages/Menu";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
@@ -20,7 +21,7 @@ function App() {
 				<Route path="/about" element={<About />} />
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/subscribe" element={<Subscribe />} />
-				{/* <Route path="/subscribe/:step" element={<Subscribe />} /> */}
+				<Route path="/login" element={<Login />} />
 				<Route path="/menu" element={<Menu />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="*" element={<NotFound />} />

@@ -11,7 +11,7 @@ export default function Hero() {
 				alt=""
 			/> */}
 			<div className="z-0 px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-				<div className="relative py-28 max-w-2xl sm:mx-auto sm:max-w-xl md:max-w-2xl sm:text-center">
+				<div className="relative py-28 max-w-2xl sm:mx-auto sm:max-w-xl md:max-w-2xl text-center">
 					<h2 className="mb-12 mt-16 text-4xl tracking-wide text-darkRed sm:text-6xl sm:leading-none drop-shadow-lg">
 						Unlock Your Cooking
 						<br className="hidden md:block" />

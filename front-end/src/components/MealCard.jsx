@@ -4,7 +4,7 @@ import Button from "./Button";
 export default function MealCard(props) {
 	return (
 		<div class="grid justify-center place-items-center text-gray-900">
-			<div className=" sm:w-[500px] sm:h-[500px] md:w-[300px] lg:[h-300px] xl:w-[400px] xl:h-[400px]">
+			<div className="w-[300px] h-[400px] sm:w-[400px] sm:h-[500px] md:w-[300px] lg:[h-300px] xl:w-[400px] xl:h-[400px]">
 				<img
 					src={props.img}
 					alt=" random imgee"
