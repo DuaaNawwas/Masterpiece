@@ -1,18 +1,17 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 
-export default function Steps() {
-	const { step } = useParams();
+export default function Steps({ step, changeStep }) {
 	return (
 		<div>
 			<h2 className="sr-only">Steps</h2>
 
 			<div className="container mx-auto pt-10">
-				<ol className="grid grid-cols-1 divide-x divide-myBlack overflow-hidden rounded-lg border border-myBlack text-sm text-gray-500 sm:grid-cols-4 bg-white">
+				<ol className="grid  divide-x divide-myBlack overflow-hidden rounded-lg border border-myBlack text-sm text-gray-500 grid-cols-4 bg-white">
 					<li
+						onClick={step > 1 ? () => changeStep(1) : ""}
 						className={`flex items-center justify-center p-4 ${
-							step == 1 ? "bg-lemonSh" : ""
-						}`}
+							step == 1 ? "bg-lemonSh" : " "
+						} ${step > 1 && "hover:cursor-pointer"} `}
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -31,13 +30,17 @@ export default function Steps() {
 
 						<p className="leading-none">
 							<strong className="block font-medium"> Choose A Plan </strong>
-							<small className="mt-1"> Customize it the way you like. </small>
+							<small className="mt-1 hidden md:block">
+								{" "}
+								Customize it the way you like.{" "}
+							</small>
 						</p>
 					</li>
 					<li
+						onClick={step > 2 ? () => changeStep(2) : ""}
 						className={`relative flex items-center justify-center p-4 ${
-							step == 2 ? "bg-lemonSh" : ""
-						}  `}
+							step == 2 ? "bg-lemonSh" : " "
+						} ${step > 2 && "hover:cursor-pointer"}  `}
 					>
 						<span
 							className={`absolute -left-2 top-1/2 hidden h-4 w-4 -translate-y-1/2 rotate-45 border border-b-0 border-l-0 border-myBlack ${
@@ -67,13 +70,17 @@ export default function Steps() {
 
 						<p className="leading-none">
 							<strong className="block font-medium"> Register </strong>
-							<small className="mt-1"> Set up your account. </small>
+							<small className="mt-1 hidden md:block">
+								{" "}
+								Set up your account.{" "}
+							</small>
 						</p>
 					</li>
 					<li
+						onClick={step > 3 ? () => changeStep(3) : ""}
 						className={`relative flex items-center justify-center p-4 ${
 							step == 3 ? "bg-lemonSh" : ""
-						}`}
+						} ${step > 3 && "hover:cursor-pointer"}`}
 					>
 						<span
 							className={`absolute -right-2 top-1/2 hidden h-4 w-4 -translate-y-1/2 rotate-45 border border-b-0 border-l-0 border-myBlack ${
@@ -97,7 +104,10 @@ export default function Steps() {
 
 						<p className="leading-none">
 							<strong className="block font-medium"> Details </strong>
-							<small className="mt-1"> Some info about you. </small>
+							<small className="mt-1 hidden md:block">
+								{" "}
+								Some info about you.{" "}
+							</small>
 						</p>
 					</li>
 
@@ -123,7 +133,10 @@ export default function Steps() {
 
 						<p className="leading-none">
 							<strong className="block font-medium"> Payment </strong>
-							<small className="mt-1"> Show us the money. </small>
+							<small className="mt-1 hidden md:block">
+								{" "}
+								Show us the money.{" "}
+							</small>
 						</p>
 					</li>
 				</ol>

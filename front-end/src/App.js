@@ -19,7 +19,8 @@ function App() {
 				<Route path="/home" element={<Home />} />
 				<Route path="/about" element={<About />} />
 				<Route path="/contact" element={<Contact />} />
-				<Route path="/subscribe/:step" element={<Subscribe />} />
+				<Route path="/subscribe" element={<Subscribe />} />
+				{/* <Route path="/subscribe/:step" element={<Subscribe />} /> */}
 				<Route path="/menu" element={<Menu />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="*" element={<NotFound />} />

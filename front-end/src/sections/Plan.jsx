@@ -7,11 +7,11 @@ import pescatarian from "../images/pescatarian.png";
 import meat from "../images/meat.png";
 import PlanSummary from "../components/PlanSummary";
 
-export default function Plan() {
+export default function Plan(props) {
 	const numOfPeople = [2, 4, 6];
 	const mealsPerWeek = [1, 2, 3, 4, 5, 6];
 	return (
-		<div className="relative block rounded-xl bg-white border border-gray-100 p-5 shadow-xl w-9/12 mx-auto mt-20 mb-44">
+		<div className="relative block rounded-xl bg-white border border-gray-100 p-5 sm:pb-52 lg:pb-5 shadow-xl w-11/12 md:w-9/12 lg:w-11/12 xl:w-9/12 mx-auto mt-20 mb-44">
 			<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-1/2 -translate-y-1/2 bg-gray-300"></div>
 			<section>
 				<h2 className="text-3xl text-darkRed font-bold sm:text-4xl text-center pt-8">
@@ -23,7 +23,7 @@ export default function Plan() {
 							<p className="pb-5 text-3xl font-semibold text-darkRed text-center justify-self-center mx-auto capitalize">
 								Select your favorite categories
 							</p>
-							<ul className="grid gap-6 w-full md:grid-cols-2">
+							<ul className="grid gap-6 w-full grid-cols-2">
 								<li>
 									<input
 										type="checkbox"
@@ -36,7 +36,7 @@ export default function Plan() {
 									<CategoryCard
 										img={chicken}
 										name="Chicken Recipes"
-										textstyle="text-lg"
+										textstyle="text-sm md:text-lg"
 										for="chicken-option"
 									/>
 									{/* </label> */}
@@ -52,7 +52,7 @@ export default function Plan() {
 									<CategoryCard
 										img={pescatarian}
 										name="Pescatarian Recipes"
-										textstyle="text-lg"
+										textstyle="text-sm md:text-lg"
 										for="pescatarian-option"
 									/>
 								</li>
@@ -67,7 +67,7 @@ export default function Plan() {
 									<CategoryCard
 										img={meat}
 										name="Meat Recipes"
-										textstyle="text-lg"
+										textstyle="text-sm md:text-lg"
 										for="meat-option"
 									/>
 								</li>
@@ -82,7 +82,7 @@ export default function Plan() {
 									<CategoryCard
 										img={meat}
 										name="Meat Recipes"
-										textstyle="text-lg"
+										textstyle="text-sm md:text-lg"
 										for="sth-option"
 									/>
 								</li>
@@ -97,7 +97,7 @@ export default function Plan() {
 									<CategoryCard
 										img={meat}
 										name="Meat Recipes"
-										textstyle="text-lg"
+										textstyle="text-sm md:text-lg"
 										for="test-option"
 									/>
 								</li>
@@ -112,7 +112,7 @@ export default function Plan() {
 									<CategoryCard
 										img={meat}
 										name="Meat Recipes"
-										textstyle="text-lg"
+										textstyle="text-sm md:text-lg"
 										for="my-option"
 									/>
 								</li>
@@ -126,7 +126,7 @@ export default function Plan() {
 								<h3 className="my-5 text-xl font-medium text-darkRed text-center">
 									Number of people
 								</h3>
-								<ul className="grid gap-4 w-1/2 md:grid-cols-3 mx-auto">
+								<ul className="grid gap-4 w-1/2 grid-cols-3 mx-auto">
 									{numOfPeople.map((num) => {
 										return (
 											<li>
@@ -140,7 +140,7 @@ export default function Plan() {
 												/>
 												<label
 													htmlFor={`num${num}`}
-													className="inline-flex justify-between items-center text-center p-3 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer  peer-checked:border-darkYellow peer-checked:text-white peer-checked:bg-darkYellow hover:text-gray-600 hover:bg-gray-100"
+													className="inline-flex justify-between items-center text-center p-1 md:p-3 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer  peer-checked:border-darkYellow peer-checked:text-white peer-checked:bg-darkYellow hover:text-gray-600 hover:bg-gray-100"
 												>
 													<div className="w-full text-lg font-semibold">
 														{num}
@@ -155,7 +155,7 @@ export default function Plan() {
 								<h3 className="mb-5 mt-10 text-xl font-medium text-darkRed text-center capitalize">
 									Meals per week
 								</h3>
-								<ul className="grid gap-4 w-full md:grid-cols-6 mx-auto">
+								<ul className="grid gap-4 w-full grid-cols-6 mx-auto">
 									{mealsPerWeek.map((num) => {
 										return (
 											<li>
@@ -170,7 +170,7 @@ export default function Plan() {
 												/>
 												<label
 													htmlFor={`meal${num}`}
-													className="inline-flex justify-between items-center text-center p-3 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer  peer-checked:border-darkYellow peer-checked:text-white peer-checked:bg-darkYellow hover:text-gray-600 hover:bg-gray-100"
+													className="inline-flex justify-between items-center text-center p-1 md:p-3 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer  peer-checked:border-darkYellow peer-checked:text-white peer-checked:bg-darkYellow hover:text-gray-600 hover:bg-gray-100"
 												>
 													<div className="w-full text-lg font-semibold">
 														{num}
@@ -182,7 +182,7 @@ export default function Plan() {
 								</ul>
 							</form>
 
-							<PlanSummary />
+							<PlanSummary changeStep={props.changeStep} />
 						</div>
 					</div>
 				</div>

@@ -31,6 +31,7 @@ module.exports = {
 			backgroundImage: {
 				"hero-bg": "url('/public/hero.png')",
 			},
+			display: ["group-hover"],
 		},
 	},
 	safelist: ["darkYellow", "lemonSh", "rusty"],

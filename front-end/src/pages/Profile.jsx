@@ -16,7 +16,7 @@ export default function Profile() {
 			<Tabs.Group
 				aria-label="Tabs with underline"
 				style="underline"
-				className="mx-auto mt-10"
+				className="mx-auto mt-4"
 			>
 				<Tabs.Item title="Meals">
 					<div class="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
@@ -31,6 +31,7 @@ export default function Profile() {
 							your plan for the month
 						</h1>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+							{/* on hover delete meal, add meal, edit: day and time of delivery */}
 							<WeekCard />
 							<WeekCard />
 							<WeekCard />
@@ -48,14 +49,16 @@ export default function Profile() {
 						<ChangePassword />
 					</div>
 				</Tabs.Item>
-				<Tabs.Item title="Renew Subscription">
+				<Tabs.Item title="Subscription">
 					<div class="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
 						<div className="md:w-1/2 mx-auto">
 							<CreditCard />
+							Active subscription details History of payments edit payment info
+							and cancel subscription
 						</div>
 					</div>
 				</Tabs.Item>
-				<Tabs.Item title="Order Again">
+				{/* <Tabs.Item title="Order Again">
 					<div class="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
 						<h1 class="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
 							did you like these meals? <br /> try them again!
@@ -88,7 +91,7 @@ export default function Profile() {
 							/>
 						</div>
 					</div>
-				</Tabs.Item>
+				</Tabs.Item> */}
 			</Tabs.Group>
 		</>
 	);

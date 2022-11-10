@@ -7,6 +7,7 @@ import ModalTutorial from "../components/ModalTutorial";
 import meal1 from "../images/meal1.png";
 import meal2 from "../images/meal2.png";
 import meal3 from "../images/meal3.png";
+import modalimg from "../images/modalimg.png";
 
 export default function Menu() {
 	const [modalRecipe, setModalRecipe] = useState({ show: false, id: "" });
@@ -57,7 +58,7 @@ export default function Menu() {
 						<MealCard
 							title="Chicken Flautas"
 							desc="Made with shredded chicken wrapped in flour tortillas."
-							img={meal1}
+							img={modalimg}
 							showModalRecipe={() => showModalRecipe(1)}
 						/>
 						<MealCard
