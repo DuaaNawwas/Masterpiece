@@ -1,7 +1,7 @@
 import { Avatar, Dropdown } from "flowbite-react";
 import React from "react";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import logo from "../images/logo.svg";
 
@@ -9,10 +9,12 @@ export default function Navbar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const pages = ["Home", "Menu", "Plans", "About", "Contact"];
 
-	const [isUser, setIsUser] = useState(true);
+	const navigate = useNavigate();
+
+	const [isUser, setIsUser] = useState(false);
 	return (
 		<div
-			className="sticky top-0 z-50 bg-main px-4 py-3 mx-auto sm:max-w-full md:max-w-full lg:max-w-full md:px-24 lg:px-8 uppercase shadow-lg"
+			className="sticky top-0 z-50 bg-main px-4 py-3 mx-auto sm:max-w-full md:max-w-full lg:max-w-full md:px-24 lg:px-8 uppercase shadow-lg "
 			id="navbar"
 		>
 			<div className="z-50 relative flex items-center justify-between">
@@ -41,7 +43,7 @@ export default function Navbar() {
 					</ul>
 				</div>
 				{isUser ? (
-					<div className="hidden lg:block">
+					<div className="hidden lg:block pr-2">
 						<Dropdown
 							label={
 								<Avatar
@@ -50,7 +52,7 @@ export default function Navbar() {
 									rounded={true}
 								/>
 							}
-							arrowIcon={false}
+							arrowIcon={true}
 							inline={true}
 						>
 							<Dropdown.Header>
@@ -71,29 +73,22 @@ export default function Navbar() {
 				) : (
 					<ul className=" items-center hidden space-x-8 lg:flex">
 						<li>
-							<a
-								href="/"
+							<Link
+								to="/login"
 								aria-label="Sign in"
 								title="Sign in"
 								className="font-medium text-darkRed border-2 border-darkRed bg-main rounded py-2 px-5  transition duration-500  hover:bg-mainSh hover:drop-shadow-lg tracking-wide "
 							>
 								Sign in
-							</a>
+							</Link>
 						</li>
 						<li>
-							{/* <a
-							href="/"
-							className="inline-flex items-center justify-center py-2 px-5 text-main bg-darkRed font-medium  rounded shadow-md hover:bg-secRed hover:drop-shadow-lg focus:shadow-outline focus:outline-none tracking-wide transition duration-200"
-							aria-label="Sign up"
-							title="Sign up"
-						>
-							Sign up
-						</a> */}
 							<Button
 								textColor="text-main"
 								bgColor="bg-darkRed"
 								hoverColor="hover:bg-secRed"
 								text="SIGN UP"
+								onClick={() => navigate("/subscribe")}
 							/>
 						</li>
 					</ul>
@@ -176,7 +171,7 @@ export default function Navbar() {
 												}
 												arrowIcon={false}
 												inline={true}
-												// placement="top"
+												placement="top"
 											>
 												<Dropdown.Header>
 													<span className="block text-sm">Bonnie Green</span>
@@ -196,14 +191,14 @@ export default function Navbar() {
 										) : (
 											<ul className="flex align-middle gap-2">
 												<li>
-													<a
-														href="/"
+													<Link
+														to="/login"
 														aria-label="Sign in"
 														title="Sign in"
 														className="inline-flex items-center justify-center  font-medium text-darkRed border-2 border-darkRed bg-main rounded py-1 px-5  transition duration-500  hover:bg-darkRed hover:text-main hover:drop-shadow-lg tracking-wide "
 													>
 														Sign in
-													</a>
+													</Link>
 												</li>
 											</ul>
 										)}

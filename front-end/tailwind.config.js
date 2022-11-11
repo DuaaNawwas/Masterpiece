@@ -8,12 +8,12 @@ module.exports = {
 		fontFamily: {
 			merri: ["Merriweather", "serif"],
 		},
-		screens: {
-			sm: "480px",
-			md: "768px",
-			lg: "976px",
-			xl: "1440px",
-		},
+		// screens: {
+		// 	sm: "480px",
+		// 	md: "768px",
+		// 	lg: "976px",
+		// 	xl: "1440px",
+		// },
 		extend: {
 			colors: {
 				main: "#EEECEA",
@@ -30,6 +30,7 @@ module.exports = {
 			},
 			backgroundImage: {
 				"hero-bg": "url('/public/hero.png')",
+				"login-bg": "url('/public/loginpic.jpg')",
 			},
 			display: ["group-hover"],
 		},

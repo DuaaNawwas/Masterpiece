@@ -6,6 +6,8 @@ body {
 	font-family: "Merriweather", serif;
 	background-color: #eeecea;
 	position: relative;
+	width: 100%;
+	/* overflow-x: hidden; */
 }
 
 button[aria-selected="true"] {
@@ -16,7 +18,9 @@ button[aria-selected="true"] {
 #navbar .active {
 	border-bottom: 2px solid #6a2e0a;
 	padding-bottom: 2px;
-	text-shadow: 1px 1px 1px #6a2e0a;
+	/* text-shadow: 1px 1px 1px #6a2e0a; */
+	font-weight: bold;
+	letter-spacing: normal;
 }
 
 @layer utilities {

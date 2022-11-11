@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 
 export default function Footer() {
 	return (
-		<div className="relative mt-16 bg-darkGreen text-main">
+		<div className="relative mt-16 bg-darkGreen text-main ">
 			<svg
 				className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-darkGreen"
 				preserveAspectRatio="none"
@@ -36,33 +37,33 @@ export default function Footer() {
 							</p>
 						</div>
 					</div>
-					<div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
+					<div className="grid grid-cols-2 gap-5 md:gap-1 row-gap-8 lg:col-span-4 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4">
 						<div>
 							<p className="tracking-wider font-light">QUICK LINKS</p>
 							<ul className="mt-2 space-y-2">
 								<li>
-									<a
-										href="/"
+									<Link
+										to="/"
 										className="transition hover:drop-shadow-lg duration-300"
 									>
 										Home
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a
-										href="/"
+									<Link
+										to="menu"
 										className="transition hover:drop-shadow-lg duration-300"
 									>
 										Meals
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a
-										href="/"
+									<Link
+										to="subscribe"
 										className="transition hover:drop-shadow-lg duration-300"
 									>
 										Plans
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>
@@ -70,28 +71,25 @@ export default function Footer() {
 							<p className="tracking-wider font-light uppercase">Our Company</p>
 							<ul className="mt-2 space-y-2">
 								<li>
-									<a
-										href="/"
+									<Link
+										to="/about"
 										className="transition-colors duration-300 hover:drop-shadow-lg"
 									>
 										About Us
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a
-										href="/"
+									<Link
+										to="/contact"
 										className="transition-colors duration-300 hover:drop-shadow-lg"
 									>
 										Contact Us
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a
-										href="/"
-										className="transition-colors duration-300 hover:drop-shadow-lg"
-									>
+									<Link className="transition-colors duration-300 hover:drop-shadow-lg">
 										Policy
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>
@@ -99,20 +97,14 @@ export default function Footer() {
 							<p className="tracking-wide font-thin uppercase">Work with us</p>
 							<ul className="mt-2 space-y-2">
 								<li>
-									<a
-										href="/"
-										className="transition-colors duration-300 hover:drop-shadow-lg"
-									>
+									<Link className="transition-colors duration-300 hover:drop-shadow-lg">
 										Deliver
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a
-										href="/"
-										className="transition-colors duration-300 hover:drop-shadow-lg"
-									>
+									<Link className="transition-colors duration-300 hover:drop-shadow-lg">
 										Groceries
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>

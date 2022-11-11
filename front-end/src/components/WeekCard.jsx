@@ -9,15 +9,63 @@ export default function WeekCard() {
 			<div className="flex justify-between mb-4">
 				<h3 class="mt-1 text-md font-semibold capitalize">
 					your meals for{" "}
-					<span className="text-sm text-gray-600">9-11-2022 to 15-11-2022</span>
+					<span className="text-xs text-gray-600">9-11-2022 to 15-11-2022</span>
 				</h3>
-				<Button
-					bgColor="bg-darkGreen"
-					hoverColor="hover:bg-lemonSh"
-					text="EDIT"
-				/>
+				<Button bgColor="bg-darkGreen" text="EDIT" />
 			</div>
-			<div className="flex flex-wrap gap-3 justify-center">
+			<div className="flex flex-wrap gap-3 justify-start pt-5">
+				<div class="relative group">
+					<img
+						class="w-20 h-20 rounded-full"
+						src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+						alt=""
+					/>
+
+					<button class="hidden bg-red-600 text-white top-0 left-14 absolute  text-sm font-semibold group-hover:inline-flex items-center p-1.5 rounded-full">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth={1.5}
+							stroke="currentColor"
+							className="w-3 h-3"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M6 18L18 6M6 6l12 12"
+							/>
+						</svg>
+
+						<span class="sr-only">Icon description</span>
+					</button>
+				</div>
+				<div class="relative group">
+					<img
+						class="w-20 h-20 rounded-full"
+						src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+						alt=""
+					/>
+
+					<button class="hidden bg-red-600 text-white top-0 left-14 absolute  text-sm font-semibold group-hover:inline-flex items-center p-1.5 rounded-full">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth={1.5}
+							stroke="currentColor"
+							className="w-3 h-3"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M6 18L18 6M6 6l12 12"
+							/>
+						</svg>
+
+						<span class="sr-only">Icon description</span>
+					</button>
+				</div>
 				<div class="relative group">
 					<img
 						class="w-20 h-20 rounded-full"

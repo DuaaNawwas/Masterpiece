@@ -45,7 +45,7 @@ export default function OurMenus() {
 						</div>
 					</Carousel>
 				</div>
-				<div className="block md:hidden h-56 sm:h-64 xl:h-96 2xl:h-96 container mt-10  mb-5">
+				<div className="block md:hidden h-56 sm:h-72 xl:h-96 2xl:h-96 container mt-10  mb-5">
 					<Carousel className="w-full">
 						<CategoryCard img={chicken} name="Chicken Recipes" />
 						<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
