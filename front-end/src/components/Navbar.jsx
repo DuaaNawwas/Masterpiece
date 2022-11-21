@@ -2,7 +2,7 @@ import { Avatar, Dropdown } from "flowbite-react";
 import React from "react";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import Button from "../components/Button";
+import Button from "./Button";
 import logo from "../images/logo.svg";
 
 export default function Navbar() {
@@ -11,7 +11,7 @@ export default function Navbar() {
 
 	const navigate = useNavigate();
 
-	const [isUser, setIsUser] = useState(false);
+	const [isUser, setIsUser] = useState(true);
 	return (
 		<div
 			className="sticky top-0 z-50 bg-main px-4 py-3 mx-auto sm:max-w-full md:max-w-full lg:max-w-full md:px-24 lg:px-8 uppercase shadow-lg "
@@ -19,19 +19,25 @@ export default function Navbar() {
 		>
 			<div className="z-50 relative flex items-center justify-between">
 				<div className="flex items-center gap-6">
-					<a
-						href="/"
+					<Link
+						to="/"
 						aria-label="Company"
 						title="Company"
 						className="inline-flex items-center mr-8"
 					>
 						<img src={logo} alt="" className="w-16" />
-					</a>
+					</Link>
 					<ul className=" items-center hidden space-x-8 lg:flex text-darkRed">
 						{pages.map((page) => (
 							<li key={page}>
 								<NavLink
-									to={page == "Plans" ? "/subscribe" : "/" + page}
+									to={
+										page == "Plans"
+											? "/subscribe"
+											: page == "Home"
+											? "/"
+											: "/" + page
+									}
 									aria-label={page}
 									title={page}
 									className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"
@@ -151,7 +157,13 @@ export default function Navbar() {
 										{pages.map((page) => (
 											<li key={page}>
 												<NavLink
-													to={page == "Plans" ? "/subscribe" : "/" + page}
+													to={
+														page == "Plans"
+															? "/subscribe"
+															: page == "Home"
+															? "/"
+															: "/" + page
+													}
 													aria-label={page}
 													title={page}
 													className="font-medium tracking-wide transition-colors duration-200 hover:drop-shadow-lg"

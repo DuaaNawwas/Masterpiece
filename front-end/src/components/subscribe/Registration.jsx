@@ -1,7 +1,7 @@
 import { Label, Textarea, TextInput } from "flowbite-react";
 import React from "react";
-import Button from "../components/Button";
-import registerpic from "../images/registerpic.png";
+import Button from "../Button";
+import registerpic from "../../images/registerpic.png";
 export default function Registration(props) {
 	return (
 		<>

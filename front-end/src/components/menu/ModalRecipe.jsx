@@ -1,6 +1,6 @@
 import { Button, Modal } from "flowbite-react";
 import React from "react";
-import modalimg from "../images/modalimg.png";
+import modalimg from "../../images/modalimg.png";
 
 export default function ModalRecipe(props) {
 	return (

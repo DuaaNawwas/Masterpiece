@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import Steps from "../components/Steps";
-import Details from "../sections/Details";
-import Payment from "../sections/Payment";
-import Plan from "../sections/Plan";
-import Registration from "../sections/Registration";
+import Steps from "../components/subscribe/Steps";
+import Details from "../components/subscribe/Details";
+import Payment from "../components/subscribe/Payment";
+import Plan from "../components/subscribe/Plan";
+import Registration from "../components/subscribe/Registration";
 import NotFound from "./NotFound";
 
 export default function Subscribe() {

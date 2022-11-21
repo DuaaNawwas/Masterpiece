@@ -1,6 +1,6 @@
 import { Button, Modal } from "flowbite-react";
 import React from "react";
-import placeholderVid from "../images/placeholderVid.mp4";
+import placeholderVid from "../../images/placeholderVid.mp4";
 
 export default function ModalTutorial(props) {
 	// if (!props.modalTutorial) return null;

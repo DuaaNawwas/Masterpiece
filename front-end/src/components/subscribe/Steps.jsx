@@ -5,7 +5,7 @@ export default function Steps({ step, changeStep }) {
 		<div>
 			<h2 className="sr-only">Steps</h2>
 
-			<div className="container mx-auto pt-10">
+			<div className="container xl:w-11/12 mx-auto pt-10">
 				<ol className="grid  divide-x divide-myBlack overflow-hidden rounded-lg border border-myBlack text-sm text-gray-500 grid-cols-4 bg-white">
 					<li
 						onClick={step > 1 ? () => changeStep(1) : ""}

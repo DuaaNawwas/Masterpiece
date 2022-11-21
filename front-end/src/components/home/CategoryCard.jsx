@@ -11,7 +11,7 @@ export default function CategoryCard(props) {
 			>
 				<img src={props.img} alt="" />
 				<div className="px-4 py-4">
-					<h2 className={`text-2xl ${props.textstyle}`}>{props.name}</h2>
+					<h2 className={`xl:text-2xl ${props.textstyle}`}>{props.name}</h2>
 				</div>
 			</label>
 		</>

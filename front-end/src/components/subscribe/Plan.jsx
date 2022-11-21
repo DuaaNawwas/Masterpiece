@@ -1,11 +1,11 @@
 import React from "react";
 import { Label, Textarea, TextInput } from "flowbite-react";
-import Button from "../components/Button";
-import CategoryCard from "../components/CategoryCard";
-import chicken from "../images/chicken.png";
-import pescatarian from "../images/pescatarian.png";
-import meat from "../images/meat.png";
-import PlanSummary from "../components/PlanSummary";
+import Button from "../Button";
+import CategoryCard from "../home/CategoryCard";
+import chicken from "../../images/chicken.png";
+import pescatarian from "../../images/pescatarian.png";
+import meat from "../../images/meat.png";
+import PlanSummary from "./PlanSummary";
 
 export default function Plan(props) {
 	const numOfPeople = [2, 4, 6];

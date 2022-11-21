@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import contact from "../images/contact.png";
 import { Label, Textarea, TextInput } from "flowbite-react";
 import Button from "../components/Button";
-
+// Importing aos
+import AOS from "aos";
+import "aos/dist/aos.css";
 export default function Contact() {
+	// Initialize animation library
+	useEffect(() => {
+		AOS.init();
+	}, []);
 	return (
 		<>
 			<div className="relative  hidden lg:block w-full h-52">
@@ -13,7 +19,11 @@ export default function Contact() {
 				</h1> */}
 			</div>
 
-			<div className="relative block rounded-xl bg-white border border-gray-100 p-5 shadow-xl w-11/12 md:w-9/12 lg:w-11/12 xl:w-9/12 mx-auto mt-10 lg:mt-20 mb-44">
+			<div
+				data-aos="fade-up"
+				data-aos-duration="3000"
+				className="relative block rounded-xl bg-white border border-gray-100 p-5 shadow-xl w-11/12 md:w-9/12 lg:w-11/12 xl:w-9/12 mx-auto mt-10 lg:mt-20 mb-44"
+			>
 				<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-1/2 -translate-y-1/2 bg-gray-300"></div>
 				<section>
 					<h2 className="text-3xl text-darkRed font-bold sm:text-4xl text-center py-8">

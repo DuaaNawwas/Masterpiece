@@ -8,6 +8,8 @@ export default function Button(props) {
 			title={props.text}
 			type={props.type}
 			onClick={props.onClick}
+			data-aos={props.dataaos}
+			data-aos-duration={props.dataaosduration}
 		>
 			{props.text}
 		</button>

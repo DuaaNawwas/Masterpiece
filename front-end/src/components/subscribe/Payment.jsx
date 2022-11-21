@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "../components/Button";
-import CreditCard from "../components/CreditCard";
+import Button from "../Button";
+import CreditCard from "../CreditCard";
 
 export default function Payment() {
 	const handleChange = (e) => {

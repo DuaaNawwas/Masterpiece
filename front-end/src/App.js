@@ -8,9 +8,13 @@ import Menu from "./pages/Menu";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Subscribe from "./pages/Subscribe";
-import Footer from "./sections/Footer";
-import Navbar from "./sections/Navbar";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import lottie from "lottie-web";
+import { defineElement } from "lord-icon-element";
 
+// define "lord-icon" custom element with default properties
+defineElement(lottie.loadAnimation);
 function App() {
 	return (
 		<>

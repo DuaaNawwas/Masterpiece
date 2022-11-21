@@ -1,9 +1,9 @@
 import { Button, Modal, Tabs } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 // import Button from "../components/Button";
-import MealCard from "../components/MealCard";
-import ModalRecipe from "../components/ModalRecipe";
-import ModalTutorial from "../components/ModalTutorial";
+import MealCard from "../components/menu/MealCard";
+import ModalRecipe from "../components/menu/ModalRecipe";
+import ModalTutorial from "../components/menu/ModalTutorial";
 import meal1 from "../images/meal1.png";
 import meal2 from "../images/meal2.png";
 import meal3 from "../images/meal3.png";

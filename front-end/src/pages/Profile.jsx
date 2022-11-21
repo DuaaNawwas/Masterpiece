@@ -1,13 +1,13 @@
 import { Badge, Tabs } from "flowbite-react";
 import React from "react";
 import Button from "../components/Button";
-import ChangePassword from "../components/ChangePassword";
+import ChangePassword from "../components/profile/ChangePassword";
 import CreditCard from "../components/CreditCard";
-import EditForm from "../components/EditForm";
-import MealCard from "../components/MealCard";
-import PaymentHistoryTable from "../components/PaymentHistoryTable";
-import ProfileCard from "../components/ProfileCard";
-import WeekCard from "../components/WeekCard";
+import EditForm from "../components/profile/EditForm";
+import MealCard from "../components/menu/MealCard";
+import PaymentHistoryTable from "../components/profile/PaymentHistoryTable";
+import ProfileCard from "../components/profile/ProfileCard";
+import WeekCard from "../components/profile/WeekCard";
 import meal1 from "../images/meal1.png";
 
 export default function Profile() {
