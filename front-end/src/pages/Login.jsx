@@ -1,83 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
+import LoginForm from "../components/login/LoginForm";
 
 export default function Login() {
-	return (
-		// <div class="container mx-auto">
-		<div class="flex justify-center px-6 my-12">
-			<div class="w-full md:w-9/12 xl:w-3/4 lg:w-11/12 flex">
-				<div class="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover bg-center rounded-l-lg bg-login-bg"></div>
-
-				<div class="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
-					<h3 class="pt-4 text-2xl text-center">Welcome Back!</h3>
-					<form class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
-						<div class="mb-4">
-							<label
-								class="block mb-2 text-sm font-bold text-gray-700"
-								for="email"
-							>
-								Email
-							</label>
-							<input
-								class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-								id="email"
-								type="email"
-								placeholder="email"
-							/>
-						</div>
-						<div class="mb-4">
-							<label
-								class="block mb-2 text-sm font-bold text-gray-700"
-								for="password"
-							>
-								Password
-							</label>
-							<input
-								class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border  rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-								id="password"
-								type="password"
-								placeholder="******************"
-							/>
-						</div>
-						<div className="flex justify-between">
-							<div class="mb-4">
-								<input
-									class="mr-2 w-4 h-4 text-darkRed bg-gray-100 rounded border-gray-300 focus:ring-secRed dark:focus:ring-darkRed "
-									type="checkbox"
-									id="checkbox_id"
-								/>
-								<label class="text-sm" for="checkbox_id">
-									Remember Me
-								</label>
-							</div>
-							<a class="inline-block text-sm text-darkRed align-baseline hover:text-darkRed">
-								Forgot Password?
-							</a>
-						</div>
-
-						<div class="mb-6 text-center">
-							<button
-								class="w-full px-4 py-2 font-bold text-white bg-darkYellow rounded-full hover:bg-lemonSh focus:outline-none focus:shadow-outline"
-								type="button"
-							>
-								Sign In
-							</button>
-						</div>
-						<hr class="mb-6 border-t" />
-						<div class="text-center">
-							Don't have an Account?{" "}
-							<Link
-								to="/subscribe"
-								class="inline-block text-sm text-darkRed align-baseline hover:text-darkRed"
-							>
-								Register!
-							</Link>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		// </div>
-	);
+	return <LoginForm />;
 }

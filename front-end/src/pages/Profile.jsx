@@ -21,7 +21,7 @@ export default function Profile() {
 				className="mx-auto mt-4"
 			>
 				<Tabs.Item title="Meals">
-					<div class="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
+					<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
 						<Badge
 							color="gray"
 							size="sm"
@@ -29,7 +29,7 @@ export default function Profile() {
 						>
 							11-11-2022 to 12-8-2022
 						</Badge>
-						<h1 class="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
+						<h1 className="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
 							your plan for the month
 						</h1>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -42,23 +42,23 @@ export default function Profile() {
 					</div>
 				</Tabs.Item>
 				<Tabs.Item active={true} title="Edit Info">
-					<div class="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
+					<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
 						<EditForm />
 					</div>
 				</Tabs.Item>
 				<Tabs.Item title="Change Password">
-					<div class="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
+					<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
 						<ChangePassword />
 					</div>
 				</Tabs.Item>
 				<Tabs.Item title="Subscription">
-					<div class="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:px-10 lg:py-20 mx-auto text-gray-800 relative">
+					<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:px-10 lg:py-20 mx-auto text-gray-800 relative">
 						<div className="mx-auto flex flex-col items-center space-y-5">
-							<h1 class="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
+							<h1 className="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
 								Your Payment History
 							</h1>
 							<PaymentHistoryTable />
-							<h1 class="font-bold uppercase text-2xl mt-5 text-center text-darkRed">
+							<h1 className="font-bold uppercase text-2xl mt-5 text-center text-darkRed">
 								Edit Payment Info
 							</h1>
 							<div className="md:w-1/2 lg:w-5/12">
@@ -70,8 +70,8 @@ export default function Profile() {
 					</div>
 				</Tabs.Item>
 				{/* <Tabs.Item title="Order Again">
-					<div class="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
-						<h1 class="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
+					<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
+						<h1 className="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
 							did you like these meals? <br /> try them again!
 						</h1>
 						<div className="flex flex-wrap gap-5 justify-center">

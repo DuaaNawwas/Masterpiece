@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../images/logo.svg";
-// Importing aos
-import AOS from "aos";
-import "aos/dist/aos.css";
+// // Importing aos
+// import AOS from "aos";
+// import "aos/dist/aos.css";
 export default function Footer() {
-	// Initialize animation library
-	useEffect(() => {
-		AOS.init();
-	}, []);
+	// // Initialize animation library
+	// useEffect(() => {
+	// 	AOS.init();
+	// }, []);
 	return (
 		<div
-			data-aos="fade-up"
-			data-aos-duration="3000"
+			// data-aos="fade-up"
+			// data-aos-duration="3000"
 			className="relative mt-16 bg-darkGreen text-main "
 		>
 			<svg
@@ -27,8 +27,8 @@ export default function Footer() {
 			</svg>
 			<div className="px-4 pt-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
 				<div
-					data-aos="zoom-in-down"
-					data-aos-duration="1000"
+					// data-aos="zoom-in-down"
+					// data-aos-duration="1000"
 					className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-6"
 				>
 					<div className="md:max-w-md lg:col-span-2">
@@ -52,7 +52,7 @@ export default function Footer() {
 						</div>
 					</div>
 					<div className="grid grid-cols-2 gap-5 md:gap-1 row-gap-8 lg:col-span-4 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4">
-						<div data-aos="fade-down" data-aos-duration="2000">
+						<div>
 							<p className="tracking-wider font-light">QUICK LINKS</p>
 							<ul className="mt-2 space-y-2">
 								<li>
@@ -81,7 +81,7 @@ export default function Footer() {
 								</li>
 							</ul>
 						</div>
-						<div data-aos="fade-down" data-aos-duration="1500">
+						<div>
 							<p className="tracking-wider font-light uppercase">Our Company</p>
 							<ul className="mt-2 space-y-2">
 								<li>
@@ -107,7 +107,7 @@ export default function Footer() {
 								</li>
 							</ul>
 						</div>
-						<div data-aos="fade-down" data-aos-duration="1000">
+						<div>
 							<p className="tracking-wide font-thin uppercase">Work with us</p>
 							<ul className="mt-2 space-y-2">
 								<li>
@@ -122,7 +122,7 @@ export default function Footer() {
 								</li>
 							</ul>
 						</div>
-						<div data-aos="fade-down" data-aos-duration="500">
+						<div>
 							<p className="font-thin tracking-wide uppercase">
 								Download our app
 							</p>

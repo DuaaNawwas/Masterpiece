@@ -31,27 +31,28 @@ export default function Payment() {
 
 			<div className="mx-auto max-w-screen-xl px-4 pb-20 pt-0 lg:pt-8  sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16 justify-items-center items-center">
-					<div class="mt-8 lg:mt-20 relative block rounded-xl border border-gray-100 py-4 px-6 shadow-xl bg-main w-full">
-						<div class="mt-1 text-myBlack sm:pr-8">
-							<h3 class="mt-1 text-2xl font-semibold uppercase underline">
+					<div className="mt-8 lg:mt-20 relative block rounded-xl border border-gray-100 py-4 px-6 shadow-xl bg-main w-full">
+						<div className="mt-1 text-myBlack sm:pr-8">
+							<h3 className="mt-1 text-2xl font-semibold uppercase underline">
 								Payment Details
 							</h3>
 
-							<p class="mt-4  text-xl ">Billing Details</p>
-							<p class="mt-2  text-lg  ">
+							<p className="mt-4  text-xl ">Billing Details</p>
+							<p className="mt-2  text-lg  ">
 								Plan:{" "}
-								<span class=" text-lg  text-gray-500">
+								<span className=" text-lg  text-gray-500">
 									4 meals per week for 2 people
 								</span>
 							</p>
-							<p class=" text-lg  ">
-								Period: <span class=" text-lg  text-gray-500">Monthly</span>
+							<p className=" text-lg  ">
+								Period: <span className=" text-lg  text-gray-500">Monthly</span>
 							</p>
-							<p class="text-lg  ">
-								Total price: <span class=" text-lg text-gray-500">100 JOD</span>
+							<p className="text-lg  ">
+								Total price:{" "}
+								<span className=" text-lg text-gray-500">100 JOD</span>
 							</p>
-							<p class="mt-4  text-xl ">Note:</p>
-							<p class="mt-2  text-sm ">Lorem ipsum dolor sit amet.</p>
+							<p className="mt-4  text-xl ">Note:</p>
+							<p className="mt-2  text-sm ">Lorem ipsum dolor sit amet.</p>
 						</div>
 					</div>
 

@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import about1 from "../images/about1.png";
 import about2 from "../images/about2.png";
-
+// Importing aos
+import AOS from "aos";
+import "aos/dist/aos.css";
 export default function About() {
+	// Initialize animation library
+	useEffect(() => {
+		AOS.init();
+	}, []);
 	return (
 		<div className=" px-10 xl:px-28">
 			<div className="max-w-screen-xl px-4 py-16 sm:px-1 lg:px-2">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-2 items-center">
 					<div className="w-11/12 xl:w-9/12 sm:h-80 lg:h-full">
 						<img
+							data-aos="fade-right"
+							data-aos-duration="1500"
 							alt=""
 							src={about1}
 							className=" inset-0 h-full w-full object-cover"
 						/>
 					</div>
-					<div className="lg:py-24">
+					<div
+						data-aos="fade-left"
+						data-aos-duration="1500"
+						className="lg:py-24"
+					>
 						<h2 className="text-3xl text-myBlack font-bold sm:text-4xl">
 							Lorem Ipsum
 						</h2>
@@ -39,7 +51,11 @@ export default function About() {
 
 			<div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-2  items-center justify-items-end">
-					<div className="lg:py-24">
+					<div
+						data-aos="fade-right"
+						data-aos-duration="1500"
+						className="lg:py-24"
+					>
 						<h2 className="text-3xl text-myBlack font-bold sm:text-4xl">
 							Lorem Ipsum
 						</h2>
@@ -59,6 +75,8 @@ export default function About() {
 					</div>
 					<div className="w-11/12 xl:w-9/12 sm:h-80 lg:h-full">
 						<img
+							data-aos="fade-left"
+							data-aos-duration="1500"
 							alt=""
 							src={about2}
 							className=" inset-0 h-full w-full object-cover"

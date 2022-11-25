@@ -12,25 +12,41 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import lottie from "lottie-web";
 import { defineElement } from "lord-icon-element";
+import axios from "axios";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import AuthProvider from "./context/AuthContext";
+
+// define axios defaults
+axios.defaults.baseURL = "http://localhost:8000/";
+axios.defaults.headers.post["Content-Type"] = "application/vnd.api+json";
+axios.defaults.headers.post["Accept"] = "application/vnd.api+json";
+axios.defaults.withCredentials = true;
 
 // define "lord-icon" custom element with default properties
 defineElement(lottie.loadAnimation);
+
 function App() {
 	return (
 		<>
-			<Navbar />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/home" element={<Home />} />
-				<Route path="/about" element={<About />} />
-				<Route path="/contact" element={<Contact />} />
-				<Route path="/subscribe" element={<Subscribe />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/menu" element={<Menu />} />
-				<Route path="/profile" element={<Profile />} />
-				<Route path="*" element={<NotFound />} />
-			</Routes>
-			<Footer />
+			<GoogleOAuthProvider
+				clientId={`${process.env.REACT_APP_GOOGLE_API_CLIENT_ID}`}
+			>
+				<AuthProvider>
+					<Navbar />
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/home" element={<Home />} />
+						<Route path="/about" element={<About />} />
+						<Route path="/contact" element={<Contact />} />
+						<Route path="/subscribe" element={<Subscribe />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/menu" element={<Menu />} />
+						<Route path="/profile" element={<Profile />} />
+						<Route path="*" element={<NotFound />} />
+					</Routes>
+					<Footer />
+				</AuthProvider>
+			</GoogleOAuthProvider>
 		</>
 	);
 }

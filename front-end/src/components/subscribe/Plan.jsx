@@ -37,7 +37,7 @@ export default function Plan(props) {
 										img={chicken}
 										name="Chicken Recipes"
 										textstyle="text-sm md:text-lg"
-										for="chicken-option"
+										htmlFor="chicken-option"
 									/>
 									{/* </label> */}
 								</li>
@@ -53,7 +53,7 @@ export default function Plan(props) {
 										img={pescatarian}
 										name="Pescatarian Recipes"
 										textstyle="text-sm md:text-lg"
-										for="pescatarian-option"
+										htmlFor="pescatarian-option"
 									/>
 								</li>
 								<li>
@@ -68,7 +68,7 @@ export default function Plan(props) {
 										img={meat}
 										name="Meat Recipes"
 										textstyle="text-sm md:text-lg"
-										for="meat-option"
+										htmlFor="meat-option"
 									/>
 								</li>
 								<li>
@@ -83,7 +83,7 @@ export default function Plan(props) {
 										img={meat}
 										name="Meat Recipes"
 										textstyle="text-sm md:text-lg"
-										for="sth-option"
+										htmlFor="sth-option"
 									/>
 								</li>
 								<li>
@@ -98,7 +98,7 @@ export default function Plan(props) {
 										img={meat}
 										name="Meat Recipes"
 										textstyle="text-sm md:text-lg"
-										for="test-option"
+										htmlFor="test-option"
 									/>
 								</li>
 								<li>
@@ -113,7 +113,7 @@ export default function Plan(props) {
 										img={meat}
 										name="Meat Recipes"
 										textstyle="text-sm md:text-lg"
-										for="my-option"
+										htmlFor="my-option"
 									/>
 								</li>
 							</ul>

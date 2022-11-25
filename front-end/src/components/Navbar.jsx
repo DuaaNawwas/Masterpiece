@@ -4,14 +4,37 @@ import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import logo from "../images/logo.svg";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 export default function Navbar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const pages = ["Home", "Menu", "Plans", "About", "Contact"];
+	const pages = ["home", "menu", "plans", "about", "contact"];
 
 	const navigate = useNavigate();
 
-	const [isUser, setIsUser] = useState(true);
+	const { user, setUser, cookies, removeCookie, stateToken } =
+		useContext(AuthContext);
+
+	// Log out the user
+	const handleLogout = () => {
+		axios
+			.get("/api/logout", {
+				headers: {
+					Authorization: `Bearer ${stateToken}`,
+				},
+			})
+			.then((res) => {
+				removeCookie("Token");
+				setUser({});
+				navigate("/login");
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
 	return (
 		<div
 			className="sticky top-0 z-50 bg-main px-4 py-3 mx-auto sm:max-w-full md:max-w-full lg:max-w-full md:px-24 lg:px-8 uppercase shadow-lg "
@@ -32,7 +55,7 @@ export default function Navbar() {
 							<li key={page}>
 								<NavLink
 									to={
-										page == "Plans"
+										page == "plans"
 											? "/subscribe"
 											: page == "Home"
 											? "/"
@@ -48,16 +71,10 @@ export default function Navbar() {
 						))}
 					</ul>
 				</div>
-				{isUser ? (
+				{user?.email ? (
 					<div className="hidden lg:block pr-2">
 						<Dropdown
-							label={
-								<Avatar
-									alt="User settings"
-									img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-									rounded={true}
-								/>
-							}
+							label={<Avatar alt="" img={user.image} rounded={true} />}
 							arrowIcon={true}
 							inline={true}
 						>
@@ -73,7 +90,7 @@ export default function Navbar() {
 							<Dropdown.Item>Settings</Dropdown.Item>
 							<Dropdown.Item>Earnings</Dropdown.Item>
 							<Dropdown.Divider />
-							<Dropdown.Item>Sign out</Dropdown.Item>
+							<Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
 						</Dropdown>
 					</div>
 				) : (
@@ -158,7 +175,7 @@ export default function Navbar() {
 											<li key={page}>
 												<NavLink
 													to={
-														page == "Plans"
+														page == "plans"
 															? "/subscribe"
 															: page == "Home"
 															? "/"
@@ -172,14 +189,10 @@ export default function Navbar() {
 												</NavLink>
 											</li>
 										))}
-										{isUser ? (
+										{user?.email ? (
 											<Dropdown
 												label={
-													<Avatar
-														alt="User settings"
-														img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-														rounded={true}
-													/>
+													<Avatar alt="" img={user.image} rounded={true} />
 												}
 												arrowIcon={false}
 												inline={true}
@@ -198,7 +211,9 @@ export default function Navbar() {
 												<Dropdown.Item>Settings</Dropdown.Item>
 												<Dropdown.Item>Earnings</Dropdown.Item>
 												<Dropdown.Divider />
-												<Dropdown.Item>Sign out</Dropdown.Item>
+												<Dropdown.Item onClick={handleLogout}>
+													Sign out
+												</Dropdown.Item>
 											</Dropdown>
 										) : (
 											<ul className="flex align-middle gap-2">

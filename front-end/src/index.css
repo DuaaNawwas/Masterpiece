@@ -44,3 +44,8 @@ button[aria-selected="true"] {
 		background: rgba(187, 67, 20, 0.7);
 	}
 }
+
+::selection {
+	color: white;
+	background: #6a2e0a;
+}
