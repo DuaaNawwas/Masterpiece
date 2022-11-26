@@ -53,7 +53,7 @@ export default function LoginForm() {
 	};
 
 	return (
-		<div className="flex justify-center px-6 mt-12 mb-32">
+		<div className="flex justify-center px-6 mt-20 mb-32">
 			<div className="w-full md:w-9/12 xl:w-3/4 lg:w-11/12 flex">
 				<div className="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover bg-center rounded-l-lg bg-login-bg"></div>
 
@@ -138,7 +138,7 @@ export default function LoginForm() {
 						<div className="text-center text-sm pb-5">
 							Don't have an Account?{" "}
 							<Link
-								to="/subscribe"
+								to="/register"
 								className="inline-block text-sm text-darkRed align-baseline hover:text-darkRed"
 							>
 								Register!

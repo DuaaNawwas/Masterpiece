@@ -8,7 +8,7 @@ export default function MealCard(props) {
 				<img
 					src={props.img}
 					alt=" random imgee"
-					className="w-full h-72 object-cover object-center rounded-lg shadow-md"
+					className="w-full h-72 object-cover object-center shadow-md"
 				/>
 
 				<div className="relative px-4 -mt-16  ">

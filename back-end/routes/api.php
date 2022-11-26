@@ -3,6 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MealController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\UserController;
+use App\Models\Subscription;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +34,14 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/googleLogin', [AuthController::class, 'googleLogin']);
 // Endpoint for login with facebook api
 Route::post('/facebookLogin', [AuthController::class, 'facebookLogin']);
+// Endpoints for categories
+Route::resource('/categories', CategoryController::class);
+// Endpoints for meals
+Route::resource('/meals', MealController::class);
+
+// Endpoint for getting pricings
+Route::get('/pricing', [SubscriptionController::class, 'pricings']);
+
 
 // Protected routes---------------------------------------
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -36,4 +49,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     // Endpoint for getting user
     Route::get('/user', [AuthController::class, 'user']);
+    // Endpoint for getting recommended meals for a user
+    Route::get('/recommendedMeals', [MealController::class, 'recommendedMeals']);
+    // Endpoints for user
+    Route::resource('/users', UserController::class);
+
+    Route::put('/changepassword', [UserController::class, 'updatePassword']);
+    Route::get('/paymenthistory', [UserController::class, 'paymentHistory']);
+    Route::get('/activesubscription', [UserController::class, 'activeSubscription']);
 });

@@ -16,12 +16,7 @@ return new class extends Migration
         Schema::create('preferred_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->boolean('category_1')->nullable();
-            $table->boolean('category_2')->nullable();
-            $table->boolean('category_3')->nullable();
-            $table->boolean('category_4')->nullable();
-            $table->boolean('category_5')->nullable();
-            $table->boolean('category_6')->nullable();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

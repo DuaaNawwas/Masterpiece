@@ -57,7 +57,7 @@ export default function Navbar() {
 									to={
 										page == "plans"
 											? "/subscribe"
-											: page == "Home"
+											: page == "home"
 											? "/"
 											: "/" + page
 									}
@@ -79,9 +79,11 @@ export default function Navbar() {
 							inline={true}
 						>
 							<Dropdown.Header>
-								<span className="block text-sm">Bonnie Green</span>
+								<span className="block text-sm">
+									{user.first_name + " " + user.last_name}
+								</span>
 								<span className="block truncate text-sm font-medium">
-									name@flowbite.com
+									{user.email}
 								</span>
 							</Dropdown.Header>
 							<Dropdown.Item>
@@ -111,7 +113,7 @@ export default function Navbar() {
 								bgColor="bg-darkRed"
 								hoverColor="hover:bg-secRed"
 								text="SIGN UP"
-								onClick={() => navigate("/subscribe")}
+								onClick={() => navigate("/register")}
 							/>
 						</li>
 					</ul>
@@ -177,7 +179,7 @@ export default function Navbar() {
 													to={
 														page == "plans"
 															? "/subscribe"
-															: page == "Home"
+															: page == "home"
 															? "/"
 															: "/" + page
 													}

@@ -37,7 +37,7 @@ export default function Plan(props) {
 										img={chicken}
 										name="Chicken Recipes"
 										textstyle="text-sm md:text-lg"
-										htmlFor="chicken-option"
+										for="chicken-option"
 									/>
 									{/* </label> */}
 								</li>
@@ -53,7 +53,7 @@ export default function Plan(props) {
 										img={pescatarian}
 										name="Pescatarian Recipes"
 										textstyle="text-sm md:text-lg"
-										htmlFor="pescatarian-option"
+										for="pescatarian-option"
 									/>
 								</li>
 								<li>
@@ -68,7 +68,7 @@ export default function Plan(props) {
 										img={meat}
 										name="Meat Recipes"
 										textstyle="text-sm md:text-lg"
-										htmlFor="meat-option"
+										for="meat-option"
 									/>
 								</li>
 								<li>
@@ -83,7 +83,7 @@ export default function Plan(props) {
 										img={meat}
 										name="Meat Recipes"
 										textstyle="text-sm md:text-lg"
-										htmlFor="sth-option"
+										for="sth-option"
 									/>
 								</li>
 								<li>
@@ -98,7 +98,7 @@ export default function Plan(props) {
 										img={meat}
 										name="Meat Recipes"
 										textstyle="text-sm md:text-lg"
-										htmlFor="test-option"
+										for="test-option"
 									/>
 								</li>
 								<li>
@@ -113,7 +113,7 @@ export default function Plan(props) {
 										img={meat}
 										name="Meat Recipes"
 										textstyle="text-sm md:text-lg"
-										htmlFor="my-option"
+										for="my-option"
 									/>
 								</li>
 							</ul>
@@ -127,9 +127,9 @@ export default function Plan(props) {
 									Number of people
 								</h3>
 								<ul className="grid gap-4 w-1/2 grid-cols-3 mx-auto">
-									{numOfPeople.map((num) => {
+									{numOfPeople.map((num, i) => {
 										return (
-											<li>
+											<li key={i}>
 												<input
 													type="radio"
 													id={`num${num}`}
@@ -156,9 +156,9 @@ export default function Plan(props) {
 									Meals per week
 								</h3>
 								<ul className="grid gap-4 w-full grid-cols-6 mx-auto">
-									{mealsPerWeek.map((num) => {
+									{mealsPerWeek.map((num, i) => {
 										return (
-											<li>
+											<li key={i}>
 												<input
 													type="radio"
 													id={`meal${num}`}

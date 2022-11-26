@@ -3,14 +3,49 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Payment;
+use App\Models\Pending;
+use App\Models\Subscription;
+use App\Models\PreferredCategory;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    // Relations----------------------------------
+
+    // Get all payments for a user
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+
+    // Get preferred categories for a user
+    public function preferredcategories()
+    {
+        return $this->hasMany(PreferredCategory::class);
+    }
+
+    // Get all Subscriptions for a user
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    // Get pending data for a user
+    public function pendings()
+    {
+        return $this->hasOne(Pending::class);
+    }
+
+    // Relations----------------------------------
+
+
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +59,16 @@ class User extends Authenticatable
         'email',
         'password',
         'google_id',
-        'facebook_id'
+        'facebook_id',
+        'phone',
+        'address',
+        'role',
+        'floor',
+        'building',
+        'street',
+        'city',
+        'is_sub',
+        'is_auto_renewed'
     ];
 
     /**

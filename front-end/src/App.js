@@ -15,6 +15,8 @@ import { defineElement } from "lord-icon-element";
 import axios from "axios";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AuthProvider from "./context/AuthContext";
+import Registration from "./pages/Registration";
+import DataProvider from "./context/DataContext";
 
 // define axios defaults
 axios.defaults.baseURL = "http://localhost:8000/";
@@ -32,19 +34,22 @@ function App() {
 				clientId={`${process.env.REACT_APP_GOOGLE_API_CLIENT_ID}`}
 			>
 				<AuthProvider>
-					<Navbar />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/home" element={<Home />} />
-						<Route path="/about" element={<About />} />
-						<Route path="/contact" element={<Contact />} />
-						<Route path="/subscribe" element={<Subscribe />} />
-						<Route path="/login" element={<Login />} />
-						<Route path="/menu" element={<Menu />} />
-						<Route path="/profile" element={<Profile />} />
-						<Route path="*" element={<NotFound />} />
-					</Routes>
-					<Footer />
+					<DataProvider>
+						<Navbar />
+						<Routes>
+							<Route path="/" element={<Home />} />
+							<Route path="/home" element={<Home />} />
+							<Route path="/about" element={<About />} />
+							<Route path="/contact" element={<Contact />} />
+							<Route path="/subscribe" element={<Subscribe />} />
+							<Route path="/login" element={<Login />} />
+							<Route path="/register" element={<Registration />} />
+							<Route path="/menu" element={<Menu />} />
+							<Route path="/profile" element={<Profile />} />
+							<Route path="*" element={<NotFound />} />
+						</Routes>
+						<Footer />
+					</DataProvider>
 				</AuthProvider>
 			</GoogleOAuthProvider>
 		</>

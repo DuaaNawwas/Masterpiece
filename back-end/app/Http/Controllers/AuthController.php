@@ -15,10 +15,17 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'string', 'max:255', 'unique:users', 'email'],
-            'password' => ['required', 'confirmed', Password::defaults(), 'min:8']
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => ['required', 'string', 'max:255', 'unique:users', 'email'],
+                'password' => ['required', 'confirmed', Password::defaults(), 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/']
+            ],
+            [
+                'password.regex' => 'The password should have minimum eight characters,
+    at least one letter, one number and one special character'
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json([

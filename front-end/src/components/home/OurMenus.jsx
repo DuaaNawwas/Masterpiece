@@ -1,5 +1,5 @@
 import { Carousel } from "flowbite-react";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Button from "../Button";
 import CategoryCard from "./CategoryCard";
 import chicken from "../../images/chicken.png";
@@ -20,12 +20,20 @@ import { Pagination, Navigation, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { DataContext } from "../../context/DataContext";
+import { useNavigate } from "react-router-dom";
 
 export default function OurMenus() {
 	// Initialize animation library
 	useEffect(() => {
 		AOS.init();
 	}, []);
+
+	// Get categories from context
+	const { categories } = useContext(DataContext);
+
+	// navigation
+	const navigate = useNavigate();
 	return (
 		<>
 			<div className="flex flex-col items-center gap-10 px-10">
@@ -45,7 +53,7 @@ export default function OurMenus() {
 					<Swiper
 						slidesPerView={3}
 						slidesPerGroup={3}
-						spaceBetween={10}
+						spaceBetween={20}
 						pagination={{
 							clickable: true,
 						}}
@@ -55,79 +63,42 @@ export default function OurMenus() {
 						// }}
 						// navigation={true}
 						loop={true}
-						loopFillGroupWithBlank={true}
+						// loopFillGroupWithBlank={true}
 						centeredSlides={true}
 						modules={[Pagination, Navigation, Autoplay]}
 						className="mySwiper"
 					>
-						<SwiperSlide>
-							<CategoryCard
-								img={chicken}
-								name="Chicken Recipes"
-								textstyle="text-xs md:text-lg"
-								style="mb-9"
-							/>
-						</SwiperSlide>
-						<SwiperSlide>
-							<CategoryCard
-								img={pescatarian}
-								name="Pescatarian Recipes"
-								textstyle="text-xs md:text-lg"
-								style="mb-9"
-							/>
-						</SwiperSlide>
-						<SwiperSlide>
-							{" "}
-							<CategoryCard
-								img={meat}
-								name="Meat Recipes"
-								textstyle="text-xs md:text-lg"
-								style="mb-9"
-							/>
-						</SwiperSlide>
-						<SwiperSlide>
-							<CategoryCard
-								img={chicken}
-								name="Chicken Recipes"
-								textstyle="text-xs md:text-lg"
-								style="mb-9"
-							/>
-						</SwiperSlide>
-						<SwiperSlide>
-							<CategoryCard
-								img={pescatarian}
-								name="Pescatarian Recipes"
-								textstyle="text-xs md:text-lg"
-								style="mb-9"
-							/>
-						</SwiperSlide>
-						<SwiperSlide>
-							{" "}
-							<CategoryCard
-								img={meat}
-								name="Meat Recipes"
-								textstyle="text-xs md:text-lg"
-								style="mb-9"
-							/>
-						</SwiperSlide>
+						{categories?.map((categ) => {
+							return (
+								<SwiperSlide>
+									{/* <CategoryCard
+										img={categ.image}
+										name={categ.name}
+										textstyle="text-xs md:text-lg"
+										style="mb-9"
+									/> */}
+									<div class="group relative mb-10">
+										<div class="relative h-80 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
+											<img
+												src={categ.image}
+												alt=""
+												class="h-full w-full object-cover object-center"
+											/>
+										</div>
+										<h3 class="mt-6 text-sm text-gray-500">
+											<a href="#">
+												<span class="absolute inset-0"></span>
+												Category
+											</a>
+										</h3>
+										<p class="text-base font-semibold text-gray-900">
+											{categ.name}
+										</p>
+									</div>
+								</SwiperSlide>
+							);
+						})}
 					</Swiper>
-					{/* <Carousel className="w-full">
-						<div className="flex  py-20 md:px-5 lg:px-20 xl:px-5 justify-center items-center gap-5 ">
-							<CategoryCard img={chicken} name="Chicken Recipes" />
-							<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
-							<CategoryCard img={meat} name="Meat Recipes" />
-						</div>
-						<div className="flex py-20 md:px-5 lg:px-20 xl:px-5 justify-center items-center gap-5">
-							<CategoryCard img={chicken} name="Chicken Recipes" />
-							<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
-							<CategoryCard img={meat} name="Meat Recipes" />
-						</div>
-						<div className="flex py-20 md:px-5 lg:px-20 xl:px-5 justify-center items-center gap-5">
-							<CategoryCard img={chicken} name="duaa Recipes" />
-							<CategoryCard img={pescatarian} name="Pescatarian Recipes" />
-							<CategoryCard img={meat} name="Meat Recipes" />
-						</div>
-					</Carousel> */}
 				</div>
 				<Button
 					bgColor="bg-rusty"
@@ -136,6 +107,7 @@ export default function OurMenus() {
 					padding="px-10"
 					dataaos="zoom-in-up"
 					dataaosduration="1000"
+					onClick={() => navigate("/menu")}
 				/>
 			</div>
 			<div className="text-myBlack border-t-4 h-2 w-1/2 mx-auto my-10"></div>

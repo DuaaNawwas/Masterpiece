@@ -14,8 +14,6 @@ export default function AuthProvider({ children }) {
 	const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
 	const [stateToken, setStateToken] = useState();
-	// navigation hook
-	const navigate = useNavigate();
 
 	// logged in user
 	const [user, setUser] = useState({});

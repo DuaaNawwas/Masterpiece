@@ -5,7 +5,7 @@ import Steps from "../components/subscribe/Steps";
 import Details from "../components/subscribe/Details";
 import Payment from "../components/subscribe/Payment";
 import Plan from "../components/subscribe/Plan";
-import Registration from "../components/subscribe/Registration";
+import Registration from "./Registration";
 import NotFound from "./NotFound";
 
 export default function Subscribe() {
@@ -31,14 +31,9 @@ export default function Subscribe() {
 			) : step == 2 ? (
 				<>
 					<Steps step={step} changeStep={changeStep} />
-					<Registration changeStep={incrementStep} />
-				</>
-			) : step == 3 ? (
-				<>
-					<Steps step={step} changeStep={changeStep} />
 					<Details changeStep={incrementStep} />
 				</>
-			) : step == 4 ? (
+			) : step == 3 ? (
 				<>
 					<Steps step={step} changeStep={changeStep} />
 					<Payment changeStep={incrementStep} />
