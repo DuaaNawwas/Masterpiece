@@ -1,8 +1,25 @@
-import { Button, Modal } from "flowbite-react";
+import axios from "axios";
+import { Badge, Button, Modal } from "flowbite-react";
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import modalimg from "../../images/modalimg.png";
+import LoadingModal from "./LoadingModal";
+import { HiClock } from "react-icons/hi";
 
 export default function ModalRecipe(props) {
+	const [meal, setMeal] = useState();
+	const [loading, setLoading] = useState(true);
+
+	// Get meal data from database
+	useEffect(() => {
+		setLoading(true);
+		axios.get(`/api/meals/${props.id}`).then((res) => {
+			console.log(res);
+			setMeal(res.data.meal);
+			setLoading(false);
+		});
+	}, [props.id]);
 	return (
 		<>
 			<React.Fragment>
@@ -10,320 +27,343 @@ export default function ModalRecipe(props) {
 				<Modal
 					show={props.modalRecipe}
 					size="3xl"
-					onClose={props.hideModalRecipe}
+					onClose={() => {
+						setMeal([]);
+						props.hideModalRecipe();
+					}}
 				>
 					{/* <Modal.Header>
 				</Modal.Header> */}
 					<Modal.Body className="relative overflow-y-scroll h-[600px] p-0 scrollbar ">
-						<button
-							type="button"
-							className="text-white bg-myBlack hover:bg-rustySh focus:ring-4 focus:outline-none focus:ring-rusty font-medium rounded-full text-sm p-1 text-center inline-flex items-center absolute z-50 right-7 top-7"
-							onClick={props.hideModalRecipe}
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								strokeWidth={1.5}
-								stroke="currentColor"
-								className="w-6 h-6"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									d="M6 18L18 6M6 6l12 12"
-								/>
-							</svg>
-						</button>
-						<img src={modalimg} className="object-cover h-72 w-full" />
-						<div className="space-y-1 p-3">
-							<h4 className="mt-1 mb-0 pb-0 text-xl font-semibold uppercase leading-tight">
-								CHICKEN FLAUTAS {props.id}
-							</h4>
-							<p className="text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-0">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum
-								odit a voluptatibus fugit, expedita quisquam aspernatur iure
-								explicabo pariatur corporis?
-							</p>
-						</div>
-						<div className="space-y-1 p-3">
-							<h4 className="mt-5 text-lg font-semibold uppercase leading-tight">
-								Ingredients
-							</h4>
-							{/* <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400"> */}
-							<div className="grid z-10 grid-cols-2 w-auto text-sm dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
-								<div className="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
-									<ul
-										className="space-y-4"
-										aria-labelledby="mega-menu-icons-dropdown-button"
+						{loading ? (
+							<LoadingModal />
+						) : (
+							<>
+								<button
+									type="button"
+									className="text-white bg-myBlack hover:bg-rustySh focus:ring-4 focus:outline-none focus:ring-rusty font-medium rounded-full text-sm p-1 text-center inline-flex items-center absolute z-50 right-7 top-7"
+									onClick={() => {
+										setMeal([]);
+										props.hideModalRecipe();
+									}}
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										strokeWidth={1.5}
+										stroke="currentColor"
+										className="w-6 h-6"
 									>
-										<li>
-											<div className="flex items-center text-gray-500 dark:text-gray-400">
-												ingredient
-											</div>
-										</li>
-										<li>
-											<div className="flex items-center text-gray-500 dark:text-gray-400">
-												ingredient
-											</div>
-										</li>
-										<li>
-											<div className="flex items-center text-gray-500 dark:text-gray-400">
-												ingredient
-											</div>
-										</li>
-										<li>
-											<div className="flex items-center text-gray-500 dark:text-gray-400">
-												ingredient
-											</div>
-										</li>
-									</ul>
-								</div>
-								<div className="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
-									<ul className="space-y-4">
-										<li>
-											<div className="flex items-center">
-												<input
-													checked
-													id="checked-checkbox"
-													type="checkbox"
-													value=""
-													className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-												/>
-												<label
-													htmlFor="checked-checkbox"
-													className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-												>
-													ingredient
-												</label>
-											</div>
-										</li>
-										<li>
-											<div className="flex items-center">
-												<input
-													checked
-													id="checked-checkbox"
-													type="checkbox"
-													value=""
-													className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-												/>
-												<label
-													htmlFor="checked-checkbox"
-													className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-												>
-													ingredient
-												</label>
-											</div>
-										</li>
-										<li>
-											<div className="flex items-center">
-												<input
-													checked
-													id="checked-checkbox"
-													type="checkbox"
-													value=""
-													className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-												/>
-												<label
-													htmlFor="checked-checkbox"
-													className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-												>
-													ingredient
-												</label>
-											</div>
-										</li>
-										<li>
-											<div className="flex items-center">
-												<input
-													checked
-													id="checked-checkbox"
-													type="checkbox"
-													value=""
-													className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-												/>
-												<label
-													htmlFor="checked-checkbox"
-													className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-												>
-													ingredient
-												</label>
-											</div>
-										</li>
-									</ul>
-								</div>
-								<div className="p-4 text-gray-900 dark:text-white">
-									<ul className="space-y-4">
-										<li>
-											<div className="flex items-center mb-4">
-												<input
-													id="default-checkbox"
-													type="checkbox"
-													value=""
-													className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-												/>
-												<label
-													htmlFor="default-checkbox"
-													className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-												>
-													ingredient
-												</label>
-											</div>
-										</li>
-										<li>
-											<div className="flex items-center mb-4">
-												<input
-													id="default-checkbox"
-													type="checkbox"
-													value=""
-													className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-												/>
-												<label
-													htmlFor="default-checkbox"
-													className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-												>
-													ingredient
-												</label>
-											</div>
-										</li>
-										<li>
-											<div className="flex items-center mb-4">
-												<input
-													id="default-checkbox"
-													type="checkbox"
-													value=""
-													className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-												/>
-												<label
-													htmlFor="default-checkbox"
-													className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-												>
-													ingredient
-												</label>
-											</div>
-										</li>
-										<li>
-											<div className="flex items-center mb-4">
-												<input
-													id="default-checkbox"
-													type="checkbox"
-													value=""
-													className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-												/>
-												<label
-													htmlFor="default-checkbox"
-													className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-												>
-													ingredient
-												</label>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div className="space-y-1 p-3">
-							<h4 className="mt-5 text-lg font-semibold uppercase leading-tight">
-								Nutrition Values
-							</h4>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											d="M6 18L18 6M6 6l12 12"
+										/>
+									</svg>
+								</button>
 
-							<div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-								<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-									<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-										<tr>
-											<th scope="col" className="py-3 px-6">
-												Nutrition
-											</th>
-											<th scope="col" className="py-3 px-6">
-												Per Serving
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-											<th
-												scope="row"
-												className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+								<img
+									src={meal?.image}
+									className="object-cover object-center h-72 w-full"
+								/>
+								<div className="space-y-1 p-3 flex flex-col items-start">
+									<Badge
+										color="success"
+										size="sm"
+										className="rounded-sm py-1"
+										icon={HiClock}
+									>
+										{" "}
+										{meal?.prep_time}
+									</Badge>
+									<h4 className="mt-1 mb-0 pb-0 text-xl font-semibold uppercase leading-tight">
+										{meal?.name}
+									</h4>
+									<p className="text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-0">
+										{meal?.long_desc}
+									</p>
+								</div>
+								<div className="space-y-1 p-3">
+									<h4 className="mt-5 text-lg font-semibold uppercase leading-tight">
+										Ingredients
+									</h4>
+									{/* <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400"> */}
+									<div className="grid z-10 grid-cols-2 w-auto text-sm dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
+										<div className="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
+											<ul
+												className="space-y-4"
+												aria-labelledby="mega-menu-icons-dropdown-button"
 											>
-												Calories
-											</th>
-											<td className="py-1 px-6">100 Kcal</td>
-										</tr>
-										<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-											<th
-												scope="row"
-												className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-											>
-												Fat
-											</th>
-											<td className="py-1 px-6">37g</td>
-										</tr>
-										<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-											<th
-												scope="row"
-												className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-											>
-												Saturated Fat
-											</th>
-											<td className="py-1 px-6">100 Kcal</td>
-										</tr>
-										<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-											<th
-												scope="row"
-												className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-											>
-												Carbohydrates
-											</th>
-											<td className="py-1 px-6">37g</td>
-										</tr>
-										<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-											<th
-												scope="row"
-												className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-											>
-												Sugar
-											</th>
-											<td className="py-1 px-6">100 Kcal</td>
-										</tr>
-										<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-											<th
-												scope="row"
-												className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-											>
-												Dietary Fiber
-											</th>
-											<td className="py-1 px-6">37g</td>
-										</tr>
-										<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-											<th
-												scope="row"
-												className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-											>
-												Protein
-											</th>
-											<td className="py-1 px-6">100 Kcal</td>
-										</tr>
-										<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-											<th
-												scope="row"
-												className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-											>
-												Cholesterol
-											</th>
-											<td className="py-1 px-6">37g</td>
-										</tr>
-										<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-											<th
-												scope="row"
-												className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-											>
-												Sodium
-											</th>
-											<td className="py-1 px-6">100 Kcal</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
+												<li>
+													<div className="flex items-center text-gray-500 dark:text-gray-400">
+														ingredient
+													</div>
+												</li>
+												<li>
+													<div className="flex items-center text-gray-500 dark:text-gray-400">
+														ingredient
+													</div>
+												</li>
+												<li>
+													<div className="flex items-center text-gray-500 dark:text-gray-400">
+														ingredient
+													</div>
+												</li>
+												<li>
+													<div className="flex items-center text-gray-500 dark:text-gray-400">
+														ingredient
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div className="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
+											<ul className="space-y-4">
+												<li>
+													<div className="flex items-center">
+														<input
+															checked
+															id="checked-checkbox"
+															type="checkbox"
+															value=""
+															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
+														/>
+														<label
+															htmlFor="checked-checkbox"
+															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+														>
+															ingredient
+														</label>
+													</div>
+												</li>
+												<li>
+													<div className="flex items-center">
+														<input
+															checked
+															id="checked-checkbox"
+															type="checkbox"
+															value=""
+															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
+														/>
+														<label
+															htmlFor="checked-checkbox"
+															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+														>
+															ingredient
+														</label>
+													</div>
+												</li>
+												<li>
+													<div className="flex items-center">
+														<input
+															checked
+															id="checked-checkbox"
+															type="checkbox"
+															value=""
+															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
+														/>
+														<label
+															htmlFor="checked-checkbox"
+															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+														>
+															ingredient
+														</label>
+													</div>
+												</li>
+												<li>
+													<div className="flex items-center">
+														<input
+															checked
+															id="checked-checkbox"
+															type="checkbox"
+															value=""
+															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
+														/>
+														<label
+															htmlFor="checked-checkbox"
+															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+														>
+															ingredient
+														</label>
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div className="p-4 text-gray-900 dark:text-white">
+											<ul className="space-y-4">
+												<li>
+													<div className="flex items-center mb-4">
+														<input
+															id="default-checkbox"
+															type="checkbox"
+															value=""
+															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
+														/>
+														<label
+															htmlFor="default-checkbox"
+															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+														>
+															ingredient
+														</label>
+													</div>
+												</li>
+												<li>
+													<div className="flex items-center mb-4">
+														<input
+															id="default-checkbox"
+															type="checkbox"
+															value=""
+															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
+														/>
+														<label
+															htmlFor="default-checkbox"
+															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+														>
+															ingredient
+														</label>
+													</div>
+												</li>
+												<li>
+													<div className="flex items-center mb-4">
+														<input
+															id="default-checkbox"
+															type="checkbox"
+															value=""
+															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
+														/>
+														<label
+															htmlFor="default-checkbox"
+															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+														>
+															ingredient
+														</label>
+													</div>
+												</li>
+												<li>
+													<div className="flex items-center mb-4">
+														<input
+															id="default-checkbox"
+															type="checkbox"
+															value=""
+															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
+														/>
+														<label
+															htmlFor="default-checkbox"
+															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+														>
+															ingredient
+														</label>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div className="space-y-1 p-3">
+									<h4 className="mt-5 text-lg font-semibold uppercase leading-tight">
+										Nutrition Values
+									</h4>
+
+									<div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+										<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+											<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+												<tr>
+													<th scope="col" className="py-3 px-6">
+														Nutrition
+													</th>
+													<th scope="col" className="py-3 px-6">
+														Per Serving
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+													<th
+														scope="row"
+														className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+													>
+														Calories
+													</th>
+													<td className="py-1 px-6">100 Kcal</td>
+												</tr>
+												<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+													<th
+														scope="row"
+														className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+													>
+														Fat
+													</th>
+													<td className="py-1 px-6">37g</td>
+												</tr>
+												<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+													<th
+														scope="row"
+														className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+													>
+														Saturated Fat
+													</th>
+													<td className="py-1 px-6">100 Kcal</td>
+												</tr>
+												<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+													<th
+														scope="row"
+														className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+													>
+														Carbohydrates
+													</th>
+													<td className="py-1 px-6">37g</td>
+												</tr>
+												<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+													<th
+														scope="row"
+														className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+													>
+														Sugar
+													</th>
+													<td className="py-1 px-6">100 Kcal</td>
+												</tr>
+												<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+													<th
+														scope="row"
+														className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+													>
+														Dietary Fiber
+													</th>
+													<td className="py-1 px-6">37g</td>
+												</tr>
+												<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+													<th
+														scope="row"
+														className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+													>
+														Protein
+													</th>
+													<td className="py-1 px-6">100 Kcal</td>
+												</tr>
+												<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+													<th
+														scope="row"
+														className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+													>
+														Cholesterol
+													</th>
+													<td className="py-1 px-6">37g</td>
+												</tr>
+												<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+													<th
+														scope="row"
+														className="py-1 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+													>
+														Sodium
+													</th>
+													<td className="py-1 px-6">100 Kcal</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</>
+						)}
 					</Modal.Body>
 					<Modal.Footer className="justify-between">
 						{/* <Button onClick={onClick}>I accept</Button> */}

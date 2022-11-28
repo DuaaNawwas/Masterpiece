@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subscription;
 use App\Models\User;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -78,7 +79,25 @@ class UserController extends Controller
                 'message' => 'not allowed'
             ]);
         }
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'first_name'      => 'required',
+        //         'last_name'          => 'required',
+        //         'phone' => 'required',
+        //         'city' => 'required',
+        //         'street' => 'required',
+        //         'building' => 'required',
+        //         'floor' => 'required',
+        //     ]
+        // );
 
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'status' => 'failure',
+        //         'errors' => $validator->messages(),
+        //     ]);
+        // }
         $user->update($request->all());
 
         return response()->json([
@@ -91,7 +110,8 @@ class UserController extends Controller
     public function updatePassword(Request $request)
     {
         // validate password
-        $request->validate(
+        $validator = Validator::make(
+            $request->all(),
             [
                 'password_current'      => 'required',
                 'password_new'          => 'required|regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/|required_with:password_confirmation|same:password_confirmation',
@@ -102,7 +122,12 @@ class UserController extends Controller
         at least one letter, one number and one special character'
             ]
         );
-
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'failure',
+                'errors' => $validator->messages(),
+            ]);
+        }
         // get logged in user
         $user = Auth::user();
         // check password current is correct
@@ -120,7 +145,7 @@ class UserController extends Controller
 
         return response()->json([
             'status' => 406,
-            'error' => 'wrong password'
+            'errors' => ['password_current' => 'Wrong password']
         ]);
     }
 

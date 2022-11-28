@@ -82,7 +82,7 @@ export default function OurMenus() {
 											<img
 												src={categ.image}
 												alt=""
-												class="h-full w-full object-cover object-center"
+												class="h-full w-full object-cover object-center group-hover:scale-110 ease-in duration-100"
 											/>
 										</div>
 										<h3 class="mt-6 text-sm text-gray-500">

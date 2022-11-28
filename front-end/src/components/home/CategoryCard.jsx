@@ -9,7 +9,7 @@ export default function CategoryCard(props) {
 				hover:text-lemonSh peer-checked:text-darkYellow hover:bg-gray-50 peer-checked:shadow-4xl ${props.style}`}
 				htmlFor={props.for}
 			>
-				<img src={props.img} alt="" className="max-h-32 object-cover" />
+				<img src={props.img} alt="" className="max-h-20 object-cover" />
 				<div className="px-4 py-4">
 					<h2 className={`xl:text-2xl ${props.textstyle}`}>{props.name}</h2>
 				</div>

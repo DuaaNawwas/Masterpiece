@@ -6,10 +6,23 @@ import chicken from "../../images/chicken.png";
 import pescatarian from "../../images/pescatarian.png";
 import meat from "../../images/meat.png";
 import PlanSummary from "./PlanSummary";
+import { useContext } from "react";
+import { DataContext } from "../../context/DataContext";
+import { useState } from "react";
 
 export default function Plan(props) {
 	const numOfPeople = [2, 4, 6];
-	const mealsPerWeek = [1, 2, 3, 4, 5, 6];
+	const mealsPerWeek = [2, 3, 4, 5, 6];
+
+	const [selectedData, setSelectedData] = useState({
+		ppl_num: 2,
+		meals_per_week: 5,
+	});
+
+	const [selectedCateg, setSelectedCateg] = useState();
+
+	const { categories, pricing } = useContext(DataContext);
+
 	return (
 		<div className="relative block rounded-xl bg-white border border-gray-100 p-5 sm:pb-52 lg:pb-5 shadow-xl w-11/12 md:w-9/12 lg:w-11/12 xl:w-9/12 mx-auto mt-20 mb-44">
 			<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-1/2 -translate-y-1/2 bg-gray-300"></div>
@@ -20,102 +33,30 @@ export default function Plan(props) {
 				<div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
 					<div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16  justify-items-center">
 						<div>
-							<p className="pb-5 text-3xl font-semibold text-darkRed text-center justify-self-center mx-auto capitalize">
+							<p className="pb-10 text-3xl font-semibold text-darkRed text-center justify-self-center mx-auto capitalize">
 								Select your favorite categories
 							</p>
 							<ul className="grid gap-6 w-full grid-cols-2">
-								<li>
-									<input
-										type="checkbox"
-										id="chicken-option"
-										value=""
-										className="hidden peer"
-										required=""
-									/>
-									{/* <label> */}
-									<CategoryCard
-										img={chicken}
-										name="Chicken Recipes"
-										textstyle="text-sm md:text-lg"
-										for="chicken-option"
-									/>
-									{/* </label> */}
-								</li>
-								<li>
-									<input
-										type="checkbox"
-										id="pescatarian-option"
-										value=""
-										className="hidden peer"
-									/>
+								{categories?.map((categ) => {
+									return (
+										<li>
+											<input
+												type="checkbox"
+												id={categ.name}
+												value=""
+												className="hidden peer"
+												required=""
+											/>
 
-									<CategoryCard
-										img={pescatarian}
-										name="Pescatarian Recipes"
-										textstyle="text-sm md:text-lg"
-										for="pescatarian-option"
-									/>
-								</li>
-								<li>
-									<input
-										type="checkbox"
-										id="meat-option"
-										value=""
-										className="hidden peer"
-									/>
-
-									<CategoryCard
-										img={meat}
-										name="Meat Recipes"
-										textstyle="text-sm md:text-lg"
-										for="meat-option"
-									/>
-								</li>
-								<li>
-									<input
-										type="checkbox"
-										id="sth-option"
-										value=""
-										className="hidden peer"
-									/>
-
-									<CategoryCard
-										img={meat}
-										name="Meat Recipes"
-										textstyle="text-sm md:text-lg"
-										for="sth-option"
-									/>
-								</li>
-								<li>
-									<input
-										type="checkbox"
-										id="test-option"
-										value=""
-										className="hidden peer"
-									/>
-
-									<CategoryCard
-										img={meat}
-										name="Meat Recipes"
-										textstyle="text-sm md:text-lg"
-										for="test-option"
-									/>
-								</li>
-								<li>
-									<input
-										type="checkbox"
-										id="my-option"
-										value=""
-										className="hidden peer"
-									/>
-
-									<CategoryCard
-										img={meat}
-										name="Meat Recipes"
-										textstyle="text-sm md:text-lg"
-										for="my-option"
-									/>
-								</li>
+											<CategoryCard
+												img={categ.image}
+												name={categ.name}
+												textstyle="text-sm md:text-lg"
+												for={categ.name}
+											/>
+										</li>
+									);
+								})}
 							</ul>
 						</div>
 						<div className="w-9/12 sm:h-80 lg:h-full flex flex-col ">
@@ -137,6 +78,13 @@ export default function Plan(props) {
 													value={num}
 													className="hidden peer"
 													required=""
+													onChange={(e) =>
+														setSelectedData({
+															...selectedData,
+															ppl_num: e.target.value,
+														})
+													}
+													defaultChecked={num === 2}
 												/>
 												<label
 													htmlFor={`num${num}`}
@@ -155,7 +103,7 @@ export default function Plan(props) {
 								<h3 className="mb-5 mt-10 text-xl font-medium text-darkRed text-center capitalize">
 									Meals per week
 								</h3>
-								<ul className="grid gap-4 w-full grid-cols-6 mx-auto">
+								<ul className="grid gap-4 w-full grid-cols-5 mx-auto">
 									{mealsPerWeek.map((num, i) => {
 										return (
 											<li key={i}>
@@ -166,7 +114,14 @@ export default function Plan(props) {
 													value={num}
 													className="hidden peer"
 													required=""
-													onChange={(e) => console.log(e.target.value)}
+													// defaultChecked={num == 3}
+													onChange={(e) =>
+														setSelectedData({
+															...selectedData,
+															meals_per_week: e.target.value,
+														})
+													}
+													defaultChecked={num === 5}
 												/>
 												<label
 													htmlFor={`meal${num}`}
@@ -182,7 +137,7 @@ export default function Plan(props) {
 								</ul>
 							</form>
 
-							<PlanSummary changeStep={props.changeStep} />
+							<PlanSummary changeStep={props.changeStep} data={selectedData} />
 						</div>
 					</div>
 				</div>

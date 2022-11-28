@@ -68,12 +68,12 @@ export default function Menu() {
 				id={modalRecipe.id}
 			/>
 			{/* active = {true} to make a category active when visited from home */}
-			<h2 className="text-center mt-20 text-darkRed text-4xl font-bold">
+			<h2 className="text-center mt-20 pb-6 text-darkRed text-4xl font-bold">
 				Browse Our Menus
 			</h2>
 
-			<Tabs className="flex flex-col items-center">
-				<TabList>
+			<Tabs className="flex flex-col items-center text-darkRed">
+				<TabList className="text-sm">
 					{token != null && forYouMeals?.length > 0 && <Tab>For You</Tab>}
 					{categories?.map((categ) => {
 						return <Tab>{categ.name}</Tab>;
@@ -116,91 +116,6 @@ export default function Menu() {
 					);
 				})}
 			</Tabs>
-			{/* <Tabs.Group
-				aria-label="Tabs with underline"
-				style="underline"
-				className="justify-center pt-5"
-			>
-				<Tabs.Item title="Top Recommendations for You">
-					Profile content
-				</Tabs.Item>
-				<Tabs.Item active={true} title="Chicken"> */}
-			{/* remember to limit description length */}
-			{/* <div className="p-5 md:p-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6 justify-center items-center content-center">
-						<MealCard
-							title="Chicken Flautas"
-							desc="Made with shredded chicken wrapped in flour tortillas."
-							img={modalimg}
-							showModalRecipe={() => showModalRecipe(1)}
-						/>
-						<MealCard
-							title="Creamy Tuscan Chicken"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal2}
-							showModalRecipe={() => showModalRecipe(2)}
-						/>
-						<MealCard
-							title="Chicken Fried Rice"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal3}
-						/>
-						<MealCard
-							title="Chicken Flautas"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal1}
-						/>
-						<MealCard
-							title="Chicken Flautas"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal1}
-						/>
-						<MealCard
-							title="Creamy Tuscan Chicken"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal2}
-						/>
-						<MealCard
-							title="Chicken Fried Rice"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal3}
-						/>
-						<MealCard
-							title="Chicken Flautas"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal1}
-						/>
-						<MealCard
-							title="Chicken Flautas"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal1}
-						/>
-						<MealCard
-							title="Creamy Tuscan Chicken"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal2}
-						/>
-						<MealCard
-							title="Chicken Fried Rice"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal3}
-						/>
-						<MealCard
-							title="Chicken Flautas"
-							desc="Made with shredded chicken wrapped in flour tortillas"
-							img={meal1}
-						/>
-					</div> */}
-			{/* </Tabs.Item>
-				<Tabs.Item title="Meat">Settings content</Tabs.Item>
-				<Tabs.Item title="Pescatarian">Contacts content</Tabs.Item>
-			</Tabs.Group> */}
-			{/* <button
-				className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-				type="button"
-				data-modal-toggle="defaultModal"
-			>
-				Toggle modal
-			</button> */}
 		</>
 	);
 }

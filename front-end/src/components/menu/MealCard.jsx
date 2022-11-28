@@ -8,11 +8,11 @@ export default function MealCard(props) {
 				<img
 					src={props.img}
 					alt=" random imgee"
-					className="w-full h-72 object-cover object-center shadow-md"
+					className="w-full h-72 object-cover object-center shadow-md scale-100 hover:scale-110 ease-in duration-100"
 				/>
 
 				<div className="relative px-4 -mt-16  ">
-					<div className="bg-white p-6 rounded-lg shadow-lg">
+					<div className="bg-white p-6 rounded-sm shadow-lg">
 						{/* <div className="flex items-baseline">
 							<span className="bg-teal-200 text-teal-800 text-xs px-2 inline-block rounded-full  uppercase font-semibold tracking-wide">
 								New

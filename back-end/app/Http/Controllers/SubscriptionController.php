@@ -14,7 +14,10 @@ class SubscriptionController extends Controller
      */
     public function pricings()
     {
-        return Pricing::all();
+        return response()->json([
+            'status' => 200,
+            'pricings' => Pricing::all()
+        ]);
     }
 
     /**

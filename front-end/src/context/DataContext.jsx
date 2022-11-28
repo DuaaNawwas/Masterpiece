@@ -8,6 +8,7 @@ export const DataContext = createContext();
 
 export default function DataProvider({ children }) {
 	const [categories, setCategories] = useState();
+	const [pricing, setPricing] = useState();
 
 	const { token } = useContext(AuthContext);
 
@@ -19,8 +20,16 @@ export default function DataProvider({ children }) {
 		});
 	}, []);
 
+	// Get pricing data
+	useEffect(() => {
+		axios.get("/api/pricing").then((res) => {
+			console.log(res);
+			setPricing(res.data.pricings);
+		});
+	}, []);
+
 	return (
-		<DataContext.Provider value={{ categories }}>
+		<DataContext.Provider value={{ categories, pricing }}>
 			{children}
 		</DataContext.Provider>
 	);
