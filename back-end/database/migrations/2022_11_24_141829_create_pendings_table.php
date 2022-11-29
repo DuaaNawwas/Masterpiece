@@ -18,12 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('people_num')->nullable();
             $table->integer('meals_per_week')->nullable();
-            $table->boolean('category_1')->nullable();
-            $table->boolean('category_2')->nullable();
-            $table->boolean('category_3')->nullable();
-            $table->boolean('category_4')->nullable();
-            $table->boolean('category_5')->nullable();
-            $table->boolean('category_6')->nullable();
+            $table->string('categories')->nullable();
             $table->string('day_of_delivery')->nullable();
             $table->softDeletes();
             $table->timestamps();

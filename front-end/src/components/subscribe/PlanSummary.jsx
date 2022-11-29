@@ -1,15 +1,27 @@
 import React from "react";
 import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { DataContext } from "../../context/DataContext";
 import Button from "../Button";
 
 export default function PlanSummary(props) {
-	const { pricing } = useContext(DataContext);
+	const { pricing, savePending, setSelectedCateg, setSelectedData } =
+		useContext(DataContext);
+	const { cookies } = useContext(AuthContext);
+	const token = cookies.Token;
 
 	const total_servings = props.data.meals_per_week * props.data.ppl_num;
 	const price_per_serving = pricing?.find(
 		(price) => price.servings == total_servings
 	);
+
+	const handleClick = () => {
+		if (token) {
+			savePending();
+			props.changeStep();
+			// setSelectedCateg([]);
+		}
+	};
 
 	return (
 		<div className="mt-12 md:mt-20 relative block w-full rounded-xl border border-gray-100 py-4 px-6 shadow-xl bg-main">
@@ -36,7 +48,7 @@ export default function PlanSummary(props) {
 				text="NEXT"
 				style="float-right"
 				padding="px-8"
-				onClick={props.changeStep}
+				onClick={handleClick}
 			/>
 		</div>
 	);

@@ -9,19 +9,23 @@ import PlanSummary from "./PlanSummary";
 import { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import { useState } from "react";
+import { useEffect } from "react";
 
 export default function Plan(props) {
 	const numOfPeople = [2, 4, 6];
 	const mealsPerWeek = [2, 3, 4, 5, 6];
 
-	const [selectedData, setSelectedData] = useState({
-		ppl_num: 2,
-		meals_per_week: 5,
-	});
+	const {
+		categories,
+		selectedCateg,
+		selectedData,
+		setSelectedCateg,
+		setSelectedData,
+		pendingData,
+	} = useContext(DataContext);
+	// console.log(selectedCateg);
 
-	const [selectedCateg, setSelectedCateg] = useState();
-
-	const { categories, pricing } = useContext(DataContext);
+	// it works when ctrl s, but when refreshed no
 
 	return (
 		<div className="relative block rounded-xl bg-white border border-gray-100 p-5 sm:pb-52 lg:pb-5 shadow-xl w-11/12 md:w-9/12 lg:w-11/12 xl:w-9/12 mx-auto mt-20 mb-44">
@@ -37,15 +41,29 @@ export default function Plan(props) {
 								Select your favorite categories
 							</p>
 							<ul className="grid gap-6 w-full grid-cols-2">
-								{categories?.map((categ) => {
+								{categories?.map((categ, i) => {
 									return (
-										<li>
+										<li key={i}>
 											<input
 												type="checkbox"
 												id={categ.name}
-												value=""
+												value={categ.id}
 												className="hidden peer"
 												required=""
+												defaultChecked={selectedCateg.includes(categ.id)}
+												onChange={(e) => {
+													if (e.target.checked) {
+														setSelectedCateg([
+															...selectedCateg,
+															parseInt(e.target.value),
+														]);
+													} else {
+														const newArr = selectedCateg.filter(
+															(i) => i != e.target.value
+														);
+														setSelectedCateg(newArr);
+													}
+												}}
 											/>
 
 											<CategoryCard
@@ -137,7 +155,11 @@ export default function Plan(props) {
 								</ul>
 							</form>
 
-							<PlanSummary changeStep={props.changeStep} data={selectedData} />
+							<PlanSummary
+								changeStep={props.changeStep}
+								data={selectedData}
+								pending={pendingData}
+							/>
 						</div>
 					</div>
 				</div>

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PendingController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Models\Subscription;
@@ -53,8 +54,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/recommendedMeals', [MealController::class, 'recommendedMeals']);
     // Endpoints for user
     Route::resource('/users', UserController::class);
-
+    // Endpoint for changing password
     Route::put('/changepassword', [UserController::class, 'updatePassword']);
+    // Endpoint to get payment history for a user
     Route::get('/paymenthistory', [UserController::class, 'paymentHistory']);
+    // Endpoint to get active subscription for a user
     Route::get('/activesubscription', [UserController::class, 'activeSubscription']);
+    // Endpoint for pendings
+    Route::resource('/pending', PendingController::class);
 });

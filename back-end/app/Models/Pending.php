@@ -10,6 +10,8 @@ class Pending extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'people_num', 'meals_per_week', 'categories', 'day_of_delivery'];
+
     // Get the user that owns the pending data
     public function user()
     {
