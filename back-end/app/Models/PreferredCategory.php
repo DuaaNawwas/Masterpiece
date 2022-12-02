@@ -10,6 +10,10 @@ class PreferredCategory extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'category_id'
+    ];
     // Relations
     // Get the user that has the preferred categories
     public function user()

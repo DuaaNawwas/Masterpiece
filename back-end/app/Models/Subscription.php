@@ -12,6 +12,16 @@ class Subscription extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'people_num',
+        'meals_per_week',
+        'price',
+        'ending_date',
+        'status'
+
+    ];
+
     // Relations
 
     // Get the user that owns the subscription

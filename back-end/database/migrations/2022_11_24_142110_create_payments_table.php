@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('subscription_id')->constrained()->onDelete('cascade');
-            $table->enum('method', ['Visa Card', 'MasterCard'])->default('Visa Card');
+
             $table->string('card_num');
             $table->float('amount');
             $table->softDeletes();

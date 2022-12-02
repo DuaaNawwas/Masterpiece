@@ -1,9 +1,15 @@
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import axios from "axios";
 import React, { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { DataContext } from "../../context/DataContext";
 import Button from "../Button";
 import CreditCard from "../CreditCard";
 
 export default function Payment() {
+	const stripe = useStripe();
+	const elements = useElements();
+
 	const handleChange = (e) => {
 		const { maxLength, value, name } = e.target;
 		const [fieldName, fieldIndex] = name.split("-");
@@ -28,11 +34,57 @@ export default function Payment() {
 	};
 
 	const planDetails = JSON.parse(localStorage.getItem("selectedData"));
-	const { pricing } = useContext(DataContext);
+	const { pricing, pendingData } = useContext(DataContext);
+	const { cookies } = useContext(AuthContext);
 	const total_servings = planDetails.meals_per_week * planDetails.ppl_num;
 	const price_per_serving = pricing?.find(
 		(price) => price.servings == total_servings
 	);
+	const categories = pendingData.categories.split(",").map((item) => {
+		return parseInt(item, 10);
+	});
+	// console.log("------------");
+	// console.log(categories);
+	// console.log("------------");
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+
+		const { error, paymentMethod } = await stripe
+			.createPaymentMethod({
+				type: "card",
+				card: elements.getElement(CardElement),
+			})
+			.then((res) => {
+				if (res.paymentMethod) {
+					console.log(res);
+
+					const card = {
+						brand: res.paymentMethod.card.brand,
+						country: res.paymentMethod.card.country,
+						last4: res.paymentMethod.card.last4,
+					};
+
+					const data = {
+						// serialNum: res.paymentMethod.id,
+						people_num: planDetails.ppl_num,
+						meals_per_week: planDetails.meals_per_week,
+						price: price_per_serving.total_price,
+						card: card,
+						categories: categories,
+						day_of_delivery: pendingData.day_of_delivery,
+					};
+
+					axios
+						.post("/api/subscription", data, {
+							headers: {
+								Authorization: `Bearer ${cookies.Token}`,
+							},
+						})
+						.then((res) => console.log(res));
+				}
+			});
+	};
+
 	return (
 		<div className="relative block rounded-xl bg-white border border-gray-100 pb-5 pt-0 lg:p-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12 mx-auto mt-20 mb-44">
 			<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-2/3 -translate-y-2/3 bg-gray-300"></div>
@@ -68,11 +120,12 @@ export default function Payment() {
 					</div>
 
 					<div className="w-10/12 sm:h-80 lg:h-full flex flex-col">
-						<form className="flex flex-col gap-4">
+						<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 							<h2 className="text-3xl text-darkRed font-bold sm:text-4xl text-center py-5">
 								Fill in Your Card Info
 							</h2>
-							<CreditCard handleChange={handleChange} />
+							{/* <CreditCard handleChange={handleChange} /> */}
+							<CardElement className="border-2 border-darkRed rounded p-5 " />
 							<Button
 								bgColor="bg-darkYellow"
 								hoverColor="hover:bg-lemonSh"
@@ -80,6 +133,7 @@ export default function Payment() {
 								type="submit"
 								style="float-right"
 								padding="px-8"
+								disabled={!stripe || !elements}
 							/>
 						</form>
 					</div>

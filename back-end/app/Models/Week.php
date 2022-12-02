@@ -11,6 +11,22 @@ class Week extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'subscription_id',
+        'week_num',
+        'meal1_id',
+        'meal2_id',
+        'meal3_id',
+        'meal4_id',
+        'meal5_id',
+        'meal6_id',
+        'day_of_delivery',
+        'ending_date',
+        'starting_date',
+        'is_delivered'
+
+    ];
+
     // Relations--------------
 
     // Get all the removed ingredients for meals in a specific week

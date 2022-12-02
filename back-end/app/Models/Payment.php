@@ -11,6 +11,13 @@ class Payment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'subscription_id',
+        'card_num',
+        'amount',
+    ];
+
     // Relations
     // Get the user that made the payment
     public function user()

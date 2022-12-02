@@ -1,9 +1,21 @@
+import {
+	CardElement,
+	useStripe,
+	useElements,
+	CardExpiryElement,
+} from "@stripe/react-stripe-js";
+
+import { CardNumberElement } from "@stripe/react-stripe-js";
+
 import React from "react";
 
 export default function CreditCard(props) {
+	const stripe = useStripe();
+	const elements = useElements();
+
 	return (
 		<div className="py-2 px-4 md:px-1 w-full ">
-			<div className="bg-myBlack rounded-lg py-2 shadow-2xl">
+			<form className="bg-myBlack rounded-lg py-2 shadow-2xl">
 				<div className="rounded-t-lg text-lg text-white w-full flex items-center justify-between border-b border-gray-300 ">
 					<span className="block ml-2 font-semibold">Credit card</span>
 					<div className="flex">
@@ -30,7 +42,7 @@ export default function CreditCard(props) {
 						className="w-full px-2 py-1 lg:px-4 lg:py-2 bg-myBlack text-white text-sm lg:text-md border border-none rounded-lg focus:outline-none   placeholder:text-gray-400"
 					/>
 				</div>
-				<div className="flex mb-1 p-2">
+				{/* <div className="flex mb-1 p-2">
 					<input
 						type="text"
 						id="card"
@@ -71,8 +83,9 @@ export default function CreditCard(props) {
 						placeholder="XXXX"
 						onChange={props.handleChange}
 					/>
-				</div>
-
+				</div> */}
+				<CardNumberElement />
+				<CardExpiryElement />
 				<div className="w-full">
 					<div className="flex my-1 p-2">
 						<input
@@ -109,7 +122,7 @@ export default function CreditCard(props) {
 						/>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 }

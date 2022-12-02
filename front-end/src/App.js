@@ -1,3 +1,5 @@
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import { Route, Routes } from "react-router-dom";
 import "./index.css";
 import About from "./pages/About";
@@ -24,34 +26,38 @@ axios.defaults.headers.post["Content-Type"] = "application/vnd.api+json";
 axios.defaults.headers.post["Accept"] = "application/vnd.api+json";
 axios.defaults.withCredentials = true;
 
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_ID);
+
 // define "lord-icon" custom element with default properties
 defineElement(lottie.loadAnimation);
 
 function App() {
 	return (
 		<>
-			<GoogleOAuthProvider
-				clientId={`${process.env.REACT_APP_GOOGLE_API_CLIENT_ID}`}
-			>
-				<AuthProvider>
-					<DataProvider>
-						<Navbar />
-						<Routes>
-							<Route path="/" element={<Home />} />
-							<Route path="/home" element={<Home />} />
-							<Route path="/about" element={<About />} />
-							<Route path="/contact" element={<Contact />} />
-							<Route path="/subscribe" element={<Subscribe />} />
-							<Route path="/login" element={<Login />} />
-							<Route path="/register" element={<Registration />} />
-							<Route path="/menu" element={<Menu />} />
-							<Route path="/profile" element={<Profile />} />
-							<Route path="*" element={<NotFound />} />
-						</Routes>
-						<Footer />
-					</DataProvider>
-				</AuthProvider>
-			</GoogleOAuthProvider>
+			<Elements stripe={stripePromise}>
+				<GoogleOAuthProvider
+					clientId={`${process.env.REACT_APP_GOOGLE_API_CLIENT_ID}`}
+				>
+					<AuthProvider>
+						<DataProvider>
+							<Navbar />
+							<Routes>
+								<Route path="/" element={<Home />} />
+								<Route path="/home" element={<Home />} />
+								<Route path="/about" element={<About />} />
+								<Route path="/contact" element={<Contact />} />
+								<Route path="/subscribe" element={<Subscribe />} />
+								<Route path="/login" element={<Login />} />
+								<Route path="/register" element={<Registration />} />
+								<Route path="/menu" element={<Menu />} />
+								<Route path="/profile" element={<Profile />} />
+								<Route path="*" element={<NotFound />} />
+							</Routes>
+							<Footer />
+						</DataProvider>
+					</AuthProvider>
+				</GoogleOAuthProvider>
+			</Elements>
 		</>
 	);
 }
