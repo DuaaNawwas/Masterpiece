@@ -14,8 +14,8 @@ export default function DataProvider({ children }) {
 
 	// Save selected data from plan (step 1)
 	const [selectedData, setSelectedData] = useState({
-		ppl_num: 2,
-		meals_per_week: 5,
+		ppl_num: "",
+		meals_per_week: "",
 	});
 	const [selectedCateg, setSelectedCateg] = useState([]);
 
@@ -40,25 +40,34 @@ export default function DataProvider({ children }) {
 
 	// Get pending data for a user
 	useEffect(() => {
-		axios
-			.get("/api/pending", {
-				headers: {
-					Authorization: `Bearer ${cookies.Token}`,
-				},
-			})
-			.then((res) => {
-				// console.log(res);
-				setPendingData(res.data.pending[0]);
-				const categs = res.data.pending[0].categories.split(",").map((item) => {
-					return parseInt(item, 10);
+		if (cookies.Token) {
+			axios
+				.get("/api/pending", {
+					headers: {
+						Authorization: `Bearer ${cookies.Token}`,
+					},
+				})
+				.then((res) => {
+					if (res.data.status === 200) {
+						setPendingData(res.data.pending[0]);
+						const categs = res.data.pending[0].categories
+							.split(",")
+							.map((item) => {
+								return parseInt(item, 10);
+							});
+						const data = [...categs];
+						localStorage.setItem("selectedCateg", JSON.stringify(data));
+						setSelectedCateg(data);
+					} else {
+						setSelectedCateg([1, 2]);
+						localStorage.setItem("selectedCateg", JSON.stringify([1, 2]));
+					}
 				});
-				setSelectedCateg([...categs]);
-				console.log(".....");
-				console.log(categs);
-				console.log(selectedCateg);
-				console.log(".....");
-			});
-	}, []);
+		} else {
+			console.log("out");
+			setSelectedCateg([]);
+		}
+	}, [cookies.Token]);
 
 	// Add data to pending
 	const savePending = () => {
@@ -79,7 +88,9 @@ export default function DataProvider({ children }) {
 				// const categs = pendingData?.categories.split(",").map((item) => {
 				// 	return parseInt(item, 10);
 				// });
+
 				setSelectedCateg([...selectedCateg]);
+				return res;
 			});
 	};
 
@@ -98,6 +109,7 @@ export default function DataProvider({ children }) {
 				setSelectedData,
 				savePending,
 				pendingData,
+				setPendingData,
 			}}
 		>
 			{children}

@@ -106,6 +106,48 @@ class UserController extends Controller
         ]);
     }
 
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addDetails(Request $request, User $user)
+    {
+        if (Auth::user()->id !== $user->id) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'not allowed'
+            ]);
+        }
+        $validator = Validator::make(
+            $request->all(),
+            [
+
+                'phone' => 'required|min:10',
+                'city' => 'required',
+                'street' => 'required',
+                'building' => 'required',
+                'floor' => 'required',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'failure',
+                'errors' => $validator->messages(),
+            ]);
+        }
+        $user->update($request->all());
+
+        return response()->json([
+            'status' => 200,
+            'user' => $user
+        ]);
+    }
+
     // Change password
     public function updatePassword(Request $request)
     {

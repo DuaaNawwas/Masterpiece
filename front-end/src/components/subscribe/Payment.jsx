@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { DataContext } from "../../context/DataContext";
 import Button from "../Button";
 import CreditCard from "../CreditCard";
 
@@ -25,6 +26,13 @@ export default function Payment() {
 			}
 		}
 	};
+
+	const planDetails = JSON.parse(localStorage.getItem("selectedData"));
+	const { pricing } = useContext(DataContext);
+	const total_servings = planDetails.meals_per_week * planDetails.ppl_num;
+	const price_per_serving = pricing?.find(
+		(price) => price.servings == total_servings
+	);
 	return (
 		<div className="relative block rounded-xl bg-white border border-gray-100 pb-5 pt-0 lg:p-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12 mx-auto mt-20 mb-44">
 			<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-2/3 -translate-y-2/3 bg-gray-300"></div>
@@ -41,7 +49,8 @@ export default function Payment() {
 							<p className="mt-2  text-lg  ">
 								Plan:{" "}
 								<span className=" text-lg  text-gray-500">
-									4 meals per week for 2 people
+									{planDetails.meals_per_week} meals per week for{" "}
+									{planDetails.ppl_num} people
 								</span>
 							</p>
 							<p className=" text-lg  ">
@@ -49,7 +58,9 @@ export default function Payment() {
 							</p>
 							<p className="text-lg  ">
 								Total price:{" "}
-								<span className=" text-lg text-gray-500">100 JOD</span>
+								<span className=" text-lg text-gray-500">
+									{price_per_serving?.total_price} Jd
+								</span>
 							</p>
 							<p className="mt-4  text-xl ">Note:</p>
 							<p className="mt-2  text-sm ">Lorem ipsum dolor sit amet.</p>

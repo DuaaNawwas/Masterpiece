@@ -1,7 +1,100 @@
-import React from "react";
+import axios from "axios";
+import { Alert } from "flowbite-react";
+import React, { useContext, useState } from "react";
+import { HiInformationCircle } from "react-icons/hi";
+import { AuthContext } from "../../context/AuthContext";
+import { DataContext } from "../../context/DataContext";
 import Button from "../Button";
 
 export default function Details(props) {
+	const { user, setUser, cookies } = useContext(AuthContext);
+
+	const { setPendingData, pendingData } = useContext(DataContext);
+	const token = cookies.Token;
+	const [isChangedContact, setIsChangedContact] = useState(false);
+	const [isChangedDod, setIsChangedDod] = useState(false);
+
+	const [updatedUser, setUpdatedUser] = useState({
+		phone: user?.phone,
+		city: user?.city,
+		street: user?.street,
+		building: user?.building,
+		floor: user?.floor,
+		errors: [],
+	});
+	const [dod, setDod] = useState(parseInt(pendingData?.day_of_delivery));
+
+	// Handle inputs function
+	const handleInput = (e) => {
+		e.persist();
+		setUpdatedUser({ ...updatedUser, [e.target.name]: e.target.value });
+	};
+
+	// Edit info function
+	const handleEditInfo = () => {
+		// e.preventDefault();
+
+		const data = {
+			...updatedUser,
+		};
+
+		axios
+			.put(`/api/adddetails/${user?.id}`, data, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status == 200) {
+					console.log(res);
+					setUser({
+						...user,
+						phone: updatedUser.phone,
+						city: updatedUser.city,
+						street: updatedUser.street,
+						building: updatedUser.building,
+						floor: updatedUser.floor,
+					});
+					setIsChangedContact(true);
+				} else {
+					setUpdatedUser({
+						...updatedUser,
+						errors: res.data.errors,
+					});
+				}
+			});
+	};
+
+	const handleDod = () => {
+		const data = { day_of_delivery: parseInt(dod) };
+		axios
+			.post("/api/pending", data, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status == 200) {
+					console.log(res);
+					setPendingData({ ...pendingData, day_of_delivery: dod });
+					setIsChangedDod(true);
+				}
+			});
+	};
+
+	// Save to database
+	const handleSubmit = () => {
+		handleDod();
+		handleEditInfo();
+
+		// if ((isChangedContact && isChangedDod) == true) {
+		// 	props.changeStep();
+		// }
+	};
+
+	console.log(isChangedContact);
+	console.log(isChangedDod);
+
 	return (
 		<div className="relative block rounded-xl bg-white border border-gray-100 p-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12 mx-auto mt-20 mb-44">
 			<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-1/2 -translate-y-1/2 bg-gray-300"></div>
@@ -13,82 +106,72 @@ export default function Details(props) {
 							<h2 className="text-3xl text-darkRed font-bold sm:text-4xl text-center py-5">
 								Tell Us More About Yourself
 							</h2>
-							{/* 
-							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-								<div className="relative">
-									<input
-										type="text"
-										id="fname"
-										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-										placeholder=" "
-									/>
-									<label
-										htmlFor="fname"
-										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-									>
-										First Name
-									</label>
-								</div>
-
-								<div className="relative">
-									<input
-										type="text"
-										id="lname"
-										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-										placeholder=" "
-									/>
-									<label
-										htmlFor="lname"
-										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-									>
-										Last Name
-									</label>
-								</div>
-							</div> */}
-
+							{/* {updatedUser?.errors != "" && (
+								<Alert color="failure" icon={HiInformationCircle}>
+									<span>{updatedUser?.errors}</span>
+								</Alert>
+							)} */}
 							<div className="relative">
 								<input
 									type="tel"
 									id="phone"
-									className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+									name="phone"
+									className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
 									placeholder=" "
+									defaultValue={user?.phone}
+									onChange={handleInput}
 								/>
 								<label
 									htmlFor="phone"
-									className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+									className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-darkRed peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
 								>
 									Phone
 								</label>
+								<small className="text-red-500">
+									{updatedUser?.errors.phone}
+								</small>
 							</div>
 							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 								<div className="relative">
 									<input
 										type="text"
 										id="street"
-										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+										name="street"
+										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
 										placeholder=" "
+										defaultValue={user?.street}
+										onChange={handleInput}
 									/>
 									<label
 										htmlFor="street"
-										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-darkRed peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
 									>
 										Street
 									</label>
+									<small className="text-red-500">
+										{updatedUser?.errors.street}
+									</small>
 								</div>
 
 								<div className="relative">
 									<input
 										type="text"
 										id="city"
-										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+										name="city"
+										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
 										placeholder=" "
+										defaultValue={user?.city}
+										onChange={handleInput}
 									/>
 									<label
 										htmlFor="city"
-										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-darkRed peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
 									>
 										City
 									</label>
+									<small className="text-red-500">
+										{updatedUser?.errors.city}
+									</small>
 								</div>
 							</div>
 							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -96,30 +179,42 @@ export default function Details(props) {
 									<input
 										type="text"
 										id="building"
-										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+										name="building"
+										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
 										placeholder=" "
+										defaultValue={user?.building}
+										onChange={handleInput}
 									/>
 									<label
 										htmlFor="building"
-										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-darkRed peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
 									>
 										Building
 									</label>
+									<small className="text-red-500">
+										{updatedUser?.errors.building}
+									</small>
 								</div>
 
 								<div className="relative">
 									<input
-										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
 										placeholder=" "
 										type="number"
 										id="floor"
+										name="floor"
+										defaultValue={user?.floor}
+										onChange={handleInput}
 									/>
 									<label
-										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-darkRed peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
 										htmlFor="floor"
 									>
 										Floor
 									</label>
+									<small className="text-red-500">
+										{updatedUser?.errors.floor}
+									</small>
 								</div>
 							</div>
 
@@ -131,16 +226,33 @@ export default function Details(props) {
 							</label>
 							<select
 								id="deliveryDay"
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-darkRed focus:border-darkRed block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 "
+								onChange={(e) => setDod(e.target.value)}
 							>
-								<option selected>Choose your day of delivery</option>
-								<option value="sunday">Sunday</option>
-								<option value="monday">Monday</option>
-								<option value="tuesday">Tuesday</option>
-								<option value="wednesday">Wednesday</option>
-								<option value="thursday">Thursday</option>
-								<option value="friday">Friday</option>
-								<option value="saturday">Saturday</option>
+								<option selected={pendingData?.day_of_delivery === null}>
+									Choose your day of delivery
+								</option>
+								<option value="0" selected={pendingData?.day_of_delivery == 0}>
+									Sunday
+								</option>
+								<option value="1" selected={pendingData?.day_of_delivery == 1}>
+									Monday
+								</option>
+								<option value="2" selected={pendingData?.day_of_delivery == 2}>
+									Tuesday
+								</option>
+								<option value="3" selected={pendingData?.day_of_delivery == 3}>
+									Wednesday
+								</option>
+								<option value="4" selected={pendingData?.day_of_delivery == 4}>
+									Thursday
+								</option>
+								<option value="5" selected={pendingData?.day_of_delivery == 5}>
+									Friday
+								</option>
+								<option value="6" selected={pendingData?.day_of_delivery == 6}>
+									Saturday
+								</option>
 							</select>
 						</form>
 					</div>
@@ -158,13 +270,23 @@ export default function Details(props) {
 							referrerpolicy="no-referrer-when-downgrade"
 						></iframe>
 						<div className="py-10">
-							<Button
-								bgColor="bg-darkYellow"
-								hoverColor="hover:bg-lemonSh"
-								text="CONTINUE"
-								padding="px-32 sm:px-40"
-								onClick={props.changeStep}
-							/>
+							{isChangedContact && isChangedDod ? (
+								<Button
+									bgColor="bg-darkGreen"
+									hoverColor="hover:bg-darkGreen/80"
+									text="CONTINUE"
+									padding="px-32 sm:px-40"
+									onClick={props.changeStep}
+								/>
+							) : (
+								<Button
+									bgColor="bg-darkYellow"
+									hoverColor="hover:bg-lemonSh"
+									text="SAVE"
+									padding="px-32 sm:px-40"
+									onClick={handleSubmit}
+								/>
+							)}
 						</div>
 					</div>
 				</div>

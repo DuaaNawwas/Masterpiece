@@ -9,7 +9,7 @@ import Button from "../Button";
 import { HiCheck, HiInformationCircle } from "react-icons/hi";
 
 export default function EditForm() {
-	const { user, cookies } = useContext(AuthContext);
+	const { user, setUser, cookies } = useContext(AuthContext);
 	const [isChanged, setIsChanged] = useState(false);
 	const token = cookies.Token;
 	const [updatedUser, setUpdatedUser] = useState({
@@ -61,7 +61,7 @@ export default function EditForm() {
 
 							icon: "success",
 						});
-
+						setUser({ ...user, ...data });
 						setIsChanged(false);
 						setUpdatedUser({
 							...updatedUser,

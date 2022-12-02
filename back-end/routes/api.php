@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/recommendedMeals', [MealController::class, 'recommendedMeals']);
     // Endpoints for user
     Route::resource('/users', UserController::class);
+    Route::put('/adddetails/{user}', [UserController::class, 'addDetails']);
     // Endpoint for changing password
     Route::put('/changepassword', [UserController::class, 'updatePassword']);
     // Endpoint to get payment history for a user

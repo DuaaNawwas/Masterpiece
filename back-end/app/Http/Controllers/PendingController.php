@@ -17,10 +17,18 @@ class PendingController extends Controller
     {
         $pending = Pending::where('user_id', Auth::user()->id)->get();
 
-        return response()->json([
-            'status' => 200,
-            'pending' => $pending
-        ]);
+        if ($pending) {
+
+            return response()->json([
+                'status' => 200,
+                'pending' => $pending
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No pending data'
+            ]);
+        }
     }
 
     /**

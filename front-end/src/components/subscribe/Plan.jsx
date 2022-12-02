@@ -12,8 +12,17 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export default function Plan(props) {
-	const numOfPeople = [2, 4, 6];
+	const numOfPeople = [2, 4];
 	const mealsPerWeek = [2, 3, 4, 5, 6];
+	// ----------------------------
+	// useEffect => if the user came from register bage
+	// const state => set it to true (subPlanFlow)
+
+	// if(subPlanFlow) => 1 - alert the sub blah blah
+	//    2 -
+	//    3-
+
+	// ----------------------------
 
 	const {
 		categories,
@@ -23,9 +32,54 @@ export default function Plan(props) {
 		setSelectedData,
 		pendingData,
 	} = useContext(DataContext);
-	// console.log(selectedCateg);
+	console.log(selectedCateg);
+	const [categs, setCategs] = useState();
 
-	// it works when ctrl s, but when refreshed no
+	useEffect(() => {
+		// setCategs(selectedCateg);
+		if (localStorage.getItem("selectedCateg")) {
+			const data = JSON.parse(localStorage.getItem("selectedCateg"));
+			setCategs(data);
+		}
+	}, []);
+	useEffect(() => {
+		if (localStorage.getItem("selectedData")) {
+			const data = JSON.parse(localStorage.getItem("selectedData"));
+			setSelectedData(data);
+		}
+	}, []);
+
+	useEffect(() => {
+		setSelectedCateg(categs);
+	}, [categs]);
+
+	const handleCategData = (e) => {
+		if (e.target.checked) {
+			if (selectedCateg?.length > 0) {
+				const data = [...selectedCateg, parseInt(e.target.value)];
+				setCategs(data);
+				localStorage.setItem("selectedCateg", JSON.stringify(data));
+			} else {
+				const data = [parseInt(e.target.value)];
+				setSelectedCateg(data);
+				setCategs(data);
+				localStorage.setItem("selectedCateg", JSON.stringify(data));
+			}
+		} else {
+			const newArr = categs?.filter((i) => i != e.target.value);
+			console.log("newArr");
+			console.log(newArr);
+			setCategs(newArr);
+			localStorage.setItem("selectedCateg", JSON.stringify(newArr));
+		}
+	};
+
+	const handleInput = (e) => {
+		// e.persist();
+		const data = { ...selectedData, [e.target.name]: e.target.value };
+		setSelectedData(data);
+		localStorage.setItem("selectedData", JSON.stringify(data));
+	};
 
 	return (
 		<div className="relative block rounded-xl bg-white border border-gray-100 p-5 sm:pb-52 lg:pb-5 shadow-xl w-11/12 md:w-9/12 lg:w-11/12 xl:w-9/12 mx-auto mt-20 mb-44">
@@ -50,20 +104,8 @@ export default function Plan(props) {
 												value={categ.id}
 												className="hidden peer"
 												required=""
-												defaultChecked={selectedCateg.includes(categ.id)}
-												onChange={(e) => {
-													if (e.target.checked) {
-														setSelectedCateg([
-															...selectedCateg,
-															parseInt(e.target.value),
-														]);
-													} else {
-														const newArr = selectedCateg.filter(
-															(i) => i != e.target.value
-														);
-														setSelectedCateg(newArr);
-													}
-												}}
+												checked={categs?.includes(categ.id)}
+												onChange={handleCategData}
 											/>
 
 											<CategoryCard
@@ -85,24 +127,19 @@ export default function Plan(props) {
 								<h3 className="my-5 text-xl font-medium text-darkRed text-center">
 									Number of people
 								</h3>
-								<ul className="grid gap-4 w-1/2 grid-cols-3 mx-auto">
+								<ul className="grid gap-4 w-1/2 grid-cols-2 mx-auto">
 									{numOfPeople.map((num, i) => {
 										return (
 											<li key={i}>
 												<input
 													type="radio"
 													id={`num${num}`}
-													name="numberOfPeople"
+													name="ppl_num"
 													value={num}
 													className="hidden peer"
 													required=""
-													onChange={(e) =>
-														setSelectedData({
-															...selectedData,
-															ppl_num: e.target.value,
-														})
-													}
-													defaultChecked={num === 2}
+													onChange={handleInput}
+													checked={selectedData?.ppl_num == num}
 												/>
 												<label
 													htmlFor={`num${num}`}
@@ -128,18 +165,13 @@ export default function Plan(props) {
 												<input
 													type="radio"
 													id={`meal${num}`}
-													name="numberOfPeople"
+													name="meals_per_week"
 													value={num}
 													className="hidden peer"
 													required=""
 													// defaultChecked={num == 3}
-													onChange={(e) =>
-														setSelectedData({
-															...selectedData,
-															meals_per_week: e.target.value,
-														})
-													}
-													defaultChecked={num === 5}
+													onChange={handleInput}
+													checked={selectedData?.meals_per_week == num}
 												/>
 												<label
 													htmlFor={`meal${num}`}

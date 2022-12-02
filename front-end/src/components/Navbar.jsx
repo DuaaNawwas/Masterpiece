@@ -7,6 +7,7 @@ import logo from "../images/logo.svg";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import { DataContext } from "../context/DataContext";
 
 export default function Navbar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,6 +17,8 @@ export default function Navbar() {
 
 	const { user, setUser, cookies, removeCookie, stateToken } =
 		useContext(AuthContext);
+
+	const { setSelectedCateg } = useContext(DataContext);
 
 	// Log out the user
 	const handleLogout = () => {
@@ -28,6 +31,9 @@ export default function Navbar() {
 			.then((res) => {
 				removeCookie("Token");
 				setUser({});
+				localStorage.removeItem("selectedCateg");
+				localStorage.removeItem("selectedData");
+				// setSelectedCateg([]);
 				navigate("/login");
 			})
 			.catch((err) => {

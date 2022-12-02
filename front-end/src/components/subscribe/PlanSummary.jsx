@@ -1,10 +1,13 @@
 import React from "react";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { DataContext } from "../../context/DataContext";
 import Button from "../Button";
 
 export default function PlanSummary(props) {
+	const navigate = useNavigate();
+
 	const { pricing, savePending, setSelectedCateg, setSelectedData } =
 		useContext(DataContext);
 	const { cookies } = useContext(AuthContext);
@@ -20,6 +23,8 @@ export default function PlanSummary(props) {
 			savePending();
 			props.changeStep();
 			// setSelectedCateg([]);
+		} else {
+			navigate("/register", { state: { fromSpecificPage: true } });
 		}
 	};
 

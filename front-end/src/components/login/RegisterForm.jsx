@@ -4,10 +4,22 @@ import { useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Alert } from "flowbite-react";
+import { HiInformationCircle } from "react-icons/hi";
+import { DataContext } from "../../context/DataContext";
 
 export default function RegisterForm() {
-	const { setCookie, setUser, setStateToken } = useContext(AuthContext);
+	const { state } = useLocation();
+	const navigate = useNavigate();
+	const { fromSpecificPage } = state || {};
 
+	// --------------------------------------------
+	// Do same handling to register by google/ faceboook
+	// --------------------------------------------
+
+	const { setCookie, setUser, setStateToken } = useContext(AuthContext);
+	const { selectedData, selectedCateg } = useContext(DataContext);
 	// Take inputs from user
 	const [register, setRegister] = useState({
 		first_name: "",
@@ -43,7 +55,29 @@ export default function RegisterForm() {
 					setCookie("Token", token, { path: "/" });
 					setStateToken(token);
 					setUser(res.data.user);
-					// navigate("/", { replace: true });
+
+					const data2 = {
+						people_num: selectedData.ppl_num,
+						meals_per_week: selectedData.meals_per_week,
+						categories: selectedCateg.toString(),
+					};
+
+					if (fromSpecificPage) {
+						axios
+							.post("/api/pending", data2, {
+								headers: {
+									Authorization: `Bearer ${token}`,
+								},
+							})
+							.then((res) => {
+								if (res.data.status === 200) {
+									// localStorage.removeItem("selectedCateg");
+									navigate("/subscribe", { state: { fromSpecificPage: true } });
+								}
+							});
+					} else {
+						navigate("/", { replace: true });
+					}
 				} else {
 					console.log(res);
 					setRegister({ ...register, errors: res.data.errors });
@@ -56,7 +90,14 @@ export default function RegisterForm() {
 			<h2 className="text-3xl text-darkRed font-bold sm:text-4xl text-center py-1">
 				Start Your Journey
 			</h2>
-
+			{fromSpecificPage ? (
+				<Alert color="warning" icon={HiInformationCircle}>
+					<span>
+						<span className="font-medium">Info alert!</span> You need to
+						register to continue your plan.
+					</span>
+				</Alert>
+			) : null}
 			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 				<div className="relative">
 					<input
