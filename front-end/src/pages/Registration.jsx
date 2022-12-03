@@ -5,14 +5,18 @@ import RegisterForm from "../components/login/RegisterForm";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Registration() {
 	const { cookies } = useContext(AuthContext);
 	const navigate = useNavigate();
 
-	if (cookies.Token) {
-		navigate("/profile", { replace: true });
-	}
+	useEffect(() => {
+		if (cookies.Token) {
+			navigate("/profile", { replace: true });
+		}
+	}, []);
+
 	return (
 		<>
 			<div className="relative block rounded-xl bg-white border border-gray-100 p-1 xs:pb-5 sm:pb-32 md:pb-32 lg:pb-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12  mx-auto mt-20 mb-44">

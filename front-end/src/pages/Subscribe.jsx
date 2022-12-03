@@ -37,9 +37,11 @@ export default function Subscribe() {
 		}
 	}, []);
 
-	if (user?.is_sub == 1) {
-		navigate("/profile", { replace: true });
-	}
+	useEffect(() => {
+		if (user?.is_sub == 1) {
+			navigate("/profile", { replace: true });
+		}
+	}, []);
 	return (
 		<>
 			{step == 1 ? (
