@@ -1,6 +1,8 @@
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import React, { useContext } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import { AuthContext } from "../../context/AuthContext";
 import { DataContext } from "../../context/DataContext";
 import Button from "../Button";
@@ -9,33 +11,10 @@ import CreditCard from "../CreditCard";
 export default function Payment() {
 	const stripe = useStripe();
 	const elements = useElements();
-
-	const handleChange = (e) => {
-		const { maxLength, value, name } = e.target;
-		const [fieldName, fieldIndex] = name.split("-");
-
-		let fieldIntIndex = parseInt(fieldIndex, 10);
-
-		// Check if no of char in field == maxlength
-		if (value.length >= maxLength) {
-			// It should not be last input field
-			if (fieldIntIndex < 4) {
-				// Get the next input field using it's name
-				const nextfield = document.querySelector(
-					`input[name=${fieldName}-${fieldIntIndex + 1}]`
-				);
-
-				// If found, focus the next field
-				if (nextfield !== null) {
-					nextfield.focus();
-				}
-			}
-		}
-	};
-
+	const navigate = useNavigate();
 	const planDetails = JSON.parse(localStorage.getItem("selectedData"));
 	const { pricing, pendingData } = useContext(DataContext);
-	const { cookies } = useContext(AuthContext);
+	const { cookies, user, setUser } = useContext(AuthContext);
 	const total_servings = planDetails.meals_per_week * planDetails.ppl_num;
 	const price_per_serving = pricing?.find(
 		(price) => price.servings == total_servings
@@ -43,9 +22,7 @@ export default function Payment() {
 	const categories = pendingData.categories.split(",").map((item) => {
 		return parseInt(item, 10);
 	});
-	// console.log("------------");
-	// console.log(categories);
-	// console.log("------------");
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
@@ -80,7 +57,18 @@ export default function Payment() {
 								Authorization: `Bearer ${cookies.Token}`,
 							},
 						})
-						.then((res) => console.log(res));
+						.then((res) => {
+							console.log(res);
+							if (res.data.status === 200) {
+								swal(
+									"You subscriberd successfully!",
+									"Start planning your week and add some meals!",
+									"success"
+								);
+								setUser({ ...user, is_sub: 1 });
+								navigate("/menu", { replace: true });
+							}
+						});
 				}
 			});
 	};
@@ -90,7 +78,7 @@ export default function Payment() {
 			<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-2/3 -translate-y-2/3 bg-gray-300"></div>
 
 			<div className="mx-auto max-w-screen-xl px-4 pb-20 pt-0 lg:pt-8  sm:px-6 lg:px-8">
-				<div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16 justify-items-center items-center">
+				<div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16 justify-items-center items-center place-items-center">
 					<div className="mt-8 lg:mt-20 relative block rounded-xl border border-gray-100 py-4 px-6 shadow-xl bg-main w-full">
 						<div className="mt-1 text-myBlack sm:pr-8">
 							<h3 className="mt-1 text-2xl font-semibold uppercase underline">
@@ -119,7 +107,7 @@ export default function Payment() {
 						</div>
 					</div>
 
-					<div className="w-10/12 sm:h-80 lg:h-full flex flex-col">
+					<div className="w-10/12 sm:h-80 lg:h-full flex flex-col justify-center">
 						<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 							<h2 className="text-3xl text-darkRed font-bold sm:text-4xl text-center py-5">
 								Fill in Your Card Info

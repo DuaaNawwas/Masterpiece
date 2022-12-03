@@ -2,11 +2,20 @@ import React from "react";
 import registerpic from "../images/registerpic.png";
 import SocialLogin from "../components/login/SocialLogin";
 import RegisterForm from "../components/login/RegisterForm";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Registration() {
+	const { cookies } = useContext(AuthContext);
+	const navigate = useNavigate();
+
+	if (cookies.Token) {
+		navigate("/profile", { replace: true });
+	}
 	return (
 		<>
-			<div className="relative block rounded-xl bg-white border border-gray-100 p-1 sm:pb-20 md:pb-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12  mx-auto mt-20 mb-44">
+			<div className="relative block rounded-xl bg-white border border-gray-100 p-1 xs:pb-5 sm:pb-32 md:pb-32 lg:pb-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12  mx-auto mt-20 mb-44">
 				<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-1/2 -translate-y-1/2 bg-gray-300"></div>
 				<section>
 					<div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">

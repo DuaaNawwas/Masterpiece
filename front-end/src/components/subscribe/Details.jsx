@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Alert } from "flowbite-react";
 import React, { useContext, useState } from "react";
+import { useEffect } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import { AuthContext } from "../../context/AuthContext";
 import { DataContext } from "../../context/DataContext";
@@ -27,8 +28,23 @@ export default function Details(props) {
 	// Handle inputs function
 	const handleInput = (e) => {
 		e.persist();
-		setUpdatedUser({ ...updatedUser, [e.target.name]: e.target.value });
+		const data = { ...updatedUser, [e.target.name]: e.target.value };
+		setUpdatedUser(data);
+		localStorage.setItem("details", JSON.stringify(data));
 	};
+
+	useEffect(() => {
+		if (localStorage.getItem("details")) {
+			const data = JSON.parse(localStorage.getItem("details"));
+			setUpdatedUser(data);
+		}
+	}, []);
+	useEffect(() => {
+		if (localStorage.getItem("dod")) {
+			const data = JSON.parse(localStorage.getItem("dod"));
+			setDod(data);
+		}
+	}, []);
 
 	// Edit info function
 	const handleEditInfo = () => {
@@ -36,6 +52,7 @@ export default function Details(props) {
 
 		const data = {
 			...updatedUser,
+			day_of_delivery: dod,
 		};
 
 		axios
@@ -56,6 +73,9 @@ export default function Details(props) {
 						floor: updatedUser.floor,
 					});
 					setIsChangedContact(true);
+					setPendingData({ ...pendingData, day_of_delivery: dod });
+					setIsChangedDod(true);
+					props.changeStep();
 				} else {
 					setUpdatedUser({
 						...updatedUser,
@@ -65,32 +85,32 @@ export default function Details(props) {
 			});
 	};
 
-	const handleDod = () => {
-		const data = { day_of_delivery: parseInt(dod) };
-		axios
-			.post("/api/pending", data, {
-				headers: {
-					Authorization: `Bearer ${cookies.Token}`,
-				},
-			})
-			.then((res) => {
-				if (res.data.status == 200) {
-					console.log(res);
-					setPendingData({ ...pendingData, day_of_delivery: dod });
-					setIsChangedDod(true);
-				}
-			});
-	};
+	// const handleDod = () => {
+	// 	const data = { day_of_delivery: parseInt(dod) };
+	// 	axios
+	// 		.post("/api/pending", data, {
+	// 			headers: {
+	// 				Authorization: `Bearer ${cookies.Token}`,
+	// 			},
+	// 		})
+	// 		.then((res) => {
+	// 			if (res.data.status == 200) {
+	// 				console.log(res);
+	// 				setPendingData({ ...pendingData, day_of_delivery: dod });
+	// 				setIsChangedDod(true);
+	// 			}
+	// 		});
+	// };
 
 	// Save to database
-	const handleSubmit = () => {
-		handleDod();
-		handleEditInfo();
+	// const handleSubmit = () => {
+	// 	handleDod();
+	// 	handleEditInfo();
 
-		// if ((isChangedContact && isChangedDod) == true) {
-		// 	props.changeStep();
-		// }
-	};
+	// 	// if ((isChangedContact && isChangedDod) == true) {
+	// 	// 	props.changeStep();
+	// 	// }
+	// };
 
 	console.log(isChangedContact);
 	console.log(isChangedDod);
@@ -118,7 +138,7 @@ export default function Details(props) {
 									name="phone"
 									className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
 									placeholder=" "
-									defaultValue={user?.phone}
+									defaultValue={updatedUser?.phone}
 									onChange={handleInput}
 								/>
 								<label
@@ -139,7 +159,7 @@ export default function Details(props) {
 										name="street"
 										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
 										placeholder=" "
-										defaultValue={user?.street}
+										defaultValue={updatedUser?.street}
 										onChange={handleInput}
 									/>
 									<label
@@ -160,7 +180,7 @@ export default function Details(props) {
 										name="city"
 										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
 										placeholder=" "
-										defaultValue={user?.city}
+										defaultValue={updatedUser?.city}
 										onChange={handleInput}
 									/>
 									<label
@@ -182,7 +202,7 @@ export default function Details(props) {
 										name="building"
 										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
 										placeholder=" "
-										defaultValue={user?.building}
+										defaultValue={updatedUser?.building}
 										onChange={handleInput}
 									/>
 									<label
@@ -203,7 +223,7 @@ export default function Details(props) {
 										type="number"
 										id="floor"
 										name="floor"
-										defaultValue={user?.floor}
+										defaultValue={updatedUser?.floor}
 										onChange={handleInput}
 									/>
 									<label
@@ -227,33 +247,39 @@ export default function Details(props) {
 							<select
 								id="deliveryDay"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-darkRed focus:border-darkRed block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 "
-								onChange={(e) => setDod(e.target.value)}
+								onChange={(e) => {
+									setDod(e.target.value);
+									localStorage.setItem("dod", JSON.stringify(e.target.value));
+								}}
 							>
-								<option selected={pendingData?.day_of_delivery === null}>
+								<option selected={dod === null}>
 									Choose your day of delivery
 								</option>
-								<option value="0" selected={pendingData?.day_of_delivery == 0}>
+								<option value="0" selected={dod == 0}>
 									Sunday
 								</option>
-								<option value="1" selected={pendingData?.day_of_delivery == 1}>
+								<option value="1" selected={dod == 1}>
 									Monday
 								</option>
-								<option value="2" selected={pendingData?.day_of_delivery == 2}>
+								<option value="2" selected={dod == 2}>
 									Tuesday
 								</option>
-								<option value="3" selected={pendingData?.day_of_delivery == 3}>
+								<option value="3" selected={dod == 3}>
 									Wednesday
 								</option>
-								<option value="4" selected={pendingData?.day_of_delivery == 4}>
+								<option value="4" selected={dod == 4}>
 									Thursday
 								</option>
-								<option value="5" selected={pendingData?.day_of_delivery == 5}>
+								<option value="5" selected={dod == 5}>
 									Friday
 								</option>
-								<option value="6" selected={pendingData?.day_of_delivery == 6}>
+								<option value="6" selected={dod == 6}>
 									Saturday
 								</option>
 							</select>
+							<small className="text-red-500">
+								{updatedUser?.errors.day_of_delivery}
+							</small>
 						</form>
 					</div>
 					<div className="flex flex-col items-center">
@@ -284,7 +310,7 @@ export default function Details(props) {
 									hoverColor="hover:bg-lemonSh"
 									text="SAVE"
 									padding="px-32 sm:px-40"
-									onClick={handleSubmit}
+									onClick={handleEditInfo}
 								/>
 							)}
 						</div>

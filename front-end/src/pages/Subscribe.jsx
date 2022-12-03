@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Steps from "../components/subscribe/Steps";
 import Details from "../components/subscribe/Details";
 import Payment from "../components/subscribe/Payment";
@@ -9,10 +9,15 @@ import Registration from "./Registration";
 import NotFound from "./NotFound";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Subscribe() {
 	const { state } = useLocation();
 	const { fromSpecificPage } = state || {};
+
+	const { user } = useContext(AuthContext);
+	const navigate = useNavigate();
 
 	const [step, setStep] = useState(1);
 
@@ -32,6 +37,9 @@ export default function Subscribe() {
 		}
 	}, []);
 
+	if (user?.is_sub == 1) {
+		navigate("/profile", { replace: true });
+	}
 	return (
 		<>
 			{step == 1 ? (

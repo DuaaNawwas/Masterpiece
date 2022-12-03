@@ -33,6 +33,8 @@ export default function Navbar() {
 				setUser({});
 				localStorage.removeItem("selectedCateg");
 				localStorage.removeItem("selectedData");
+				localStorage.removeItem("details");
+				localStorage.removeItem("dod");
 				// setSelectedCateg([]);
 				navigate("/login");
 			})

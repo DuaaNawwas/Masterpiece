@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Pending;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -131,6 +132,7 @@ class UserController extends Controller
                 'street' => 'required',
                 'building' => 'required',
                 'floor' => 'required',
+                'day_of_delivery' => 'required',
             ]
         );
 
@@ -140,11 +142,17 @@ class UserController extends Controller
                 'errors' => $validator->messages(),
             ]);
         }
+
+        $pending = Pending::where('user_id', Auth::user()->id)->first();
+        $pending->day_of_delivery = $request->day_of_delivery;
+        $pending->save();
+
         $user->update($request->all());
 
         return response()->json([
             'status' => 200,
-            'user' => $user
+            'user' => $user,
+            'pending' => $pending
         ]);
     }
 
@@ -215,6 +223,18 @@ class UserController extends Controller
         ]);
     }
 
+    // Get active subscription for user wiith weeks
+    public function plan()
+    {
+        $user = Auth::user();
+        // $subscription = Subscription::whereBelongsTo($user)->where('status', 1)->withWhereHas(['weeks' => ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6']])->get();
+        $subscription = Subscription::whereBelongsTo($user)->where('status', 1)->with(['weeks' => ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6']])->get();
+
+        return response()->json([
+            'status' => 200,
+            'plan' => $subscription
+        ]);
+    }
     /**
      * Remove the specified resource from storage.
      *

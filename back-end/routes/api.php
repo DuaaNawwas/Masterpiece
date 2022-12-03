@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/paymenthistory', [UserController::class, 'paymentHistory']);
     // Endpoint to get active subscription for a user
     Route::get('/activesubscription', [UserController::class, 'activeSubscription']);
+    Route::get('/plan', [UserController::class, 'plan']);
     // Endpoint for pendings
     Route::resource('/pending', PendingController::class);
     // Endpoint for subscriptions
