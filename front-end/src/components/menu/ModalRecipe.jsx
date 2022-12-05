@@ -8,10 +8,10 @@ import LoadingModal from "./LoadingModal";
 import { HiClock } from "react-icons/hi";
 
 export default function ModalRecipe(props) {
+	// Get meal data from database
 	const [meal, setMeal] = useState();
 	const [loading, setLoading] = useState(true);
 
-	// Get meal data from database
 	useEffect(() => {
 		setLoading(true);
 		axios.get(`/api/meals/${props.id}`).then((res) => {
@@ -20,18 +20,35 @@ export default function ModalRecipe(props) {
 			setLoading(false);
 		});
 	}, [props.id]);
+
+	// Save ids of removed ingredients
+	const [removedIngredients, setRemovedIngredients] = useState([]);
+
+	const handleRemovedIngredients = (e) => {
+		if (e.target.checked) {
+			const newArr = removedIngredients?.filter(
+				(item) => item != e.target.value
+			);
+			setRemovedIngredients(newArr);
+		} else {
+			setRemovedIngredients([...removedIngredients, e.target.value]);
+		}
+	};
+	console.log(removedIngredients);
+	// setRemovedIngredients([]) on add
+
+	// Handle closing the modal
+	const closeModal = () => {
+		setMeal([]);
+		setRemovedIngredients([]);
+		props.hideModalRecipe();
+	};
+
 	return (
 		<>
 			<React.Fragment>
 				{/* <Button onClick={showModalRecipe}>Toggle modal</Button> */}
-				<Modal
-					show={props.modalRecipe}
-					size="3xl"
-					onClose={() => {
-						setMeal([]);
-						props.hideModalRecipe();
-					}}
-				>
+				<Modal show={props.modalRecipe} size="3xl" onClose={closeModal}>
 					{/* <Modal.Header>
 				</Modal.Header> */}
 					<Modal.Body className="relative overflow-y-scroll h-[600px] p-0 scrollbar ">
@@ -42,10 +59,7 @@ export default function ModalRecipe(props) {
 								<button
 									type="button"
 									className="text-white bg-myBlack hover:bg-rustySh focus:ring-4 focus:outline-none focus:ring-rusty font-medium rounded-full text-sm p-1 text-center inline-flex items-center absolute z-50 right-7 top-7"
-									onClick={() => {
-										setMeal([]);
-										props.hideModalRecipe();
-									}}
+									onClick={closeModal}
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -92,169 +106,35 @@ export default function ModalRecipe(props) {
 									<div className="grid z-10 grid-cols-2 w-auto text-sm dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
 										<div className="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
 											<ul
-												className="space-y-4"
+												className="gap-x-32 gap-y-3 flex flex-col flex-wrap max-h-32 "
 												aria-labelledby="mega-menu-icons-dropdown-button"
 											>
-												<li>
-													<div className="flex items-center text-gray-500 dark:text-gray-400">
-														ingredient
-													</div>
-												</li>
-												<li>
-													<div className="flex items-center text-gray-500 dark:text-gray-400">
-														ingredient
-													</div>
-												</li>
-												<li>
-													<div className="flex items-center text-gray-500 dark:text-gray-400">
-														ingredient
-													</div>
-												</li>
-												<li>
-													<div className="flex items-center text-gray-500 dark:text-gray-400">
-														ingredient
-													</div>
-												</li>
-											</ul>
-										</div>
-										<div className="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
-											<ul className="space-y-4">
-												<li>
-													<div className="flex items-center">
-														<input
-															checked
-															id="checked-checkbox"
-															type="checkbox"
-															value=""
-															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-														/>
-														<label
-															htmlFor="checked-checkbox"
-															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-														>
-															ingredient
-														</label>
-													</div>
-												</li>
-												<li>
-													<div className="flex items-center">
-														<input
-															checked
-															id="checked-checkbox"
-															type="checkbox"
-															value=""
-															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-														/>
-														<label
-															htmlFor="checked-checkbox"
-															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-														>
-															ingredient
-														</label>
-													</div>
-												</li>
-												<li>
-													<div className="flex items-center">
-														<input
-															checked
-															id="checked-checkbox"
-															type="checkbox"
-															value=""
-															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-														/>
-														<label
-															htmlFor="checked-checkbox"
-															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-														>
-															ingredient
-														</label>
-													</div>
-												</li>
-												<li>
-													<div className="flex items-center">
-														<input
-															checked
-															id="checked-checkbox"
-															type="checkbox"
-															value=""
-															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-														/>
-														<label
-															htmlFor="checked-checkbox"
-															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-														>
-															ingredient
-														</label>
-													</div>
-												</li>
-											</ul>
-										</div>
-										<div className="p-4 text-gray-900 dark:text-white">
-											<ul className="space-y-4">
-												<li>
-													<div className="flex items-center mb-4">
-														<input
-															id="default-checkbox"
-															type="checkbox"
-															value=""
-															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-														/>
-														<label
-															htmlFor="default-checkbox"
-															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-														>
-															ingredient
-														</label>
-													</div>
-												</li>
-												<li>
-													<div className="flex items-center mb-4">
-														<input
-															id="default-checkbox"
-															type="checkbox"
-															value=""
-															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-														/>
-														<label
-															htmlFor="default-checkbox"
-															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-														>
-															ingredient
-														</label>
-													</div>
-												</li>
-												<li>
-													<div className="flex items-center mb-4">
-														<input
-															id="default-checkbox"
-															type="checkbox"
-															value=""
-															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-														/>
-														<label
-															htmlFor="default-checkbox"
-															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-														>
-															ingredient
-														</label>
-													</div>
-												</li>
-												<li>
-													<div className="flex items-center mb-4">
-														<input
-															id="default-checkbox"
-															type="checkbox"
-															value=""
-															className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
-														/>
-														<label
-															htmlFor="default-checkbox"
-															className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-														>
-															ingredient
-														</label>
-													</div>
-												</li>
+												{meal?.ingredients?.map((ingredient, i) => {
+													return (
+														<li key={i}>
+															<div className="flex items-center">
+																{ingredient.is_optional ? (
+																	<input
+																		defaultChecked={true}
+																		id={`meal${ingredient.id}`}
+																		type="checkbox"
+																		onChange={handleRemovedIngredients}
+																		value={ingredient.id}
+																		className="w-4 h-4 text-rusty bg-gray-100 rounded border-gray-300 focus:ring-rusty focus:ring-2 "
+																	/>
+																) : (
+																	""
+																)}
+																<label
+																	htmlFor={`meal${ingredient.id}`}
+																	className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+																>
+																	{ingredient.name}
+																</label>
+															</div>
+														</li>
+													);
+												})}
 											</ul>
 										</div>
 									</div>
@@ -284,7 +164,9 @@ export default function ModalRecipe(props) {
 													>
 														Calories
 													</th>
-													<td className="py-1 px-6">100 Kcal</td>
+													<td className="py-1 px-6">
+														{meal?.nutrients?.calories} Kcal
+													</td>
 												</tr>
 												<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
 													<th
@@ -293,7 +175,9 @@ export default function ModalRecipe(props) {
 													>
 														Fat
 													</th>
-													<td className="py-1 px-6">37g</td>
+													<td className="py-1 px-6">
+														{meal?.nutrients?.fat} g
+													</td>
 												</tr>
 												<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
 													<th
@@ -302,7 +186,9 @@ export default function ModalRecipe(props) {
 													>
 														Saturated Fat
 													</th>
-													<td className="py-1 px-6">100 Kcal</td>
+													<td className="py-1 px-6">
+														{meal?.nutrients?.saturated_fat} g
+													</td>
 												</tr>
 												<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
 													<th
@@ -311,7 +197,9 @@ export default function ModalRecipe(props) {
 													>
 														Carbohydrates
 													</th>
-													<td className="py-1 px-6">37g</td>
+													<td className="py-1 px-6">
+														{meal?.nutrients?.carbs} g
+													</td>
 												</tr>
 												<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
 													<th
@@ -320,7 +208,9 @@ export default function ModalRecipe(props) {
 													>
 														Sugar
 													</th>
-													<td className="py-1 px-6">100 Kcal</td>
+													<td className="py-1 px-6">
+														{meal?.nutrients?.sugar} g
+													</td>
 												</tr>
 												<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
 													<th
@@ -329,7 +219,9 @@ export default function ModalRecipe(props) {
 													>
 														Dietary Fiber
 													</th>
-													<td className="py-1 px-6">37g</td>
+													<td className="py-1 px-6">
+														{meal?.nutrients?.fiber} g
+													</td>
 												</tr>
 												<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
 													<th
@@ -338,7 +230,9 @@ export default function ModalRecipe(props) {
 													>
 														Protein
 													</th>
-													<td className="py-1 px-6">100 Kcal</td>
+													<td className="py-1 px-6">
+														{meal?.nutrients?.protein} g
+													</td>
 												</tr>
 												<tr className="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
 													<th
@@ -347,7 +241,9 @@ export default function ModalRecipe(props) {
 													>
 														Cholesterol
 													</th>
-													<td className="py-1 px-6">37g</td>
+													<td className="py-1 px-6">
+														{meal?.nutrients?.cholesterol} mg
+													</td>
 												</tr>
 												<tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
 													<th
@@ -356,7 +252,9 @@ export default function ModalRecipe(props) {
 													>
 														Sodium
 													</th>
-													<td className="py-1 px-6">100 Kcal</td>
+													<td className="py-1 px-6">
+														{meal?.nutrients?.sodium} mg
+													</td>
 												</tr>
 											</tbody>
 										</table>
@@ -367,7 +265,7 @@ export default function ModalRecipe(props) {
 					</Modal.Body>
 					<Modal.Footer className="justify-between">
 						{/* <Button onClick={onClick}>I accept</Button> */}
-						<Button color="gray" onClick={props.hideModalRecipe}>
+						<Button color="gray" onClick={closeModal}>
 							Cancel
 						</Button>
 						<div className="flex w-56 gap-2">
@@ -407,101 +305,6 @@ export default function ModalRecipe(props) {
 					</Modal.Footer>
 				</Modal>
 			</React.Fragment>
-
-			{/* <div
-				id="extralarge-modal"
-				tabindex="-1"
-				className={`${
-					props.modalRecipe ? "block" : "hidden"
-				} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full`}
-			>
-				<div className="relative p-4 w-full max-w-7xl h-full md:h-auto">
-					<div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-						<div className="flex justify-between items-center p-5 rounded-t dark:border-gray-600">
-							<h3 className="text-xl font-medium text-gray-900 dark:text-white">
-								Extra Large modal
-							</h3>
-							<button
-								type="button"
-								className="text-white bg-myBlack hover:bg-rustySh focus:ring-4 focus:outline-none focus:ring-rusty font-medium rounded-full text-sm p-1 text-center inline-flex items-center  absolute right-7 top-7"
-								onClick={props.hideModalRecipe}
-							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className="w-6 h-6"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M6 18L18 6M6 6l12 12"
-									/>
-								</svg>
-							</button>
-							<img src={modalimg} />
-						</div>
-
-						<div className="p-6 space-y-6">
-							<p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-								With less than a month to go before the European Union enacts
-								new consumer privacy laws for its citizens, companies around the
-								world are updating their terms of service agreements to comply.
-							</p>
-							<p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-								The European Union’s General Data Protection Regulation
-								(G.D.P.R.) goes into effect on May 25 and is meant to ensure a
-								common set of data rights in the European Union. It requires
-								organizations to notify users as soon as possible of high-risk
-								data breaches that could personally affect them.
-							</p>
-							<p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-								With less than a month to go before the European Union enacts
-								new consumer privacy laws for its citizens, companies around the
-								world are updating their terms of service agreements to comply.
-							</p>
-							<p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-								The European Union’s General Data Protection Regulation
-								(G.D.P.R.) goes into effect on May 25 and is meant to ensure a
-								common set of data rights in the European Union. It requires
-								organizations to notify users as soon as possible of high-risk
-								data breaches that could personally affect them.
-							</p>
-							<p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-								With less than a month to go before the European Union enacts
-								new consumer privacy laws for its citizens, companies around the
-								world are updating their terms of service agreements to comply.
-							</p>
-							<p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-								The European Union’s General Data Protection Regulation
-								(G.D.P.R.) goes into effect on May 25 and is meant to ensure a
-								common set of data rights in the European Union. It requires
-								organizations to notify users as soon as possible of high-risk
-								data breaches that could personally affect them.
-							</p>
-						</div>
-
-						<div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-							<button
-								data-modal-toggle="extralarge-modal"
-								type="button"
-								className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-							>
-								I accept
-							</button>
-							<button
-								onClick={props.hideModalRecipe}
-								type="button"
-								className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-							>
-								Decline
-							</button>
-						</div>
-					</div>
-				</div>
-			</div> */}
 		</>
 	);
 }

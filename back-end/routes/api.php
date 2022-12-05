@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PendingController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WeekController;
 use App\Models\Subscription;
 
 /*
@@ -66,4 +67,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('/pending', PendingController::class);
     // Endpoint for subscriptions
     Route::resource('/subscription', SubscriptionController::class);
+    // Endpoint for weeks
+    Route::resource('/weeks', WeekController::class);
 });

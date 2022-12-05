@@ -48,14 +48,14 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Subscribe a user with payment and all related info and add weeks.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        // Carbon::today()->addDays(7)
+
         $current_date = Carbon::today();
         // insert subscription
         $subscription = Subscription::create([
