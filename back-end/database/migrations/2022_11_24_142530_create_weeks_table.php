@@ -23,12 +23,12 @@ return new class extends Migration
             $table->unsignedBigInteger('meal4_id')->nullable();
             $table->unsignedBigInteger('meal5_id')->nullable();
             $table->unsignedBigInteger('meal6_id')->nullable();
-            $table->foreign('meal1_id')->references('id')->on('meals');
-            $table->foreign('meal2_id')->references('id')->on('meals');
-            $table->foreign('meal3_id')->references('id')->on('meals');
-            $table->foreign('meal4_id')->references('id')->on('meals');
-            $table->foreign('meal5_id')->references('id')->on('meals');
-            $table->foreign('meal6_id')->references('id')->on('meals');
+            $table->foreign('meal1_id')->references('id')->on('meals')->constrained()->onDelete('cascade');
+            $table->foreign('meal2_id')->references('id')->on('meals')->constrained()->onDelete('cascade');
+            $table->foreign('meal3_id')->references('id')->on('meals')->constrained()->onDelete('cascade');
+            $table->foreign('meal4_id')->references('id')->on('meals')->constrained()->onDelete('cascade');
+            $table->foreign('meal5_id')->references('id')->on('meals')->constrained()->onDelete('cascade');
+            $table->foreign('meal6_id')->references('id')->on('meals')->constrained()->onDelete('cascade');
             $table->string('day_of_delivery');
             $table->date('starting_date');
             $table->date('ending_date');

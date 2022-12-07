@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Meal;
 use App\Models\User;
 use App\Models\Pending;
 use App\Models\Subscription;
+use App\Models\Week;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -227,12 +229,29 @@ class UserController extends Controller
     public function plan()
     {
         $user = Auth::user();
-        // $subscription = Subscription::whereBelongsTo($user)->where('status', 1)->withWhereHas(['weeks' => ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6']])->get();
-        $subscription = Subscription::whereBelongsTo($user)->where('status', 1)->with(['weeks' => ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6']])->get();
+
+
+        $subscription = Subscription::whereBelongsTo($user)->where('status', 1)->with(['weeks' => ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6']])->first();
 
         return response()->json([
             'status' => 200,
-            'plan' => $subscription
+            'plan' => $subscription,
+        ]);
+    }
+
+
+    // Get active subscription for user wiith weeks
+    public function getOneWeek($num)
+    {
+        $user = Auth::user();
+
+
+        $subscription = Subscription::whereBelongsTo($user)->where('status', 1)->first();
+        $week = Week::whereBelongsTo($subscription)->where('week_num', $num)->with(['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6'])->first();
+
+        return response()->json([
+            'status' => 200,
+            'week' => $week,
         ]);
     }
     /**

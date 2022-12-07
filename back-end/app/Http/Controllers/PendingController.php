@@ -15,7 +15,7 @@ class PendingController extends Controller
      */
     public function index()
     {
-        $pending = Pending::where('user_id', Auth::user()->id)->get();
+        $pending = Pending::where('user_id', Auth::user()->id)->first();
 
         if ($pending) {
 

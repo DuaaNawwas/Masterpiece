@@ -85,46 +85,98 @@ class WeekController extends Controller
         $removed->meal_id = $request->meal_id;
 
         // remove explode when sending an array from actual request 
-        $removedIngredients =  json_decode($request->removed_ingredients);
+        $removedIngredients =  $request->removed_ingredients;
+        if (count($removedIngredients) > 0) {
+            if ($removed->remove_1 === null && isset($removedIngredients[0])) {
+                $removed->remove_1 = $removedIngredients[0];
+            }
+            if ($removed->remove_2 === null && isset($removedIngredients[1])) {
+                $removed->remove_2 = $removedIngredients[1];
+            }
+            if ($removed->remove_3 === null && isset($removedIngredients[2])) {
+                $removed->remove_3 = $removedIngredients[2];
+            }
+            if ($removed->remove_4 === null && isset($removedIngredients[3])) {
+                $removed->remove_4 = $removedIngredients[3];
+            }
+            if ($removed->remove_5 === null && isset($removedIngredients[4])) {
+                $removed->remove_5 = $removedIngredients[4];
+            }
+            if ($removed->remove_6 === null && isset($removedIngredients[5])) {
+                $removed->remove_6 = $removedIngredients[5];
+            }
+            if ($removed->remove_7 === null && isset($removedIngredients[6])) {
+                $removed->remove_7 = $removedIngredients[6];
+            }
+            if ($removed->remove_8 === null && isset($removedIngredients[7])) {
+                $removed->remove_8 = $removedIngredients[7];
+            }
+            if ($removed->remove_9 === null && isset($removedIngredients[8])) {
+                $removed->remove_9 = $removedIngredients[8];
+            }
+            if ($removed->remove_10 === null && isset($removedIngredients[9])) {
+                $removed->remove_10 = $removedIngredients[9];
+            }
 
-        if ($removed->remove_1 === null && isset($removedIngredients[0])) {
-            $removed->remove_1 = $removedIngredients[0];
-        }
-        if ($removed->remove_2 === null && isset($removedIngredients[1])) {
-            $removed->remove_2 = $removedIngredients[1];
-        }
-        if ($removed->remove_3 === null && isset($removedIngredients[2])) {
-            $removed->remove_3 = $removedIngredients[2];
-        }
-        if ($removed->remove_4 === null && isset($removedIngredients[3])) {
-            $removed->remove_4 = $removedIngredients[3];
-        }
-        if ($removed->remove_5 === null && isset($removedIngredients[4])) {
-            $removed->remove_5 = $removedIngredients[4];
-        }
-        if ($removed->remove_6 === null && isset($removedIngredients[5])) {
-            $removed->remove_6 = $removedIngredients[5];
-        }
-        if ($removed->remove_7 === null && isset($removedIngredients[6])) {
-            $removed->remove_7 = $removedIngredients[6];
-        }
-        if ($removed->remove_8 === null && isset($removedIngredients[7])) {
-            $removed->remove_8 = $removedIngredients[7];
-        }
-        if ($removed->remove_9 === null && isset($removedIngredients[8])) {
-            $removed->remove_9 = $removedIngredients[8];
-        }
-        if ($removed->remove_10 === null && isset($removedIngredients[9])) {
-            $removed->remove_10 = $removedIngredients[9];
+            $removed->save();
         }
 
-        $removed->save();
 
         $week->removedingredients;
 
         return response()->json([
             'status' => 200,
             'week' => $week,
+        ]);
+    }
+
+    // Delete a meal from week
+    public function deleteMeal(Request $request)
+    {
+        $week = Week::find($request->week_id);
+
+        if ($week->meal1_id === $request->meal_id) {
+            $week->meal1_id = null;
+            $week->save();
+            // return;
+        } else if ($week->meal2_id === $request->meal_id) {
+            $week->meal2_id = null;
+            $week->save();
+            // return;
+        } else if ($week->meal3_id === $request->meal_id) {
+            $week->meal3_id = null;
+            $week->save();
+            // return;
+        } else if ($week->meal4_id === $request->meal_id) {
+            $week->meal4_id = null;
+            $week->save();
+            // return;
+        } else if ($week->meal5_id === $request->meal_id) {
+            $week->meal5_id = null;
+            $week->save();
+            // return;
+        } else if ($week->meal6_id === $request->meal_id) {
+            $week->meal6_id = null;
+            $week->save();
+            // return;
+        }
+
+        $removedIngredients = RemovedIngredient::where('meal_id', $request->meal_id)->where('week_id', $request->week_id)->first();
+        if ($removedIngredients) {
+
+            $removedIngredients->delete();
+        }
+
+        $week->meal1;
+        $week->meal2;
+        $week->meal3;
+        $week->meal4;
+        $week->meal5;
+        $week->meal6;
+
+        return response()->json([
+            'status' => 200,
+            'week' => $week
         ]);
     }
 

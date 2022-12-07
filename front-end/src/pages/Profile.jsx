@@ -2,20 +2,37 @@ import { Badge } from "flowbite-react";
 import React from "react";
 import Button from "../components/Button";
 import ChangePassword from "../components/profile/ChangePassword";
-import CreditCard from "../components/CreditCard";
 import EditForm from "../components/profile/EditForm";
-import MealCard from "../components/menu/MealCard";
 import PaymentHistoryTable from "../components/profile/PaymentHistoryTable";
 import ProfileCard from "../components/profile/ProfileCard";
 import WeekCard from "../components/profile/WeekCard";
-import meal1 from "../images/meal1.png";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 
 export default function Profile() {
-	const { user } = useContext(AuthContext);
+	const { user, cookies } = useContext(AuthContext);
+
+	const [plan, setPlan] = useState();
+
+	useEffect(() => {
+		axios
+			.get("/api/plan", {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					console.log(res.data);
+					setPlan(res.data.plan);
+				}
+			});
+	}, []);
 
 	return (
 		<>
@@ -30,26 +47,46 @@ export default function Profile() {
 					<Tab>Payment History</Tab>
 				</TabList>
 
-				<TabPanel>
-					<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
-						<Badge
-							color="gray"
-							size="sm"
-							className="absolute -mt-[6%] md:-mt-[2%] lg:-mt-[5%]"
-						>
-							11-11-2022 to 12-8-2022
-						</Badge>
-						<h1 className="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
-							your plan for the month
-						</h1>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-							<WeekCard />
-							<WeekCard />
-							<WeekCard />
-							<WeekCard />
-						</div>
-					</div>
-				</TabPanel>
+				{user?.is_sub === null ? (
+					""
+				) : (
+					<TabPanel>
+						{user?.is_sub === 1 ? (
+							<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
+								<Badge
+									color="gray"
+									size="sm"
+									className="absolute -mt-[6%] md:-mt-[2%] lg:-mt-[5%]"
+								>
+									{plan?.created_at.split("T")[0]} to {plan?.ending_date}
+								</Badge>
+								<h1 className="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
+									your plan for the month
+								</h1>
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+									<WeekCard
+										week_num={1}
+										meals_per_week={plan?.meals_per_week}
+									/>
+									<WeekCard
+										week_num={2}
+										meals_per_week={plan?.meals_per_week}
+									/>
+									<WeekCard
+										week_num={3}
+										meals_per_week={plan?.meals_per_week}
+									/>
+									<WeekCard
+										week_num={4}
+										meals_per_week={plan?.meals_per_week}
+									/>
+								</div>
+							</div>
+						) : (
+							<div></div>
+						)}
+					</TabPanel>
+				)}
 				<TabPanel>
 					<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800">
 						<EditForm />
@@ -69,12 +106,7 @@ export default function Profile() {
 								Your Payment History
 							</h1>
 							<PaymentHistoryTable />
-							{/* <h1 className="font-bold uppercase text-2xl mt-5 text-center text-darkRed">
-								Edit Payment Info
-							</h1>
-							<div className="md:w-1/2 lg:w-5/12">
-								<CreditCard />
-							</div> */}
+
 							<Button bgColor="bg-darkRed" text="CANCEL SUBSCRIPTION" />
 						</div>
 					</div>

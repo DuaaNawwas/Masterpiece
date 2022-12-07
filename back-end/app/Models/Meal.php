@@ -43,6 +43,6 @@ class Meal extends Model
     // Get weeks that has meal???????????? not sure if it works? should i add one to every id?
     public function weeks()
     {
-        return $this->hasMany(Week::class);
+        return $this->hasMany(Week::class, ['meal1_id', 'meal2_id', 'meal3_id', 'meal4_id', 'meal5_id', 'meal6_id']);
     }
 }

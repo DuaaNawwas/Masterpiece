@@ -14,6 +14,7 @@ import { useContext } from "react";
 import { DataContext } from "../context/DataContext";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 export default function Menu() {
 	const [modalRecipe, setModalRecipe] = useState({ show: false, id: "" });
@@ -25,8 +26,15 @@ export default function Menu() {
 	const token = cookies.Token;
 	const [forYouMeals, setForYourMeals] = useState();
 
+	const { state } = useLocation();
+	const { fromSpecificPage } = state || {};
+
 	useEffect(() => {
 		setModalTutorial(true);
+
+		if (fromSpecificPage) {
+			setModalTutorial(false);
+		}
 	}, []);
 
 	const showModalRecipe = (id) => {

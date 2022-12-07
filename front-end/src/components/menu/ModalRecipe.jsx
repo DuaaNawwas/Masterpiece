@@ -6,12 +6,16 @@ import { useEffect } from "react";
 import modalimg from "../../images/modalimg.png";
 import LoadingModal from "./LoadingModal";
 import { HiClock } from "react-icons/hi";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import swal from "sweetalert";
+import { useLocation } from "react-router-dom";
 
 export default function ModalRecipe(props) {
+	const { cookies } = useContext(AuthContext);
 	// Get meal data from database
 	const [meal, setMeal] = useState();
 	const [loading, setLoading] = useState(true);
-
 	useEffect(() => {
 		setLoading(true);
 		axios.get(`/api/meals/${props.id}`).then((res) => {
@@ -35,6 +39,56 @@ export default function ModalRecipe(props) {
 		}
 	};
 	console.log(removedIngredients);
+
+	const [weekNum, setWeekNum] = useState(1);
+	console.log(weekNum);
+	const { state } = useLocation();
+	const { week } = state || {};
+	useEffect(() => {
+		if (week) {
+			setWeekNum(week);
+		}
+	}, []);
+
+	const addMeal = () => {
+		const data = {
+			meal_id: props.id,
+			week_num: weekNum,
+			removed_ingredients: removedIngredients,
+		};
+		axios
+			.post("/api/weeks", data, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					console.log(res);
+					setRemovedIngredients([]);
+					swal(
+						"Meal added successfully!",
+						"You can visit your profile to view your added meals",
+						"success"
+					);
+					closeModal();
+				} else if (res.data.status === 500) {
+					console.log(res);
+					swal(
+						"This week is full!",
+						"You can visit your profile to edit your meals",
+						"error"
+					);
+				} else {
+					swal(
+						"An error has occured!",
+						"Please refresh the page and try again!",
+						"error"
+					);
+				}
+			});
+	};
+
 	// setRemovedIngredients([]) on add
 
 	// Handle closing the modal
@@ -273,16 +327,26 @@ export default function ModalRecipe(props) {
 							<select
 								id="countries"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								onChange={(e) => setWeekNum(parseInt(e.target.value))}
 							>
-								<option value="1">Week 1</option>
-								<option value="2">Week 2</option>
-								<option value="3">Week 3</option>
-								<option value="4">Week 4</option>
+								<option selected={weekNum === 1} value="1">
+									Week 1
+								</option>
+								<option selected={weekNum === 2} value="2">
+									Week 2
+								</option>
+								<option selected={weekNum === 3} value="3">
+									Week 3
+								</option>
+								<option selected={weekNum === 4} value="4">
+									Week 4
+								</option>
 							</select>
 							{/* </div> */}
 							<button
 								type="button"
 								className="text-white bg-rusty hover:bg-rustySh focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2"
+								onClick={addMeal}
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"

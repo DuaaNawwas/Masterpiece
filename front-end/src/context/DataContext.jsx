@@ -49,8 +49,8 @@ export default function DataProvider({ children }) {
 				})
 				.then((res) => {
 					if (res.data.status === 200) {
-						setPendingData(res.data.pending[0]);
-						const categs = res.data.pending[0].categories
+						setPendingData(res.data.pending);
+						const categs = res.data.pending.categories
 							.split(",")
 							.map((item) => {
 								return parseInt(item, 10);

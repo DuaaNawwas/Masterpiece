@@ -63,10 +63,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Endpoint to get active subscription for a user
     Route::get('/activesubscription', [UserController::class, 'activeSubscription']);
     Route::get('/plan', [UserController::class, 'plan']);
+    Route::get('/oneweek/{num}', [UserController::class, 'getOneWeek']);
     // Endpoint for pendings
     Route::resource('/pending', PendingController::class);
     // Endpoint for subscriptions
     Route::resource('/subscription', SubscriptionController::class);
     // Endpoint for weeks
     Route::resource('/weeks', WeekController::class);
+    Route::post('/deletemeal', [WeekController::class, 'deleteMeal']);
 });
