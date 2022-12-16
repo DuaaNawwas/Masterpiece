@@ -21,7 +21,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { DataContext } from "../../context/DataContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function OurMenus() {
 	// Initialize animation library
@@ -71,28 +71,17 @@ export default function OurMenus() {
 						{categories?.map((categ) => {
 							return (
 								<SwiperSlide>
-									{/* <CategoryCard
-										img={categ.image}
-										name={categ.name}
-										textstyle="text-xs md:text-lg"
-										style="mb-9"
-									/> */}
 									<div class="group relative mb-10">
 										<div class="relative h-80 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
 											<img
-												src={categ.image}
+												src={categ?.image}
 												alt=""
 												class="h-full w-full object-cover object-center group-hover:scale-110 ease-in duration-100"
 											/>
 										</div>
-										<h3 class="mt-6 text-sm text-gray-500">
-											<a href="#">
-												<span class="absolute inset-0"></span>
-												Category
-											</a>
-										</h3>
+										<h3 class="mt-6 text-sm text-gray-500">Category</h3>
 										<p class="text-base font-semibold text-gray-900">
-											{categ.name}
+											{categ?.name}
 										</p>
 									</div>
 								</SwiperSlide>

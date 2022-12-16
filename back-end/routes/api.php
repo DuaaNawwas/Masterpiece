@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     // Endpoint for getting user
     Route::get('/user', [AuthController::class, 'user']);
+    // Endpoint to change profile pic
+    Route::post('/profileimage', [UserController::class, 'uploadImage']);
     // Endpoint for getting recommended meals for a user
     Route::get('/recommendedMeals', [MealController::class, 'recommendedMeals']);
     // Endpoints for user

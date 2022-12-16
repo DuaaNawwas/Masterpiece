@@ -27,7 +27,7 @@ export default function Menu() {
 	const [forYouMeals, setForYourMeals] = useState();
 
 	const { state } = useLocation();
-	const { fromSpecificPage } = state || {};
+	const { fromSpecificPage, routeCateg } = state || {};
 
 	useEffect(() => {
 		setModalTutorial(true);
@@ -83,8 +83,12 @@ export default function Menu() {
 			<Tabs className="flex flex-col items-center text-darkRed">
 				<TabList className="text-sm">
 					{token != null && forYouMeals?.length > 0 && <Tab>For You</Tab>}
-					{categories?.map((categ) => {
-						return <Tab>{categ.name}</Tab>;
+					{categories?.map((categ, i) => {
+						return (
+							<Tab key={i} tabIndex={i}>
+								{categ.name}
+							</Tab>
+						);
 					})}
 				</TabList>
 				{token != null && forYouMeals?.length > 0 && (

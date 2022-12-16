@@ -8,15 +8,27 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { DataContext } from "../context/DataContext";
+import { useEffect } from "react";
 
 export default function Navbar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const pages = ["home", "menu", "plans", "about", "contact"];
+	const [pages, setPages] = useState([
+		"home",
+		"menu",
+		"plans",
+		"about",
+		"contact",
+	]);
 
 	const navigate = useNavigate();
 
 	const { user, setUser, cookies, removeCookie, stateToken } =
 		useContext(AuthContext);
+	useEffect(() => {
+		if (user?.is_sub === 1) {
+			setPages(["home", "menu", "about", "contact"]);
+		}
+	}, [user]);
 
 	const { setSelectedCateg } = useContext(DataContext);
 
@@ -82,23 +94,29 @@ export default function Navbar() {
 				{user?.email ? (
 					<div className="hidden lg:block pr-2">
 						<Dropdown
-							label={<Avatar alt="" img={user.image} rounded={true} />}
+							label={
+								<img
+									class="w-10 h-10 rounded-full"
+									src={user?.image}
+									alt=""
+									referrerPolicy="no-referrer"
+								/>
+							}
 							arrowIcon={true}
 							inline={true}
 						>
 							<Dropdown.Header>
 								<span className="block text-sm">
-									{user.first_name + " " + user.last_name}
+									{user?.first_name + " " + user?.last_name}
 								</span>
 								<span className="block truncate text-sm font-medium">
-									{user.email}
+									{user?.email}
 								</span>
 							</Dropdown.Header>
 							<Dropdown.Item>
 								<Link to="/profile">Profile </Link>
 							</Dropdown.Item>
-							<Dropdown.Item>Settings</Dropdown.Item>
-							<Dropdown.Item>Earnings</Dropdown.Item>
+
 							<Dropdown.Divider />
 							<Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
 						</Dropdown>
@@ -154,14 +172,14 @@ export default function Navbar() {
 							<div className="p-5 bg-white border rounded shadow-sm">
 								<div className="flex items-center justify-between mb-4">
 									<div>
-										<a
-											href="/"
+										<Link
+											to="/"
 											aria-label="Company"
 											title="Company"
 											className="inline-flex items-center"
 										>
 											<img src={logo} alt="" className="w-16" />
-										</a>
+										</Link>
 									</div>
 									<div>
 										<button
@@ -202,24 +220,31 @@ export default function Navbar() {
 										{user?.email ? (
 											<Dropdown
 												label={
-													<Avatar alt="" img={user.image} rounded={true} />
+													<Avatar
+														alt=""
+														img={user?.image}
+														rounded={true}
+														referrerPolicy="no-referrer"
+													/>
 												}
 												arrowIcon={false}
 												inline={true}
 												placement="top"
 											>
 												<Dropdown.Header>
-													<span className="block text-sm">Bonnie Green</span>
+													<span className="block text-sm">
+														{" "}
+														{user?.first_name + " " + user?.last_name}
+													</span>
 													<span className="block truncate text-sm font-medium">
-														name@flowbite.com
+														{user?.email}
 													</span>
 												</Dropdown.Header>
 												<Dropdown.Item>
 													{" "}
 													<Link to="/profile">Profile </Link>
 												</Dropdown.Item>
-												<Dropdown.Item>Settings</Dropdown.Item>
-												<Dropdown.Item>Earnings</Dropdown.Item>
+
 												<Dropdown.Divider />
 												<Dropdown.Item onClick={handleLogout}>
 													Sign out

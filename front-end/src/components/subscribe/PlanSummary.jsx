@@ -8,7 +8,7 @@ import Button from "../Button";
 export default function PlanSummary(props) {
 	const navigate = useNavigate();
 
-	const { pricing, savePending, setSelectedCateg, setSelectedData } =
+	const { pricing, savePending, selectedCateg, selectedData } =
 		useContext(DataContext);
 	const { cookies } = useContext(AuthContext);
 	const token = cookies.Token;
@@ -22,6 +22,12 @@ export default function PlanSummary(props) {
 		if (token) {
 			savePending();
 			props.changeStep();
+			if (!localStorage.getItem("selectedData")) {
+				localStorage.setItem("selectedData", JSON.stringify(selectedData));
+			}
+			if (!localStorage.getItem("selectedCateg")) {
+				localStorage.setItem("selectedCateg", JSON.stringify(selectedCateg));
+			}
 			// setSelectedCateg([]);
 		} else {
 			navigate("/register", { state: { fromSpecificPage: true } });

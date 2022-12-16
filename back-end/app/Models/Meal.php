@@ -9,10 +9,24 @@ use App\Models\Ingredient;
 use App\Models\RemovedIngredient;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Meal extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'category_id',
+        'image',
+        'name',
+        'short_desc',
+        'long_desc',
+        'prep_time',
+        'tags',
+        'note',
+        'cost'
+
+    ];
 
     // Relations ---------------------
 

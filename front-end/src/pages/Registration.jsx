@@ -4,12 +4,14 @@ import SocialLogin from "../components/login/SocialLogin";
 import RegisterForm from "../components/login/RegisterForm";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function Registration() {
 	const { cookies } = useContext(AuthContext);
+	const { state } = useLocation();
 	const navigate = useNavigate();
+	const { fromSpecificPage } = state || {};
 
 	useEffect(() => {
 		if (cookies.Token) {
@@ -26,13 +28,16 @@ export default function Registration() {
 						<div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16  justify-items-center items-center">
 							<div className="w-9/12 sm:h-80 lg:h-full flex flex-col ">
 								<RegisterForm />
-								<div className="flex my-2 text-sm font-semibold items-center text-myBlack">
-									<div className="flex-grow border-t h-px mr-3"></div>
-									OR
-									<div className="flex-grow border-t h-px ml-3"></div>
-								</div>
-
-								<SocialLogin />
+								{fromSpecificPage ? null : (
+									<>
+										<div className="flex my-2 text-sm font-semibold items-center text-myBlack">
+											<div className="flex-grow border-t h-px mr-3"></div>
+											OR
+											<div className="flex-grow border-t h-px ml-3"></div>
+										</div>
+										<SocialLogin />
+									</>
+								)}
 							</div>
 							<div>
 								<img

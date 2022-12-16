@@ -81,12 +81,15 @@ class SubscriptionController extends Controller
         $user->save();
 
         // insert preferred categories
-        for ($i = 0; $i < count($request->categories); $i++) {
-            $preferred_categs = PreferredCategory::create([
-                'user_id' => Auth::user()->id,
-                'category_id' => $request->categories[$i]
-            ]);
+        if ($request->categories) {
+            for ($i = 0; $i < count($request->categories); $i++) {
+                $preferred_categs = PreferredCategory::create([
+                    'user_id' => Auth::user()->id,
+                    'category_id' => $request->categories[$i]
+                ]);
+            }
         }
+
         // create 4 weeks
         $today = Carbon::today();
         $last_week = Carbon::today()->subWeek();
@@ -108,8 +111,16 @@ class SubscriptionController extends Controller
             'subscription' => $subscription,
             'payment' => $payment,
             'weeks' => $weeks,
-            'preferred_categs' => $preferred_categs
+            // 'preferred_categs' => $preferred_categs
         ]);
+    }
+
+    // Cancel subscription
+    public function cancelSubscription()
+    {
+        $user = Auth::user();
+        $user->is_auto_renewed = 0;
+        $user->save();
     }
 
 

@@ -19,7 +19,7 @@ export default function Payment() {
 	const price_per_serving = pricing?.find(
 		(price) => price.servings == total_servings
 	);
-	const categories = pendingData.categories.split(",").map((item) => {
+	const categories = pendingData.categories?.split(",").map((item) => {
 		return parseInt(item, 10);
 	});
 

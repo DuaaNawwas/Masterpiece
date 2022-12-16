@@ -14,10 +14,10 @@ export default function DataProvider({ children }) {
 
 	// Save selected data from plan (step 1)
 	const [selectedData, setSelectedData] = useState({
-		ppl_num: "",
-		meals_per_week: "",
+		ppl_num: 2,
+		meals_per_week: 4,
 	});
-	const [selectedCateg, setSelectedCateg] = useState([]);
+	const [selectedCateg, setSelectedCateg] = useState([1, 2]);
 
 	const [pendingData, setPendingData] = useState();
 	const { cookies } = useContext(AuthContext);

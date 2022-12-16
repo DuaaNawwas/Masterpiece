@@ -8,12 +8,14 @@ import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "../Button";
+import ModalMeal from "./ModalMeal";
 
 export default function WeekCard({ week_num, meals_per_week }) {
 	const { cookies } = useContext(AuthContext);
 	const navigate = useNavigate();
 	const [week, setWeek] = useState();
 	const [meals, setMeals] = useState();
+	const [show, setShow] = useState(false);
 	useEffect(() => {
 		axios
 			.get(`/api/oneweek/${week_num}`, {
@@ -72,6 +74,7 @@ export default function WeekCard({ week_num, meals_per_week }) {
 						if (res.data.status === 200) {
 							console.log(res);
 							setWeek(res.data.week);
+							setShow(false);
 						}
 					});
 				swal("Poof! Your meal has been deleted!", {
@@ -87,6 +90,10 @@ export default function WeekCard({ week_num, meals_per_week }) {
 		navigate("/menu", {
 			state: { fromSpecificPage: true, week: week.week_num },
 		});
+	};
+
+	const closeModal = () => {
+		setShow(false);
 	};
 
 	// console.log("---------");
@@ -107,10 +114,18 @@ export default function WeekCard({ week_num, meals_per_week }) {
 				{meals?.map((meal, i) => {
 					return (
 						<div key={i} className="relative group">
+							<ModalMeal
+								id={meal?.id}
+								removedIng={meal?.removedingredients[0]}
+								show={show}
+								closeModal={closeModal}
+								deleteMeal={deleteMeal}
+							/>
 							<img
-								className="w-20 h-20 rounded-full object-cover"
+								className="w-20 h-20 rounded-full object-cover hover:cursor-pointer"
 								src={meal.image}
 								alt=""
+								onClick={() => setShow(true)}
 							/>
 
 							<button

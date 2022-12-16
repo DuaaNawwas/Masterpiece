@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Meal;
 use App\Models\User;
+use App\Models\Week;
 use App\Models\Pending;
 use App\Models\Subscription;
-use App\Models\Week;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -67,6 +69,30 @@ class UserController extends Controller
         //
     }
 
+    // Upload user image
+    public function uploadImage(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), ['image' => ['required', File::image()->max(20 * 1024)]]);
+
+        if ($validator->fails()) return response()->json($validator->messages());
+
+        $user = Auth::user();
+
+        $file = $request->file('image');
+        $filename = uniqid() . "_" . $file->getClientOriginalName();
+        $file->move(public_path('public/images'), $filename);
+        $url = URL::to('/') . '/public/images/' . $filename;
+        $user['image'] = $url;
+
+        $user->save();
+
+        return response()->json([
+            'status' => 200,
+            'user' => $user,
+
+        ]);
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -247,7 +273,24 @@ class UserController extends Controller
 
 
         $subscription = Subscription::whereBelongsTo($user)->where('status', 1)->first();
-        $week = Week::whereBelongsTo($subscription)->where('week_num', $num)->with(['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6'])->first();
+        $week = Week::whereBelongsTo($subscription)->where('week_num', $num)->first();
+
+
+        if ($week) {
+            $week->load(['meal1.removedingredients' => function ($q) use ($week) {
+                $q->where('week_id', $week->id);
+            }, 'meal2.removedingredients' => function ($q) use ($week) {
+                $q->where('week_id', $week->id);
+            }, 'meal3.removedingredients' => function ($q) use ($week) {
+                $q->where('week_id', $week->id);
+            }, 'meal4.removedingredients' => function ($q) use ($week) {
+                $q->where('week_id', $week->id);
+            }, 'meal5.removedingredients' => function ($q) use ($week) {
+                $q->where('week_id', $week->id);
+            }, 'meal6.removedingredients' => function ($q) use ($week) {
+                $q->where('week_id', $week->id);
+            }]);
+        }
 
         return response()->json([
             'status' => 200,

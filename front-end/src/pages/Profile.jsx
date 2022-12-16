@@ -13,9 +13,20 @@ import "react-tabs/style/react-tabs.css";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Profile() {
 	const { user, cookies } = useContext(AuthContext);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!cookies.Token) {
+			navigate("/login");
+		}
+		if (user?.is_sub === null) {
+			navigate("/subscribe");
+		}
+	}, [cookies.Token]);
 
 	const [plan, setPlan] = useState();
 
@@ -51,40 +62,52 @@ export default function Profile() {
 					""
 				) : (
 					<TabPanel>
-						{user?.is_sub === 1 ? (
-							<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
-								<Badge
-									color="gray"
-									size="sm"
-									className="absolute -mt-[6%] md:-mt-[2%] lg:-mt-[5%]"
-								>
-									{plan?.created_at.split("T")[0]} to {plan?.ending_date}
-								</Badge>
-								<h1 className="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
-									your plan for the month
-								</h1>
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-									<WeekCard
-										week_num={1}
-										meals_per_week={plan?.meals_per_week}
-									/>
-									<WeekCard
-										week_num={2}
-										meals_per_week={plan?.meals_per_week}
-									/>
-									<WeekCard
-										week_num={3}
-										meals_per_week={plan?.meals_per_week}
-									/>
-									<WeekCard
-										week_num={4}
-										meals_per_week={plan?.meals_per_week}
-									/>
+						<div className="mt-3 w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative">
+							{plan ? (
+								<>
+									<Badge
+										color="gray"
+										size="sm"
+										className="absolute -mt-[6%] md:-mt-[2%] lg:-mt-[5%]"
+									>
+										{plan?.created_at.split("T")[0]} to {plan?.ending_date}
+									</Badge>
+									<h1 className="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
+										your plan for the month
+									</h1>
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+										<WeekCard
+											week_num={1}
+											meals_per_week={plan?.meals_per_week}
+										/>
+										<WeekCard
+											week_num={2}
+											meals_per_week={plan?.meals_per_week}
+										/>
+										<WeekCard
+											week_num={3}
+											meals_per_week={plan?.meals_per_week}
+										/>
+										<WeekCard
+											week_num={4}
+											meals_per_week={plan?.meals_per_week}
+										/>
+									</div>
+								</>
+							) : (
+								<div className="flex flex-col items-center">
+									<h1 className="font-bold uppercase text-2xl mb-5 text-center text-darkRed">
+										Your plan ended, you can subscribe again below!
+									</h1>
+									<Link
+										to="/subscribe"
+										className="focus:outline-none text-white bg-darkGreen hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+									>
+										Subscribe
+									</Link>
 								</div>
-							</div>
-						) : (
-							<div></div>
-						)}
+							)}
+						</div>
 					</TabPanel>
 				)}
 				<TabPanel>

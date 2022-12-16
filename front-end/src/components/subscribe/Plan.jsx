@@ -1,10 +1,5 @@
 import React from "react";
-import { Label, Textarea, TextInput } from "flowbite-react";
-import Button from "../Button";
 import CategoryCard from "../home/CategoryCard";
-import chicken from "../../images/chicken.png";
-import pescatarian from "../../images/pescatarian.png";
-import meat from "../../images/meat.png";
 import PlanSummary from "./PlanSummary";
 import { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
@@ -14,16 +9,8 @@ import { useEffect } from "react";
 export default function Plan(props) {
 	const numOfPeople = [2, 4];
 	const mealsPerWeek = [2, 3, 4, 5, 6];
-	// ----------------------------
-	// useEffect => if the user came from register bage
-	// const state => set it to true (subPlanFlow)
 
-	// if(subPlanFlow) => 1 - alert the sub blah blah
-	//    2 -
-	//    3-
-
-	// ----------------------------
-
+	// Get data from context
 	const {
 		categories,
 		selectedCateg,
@@ -32,11 +19,11 @@ export default function Plan(props) {
 		setSelectedData,
 		pendingData,
 	} = useContext(DataContext);
-	console.log(selectedCateg);
-	const [categs, setCategs] = useState();
 
+	const [categs, setCategs] = useState([1, 2]);
+
+	// Get data from local storage if exists
 	useEffect(() => {
-		// setCategs(selectedCateg);
 		if (localStorage.getItem("selectedCateg")) {
 			const data = JSON.parse(localStorage.getItem("selectedCateg"));
 			setCategs(data);
@@ -49,10 +36,12 @@ export default function Plan(props) {
 		}
 	}, []);
 
+	// Update selected categ from localstorage
 	useEffect(() => {
 		setSelectedCateg(categs);
 	}, [categs]);
 
+	// Set categories based on selection
 	const handleCategData = (e) => {
 		if (e.target.checked) {
 			if (selectedCateg?.length > 0) {
@@ -74,6 +63,7 @@ export default function Plan(props) {
 		}
 	};
 
+	// Set people number and meals per week based on selection
 	const handleInput = (e) => {
 		// e.persist();
 		const data = { ...selectedData, [e.target.name]: e.target.value };

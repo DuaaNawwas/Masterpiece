@@ -10,6 +10,7 @@ export const AuthContext = createContext();
 
 // Create the provider
 export default function AuthProvider({ children }) {
+	const navigate = useNavigate();
 	// cookies
 	const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
@@ -61,7 +62,7 @@ export default function AuthProvider({ children }) {
 					setCookie("Token", token, { path: "/" });
 					setStateToken(token);
 					setUser(res.data.user);
-					// navigate("/", { replace: true });
+					navigate("/", { replace: true });
 				} else {
 					console.log(res);
 				}
@@ -87,7 +88,7 @@ export default function AuthProvider({ children }) {
 					setCookie("Token", token, { path: "/" });
 					setStateToken(token);
 					setUser(res.data.user);
-					// navigate("/", { replace: true });
+					navigate("/", { replace: true });
 				} else {
 					console.log(res);
 				}
