@@ -8,14 +8,15 @@ import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "../Button";
-import ModalMeal from "./ModalMeal";
+
+import WeekMeals from "./WeekMeals";
 
 export default function WeekCard({ week_num, meals_per_week }) {
 	const { cookies } = useContext(AuthContext);
 	const navigate = useNavigate();
 	const [week, setWeek] = useState();
 	const [meals, setMeals] = useState();
-	const [show, setShow] = useState(false);
+
 	useEffect(() => {
 		axios
 			.get(`/api/oneweek/${week_num}`, {
@@ -51,49 +52,10 @@ export default function WeekCard({ week_num, meals_per_week }) {
 		}
 	}, [week]);
 
-	const deleteMeal = (id) => {
-		swal({
-			title: "Are you sure?",
-			text: "This meal will be deleted from your week!",
-			icon: "warning",
-			buttons: true,
-			dangerMode: true,
-		}).then((willDelete) => {
-			if (willDelete) {
-				const data = {
-					week_id: week?.id,
-					meal_id: id,
-				};
-				axios
-					.post("/api/deletemeal", data, {
-						headers: {
-							Authorization: `Bearer ${cookies.Token}`,
-						},
-					})
-					.then((res) => {
-						if (res.data.status === 200) {
-							console.log(res);
-							setWeek(res.data.week);
-							setShow(false);
-						}
-					});
-				swal("Poof! Your meal has been deleted!", {
-					icon: "success",
-				});
-			} else {
-				swal("Your meal is safe!");
-			}
-		});
-	};
-
 	const addMeals = () => {
 		navigate("/menu", {
 			state: { fromSpecificPage: true, week: week.week_num },
 		});
-	};
-
-	const closeModal = () => {
-		setShow(false);
 	};
 
 	// console.log("---------");
@@ -113,43 +75,7 @@ export default function WeekCard({ week_num, meals_per_week }) {
 			<div className="flex flex-wrap gap-3 justify-start pt-5">
 				{meals?.map((meal, i) => {
 					return (
-						<div key={i} className="relative group">
-							<ModalMeal
-								id={meal?.id}
-								removedIng={meal?.removedingredients[0]}
-								show={show}
-								closeModal={closeModal}
-								deleteMeal={deleteMeal}
-							/>
-							<img
-								className="w-20 h-20 rounded-full object-cover hover:cursor-pointer"
-								src={meal.image}
-								alt=""
-								onClick={() => setShow(true)}
-							/>
-
-							<button
-								onClick={() => deleteMeal(meal.id)}
-								className="hidden bg-red-600 text-white top-0 left-14 absolute  text-sm font-semibold group-hover:inline-flex items-center p-1.5 rounded-full"
-							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className="w-3 h-3"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M6 18L18 6M6 6l12 12"
-									/>
-								</svg>
-
-								<span className="sr-only">Icon description</span>
-							</button>
-						</div>
+						<WeekMeals week={week} setWeek={setWeek} meal={meal} key={i} />
 					);
 				})}
 

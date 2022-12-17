@@ -14,9 +14,10 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 export default function Profile() {
-	const { user, cookies } = useContext(AuthContext);
+	const { user, cookies, setUser } = useContext(AuthContext);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -44,6 +45,45 @@ export default function Profile() {
 				}
 			});
 	}, []);
+
+	const cancelAuto = () => {
+		swal({
+			title: "Are you sure?",
+			text: "Your subscription will not be automatically renewed for next month!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		}).then((willCancel) => {
+			if (willCancel) {
+				axios
+					.get("/api/cancelauto", {
+						headers: {
+							Authorization: `Bearer ${cookies.Token}`,
+						},
+					})
+					.then((res) => {
+						setUser({ ...user, is_auto_renewed: 0 });
+					});
+				swal("Poof! Your auto subscription has been canceled!", {
+					icon: "success",
+				});
+			} else {
+				swal("Your next month plan is safe!");
+			}
+		});
+	};
+	const activateAuto = () => {
+		axios
+			.get("/api/activateauto", {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				setUser({ ...user, is_auto_renewed: 1 });
+				swal("Auto Subscription Activated!", "", "success");
+			});
+	};
 
 	return (
 		<>
@@ -129,8 +169,33 @@ export default function Profile() {
 								Your Payment History
 							</h1>
 							<PaymentHistoryTable />
+							{user?.is_auto_renewed === 1 ? (
+								<>
+									<h1 className="font-bold pt-10 text-lg mb-5 text-center text-darkRed">
+										Your subscription is going to be renewd automatically when
+										your current one ends
+									</h1>
 
-							<Button bgColor="bg-darkRed" text="CANCEL SUBSCRIPTION" />
+									<Button
+										onClick={cancelAuto}
+										bgColor="bg-red-500"
+										text="CANCEL AUTORENEWAL"
+									/>
+								</>
+							) : (
+								<>
+									<h1 className="font-bold pt-10 text-lg mb-5 text-center text-darkRed">
+										Your subscription is not going to be renewd automatically
+										when your current one ends
+									</h1>
+
+									<Button
+										onClick={activateAuto}
+										bgColor="bg-green-500"
+										text="ACTIVATE AUTORENEWAL"
+									/>
+								</>
+							)}
 						</div>
 					</div>
 				</TabPanel>

@@ -116,10 +116,17 @@ class SubscriptionController extends Controller
     }
 
     // Cancel subscription
-    public function cancelSubscription()
+    public function cancelAutoSubscription()
     {
         $user = Auth::user();
         $user->is_auto_renewed = 0;
+        $user->save();
+    }
+    // Activate subscription
+    public function activateAutoSubscription()
+    {
+        $user = Auth::user();
+        $user->is_auto_renewed = 1;
         $user->save();
     }
 

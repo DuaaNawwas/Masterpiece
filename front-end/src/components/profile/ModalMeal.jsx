@@ -21,7 +21,8 @@ export default function ModalMeal({
 	// Get meal data from database
 	const [meal, setMeal] = useState();
 	const [loading, setLoading] = useState(true);
-	const [allIngredients, setAllIngredients] = useState();
+	const [allIngredients, setAllIngredients] = useState([]);
+	const [now, setNow] = useState(false);
 	useEffect(() => {
 		setLoading(true);
 		axios.get(`/api/meals/${id}`).then((res) => {
@@ -32,23 +33,27 @@ export default function ModalMeal({
 	}, [id]);
 
 	useEffect(() => {
-		if (removedIng) {
-			const removedIngredients = Object.keys(removedIng)
-				.filter((key) => key.includes("remove") && removedIng[key] != null)
+		if (removedIng?.length > 0) {
+			const removedIngredients = Object.keys(removedIng[0])
+				.filter((key) => key.includes("remove") && removedIng[0][key] != null)
 				.reduce((obj, key) => {
 					return Object.assign(obj, {
-						[key]: removedIng[key],
+						[key]: removedIng[0][key],
 					});
 				}, {});
-			console.log("removedIng");
-			console.log(removedIngredients);
+			// console.log("removedIng");
+			// console.log(removedIngredients);
 
 			const removed = Object.values(removedIngredients);
-			const ings = meal?.ingredients.filter((ing) => !removed.includes(ing.id));
+			const ings = meal?.ingredients?.filter(
+				(ing) => !removed.includes(ing.id)
+			);
 			setAllIngredients(ings);
 			console.log(removed);
+			console.log("kkoljihib");
+			console.log(ings);
 		}
-	}, [removedIng]);
+	}, [removedIng, show]);
 
 	return (
 		<>
@@ -115,16 +120,13 @@ export default function ModalMeal({
 												className="gap-x-32 gap-y-3 flex flex-col flex-wrap max-h-32 "
 												aria-labelledby="mega-menu-icons-dropdown-button"
 											>
-												{allIngredients?.map((ingredient, i) => {
+												{allIngredients?.map((ingredient) => {
 													return (
-														<li key={i}>
+														<li key={Math.random()}>
 															<div className="flex items-center">
-																<label
-																	htmlFor={`meal${ingredient.id}`}
-																	className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-																>
+																<p className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
 																	{ingredient.name}
-																</label>
+																</p>
 															</div>
 														</li>
 													);
@@ -258,7 +260,7 @@ export default function ModalMeal({
 						)}
 					</Modal.Body>
 					<Modal.Footer className="justify-between">
-						<Button color="red" onClick={() => deleteMeal(meal?.id)}>
+						<Button color="failure" onClick={() => deleteMeal(meal?.id)}>
 							Delete
 						</Button>
 						<Button color="gray" onClick={closeModal}>

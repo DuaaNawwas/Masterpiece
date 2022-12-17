@@ -276,21 +276,63 @@ class UserController extends Controller
         $week = Week::whereBelongsTo($subscription)->where('week_num', $num)->first();
 
 
+        // if ($week) {
+        //     $week->load(['meal1.removedingredients' => function ($q) use ($week) {
+        //         $q->where('week_id', $week->id);
+        //     }, 'meal2.removedingredients' => function ($q) use ($week) {
+        //         $q->where('week_id', $week->id);
+        //     }, 'meal3.removedingredients' => function ($q) use ($week) {
+        //         $q->where('week_id', $week->id);
+        //     }, 'meal4.removedingredients' => function ($q) use ($week) {
+        //         $q->where('week_id', $week->id);
+        //     }, 'meal5.removedingredients' => function ($q) use ($week) {
+        //         $q->where('week_id', $week->id);
+        //     }, 'meal6.removedingredients' => function ($q) use ($week) {
+        //         $q->where('week_id', $week->id);
+        //     }]);
+        // }
+
         if ($week) {
-            $week->load(['meal1.removedingredients' => function ($q) use ($week) {
-                $q->where('week_id', $week->id);
-            }, 'meal2.removedingredients' => function ($q) use ($week) {
-                $q->where('week_id', $week->id);
-            }, 'meal3.removedingredients' => function ($q) use ($week) {
-                $q->where('week_id', $week->id);
-            }, 'meal4.removedingredients' => function ($q) use ($week) {
-                $q->where('week_id', $week->id);
-            }, 'meal5.removedingredients' => function ($q) use ($week) {
-                $q->where('week_id', $week->id);
-            }, 'meal6.removedingredients' => function ($q) use ($week) {
-                $q->where('week_id', $week->id);
-            }]);
+            $meals = ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6'];
+            foreach ($meals as $meal) {
+                $week->load([$meal . '.removedingredients' => function ($q) use ($week) {
+                    $q->where('week_id', $week->id);
+                }]);
+            }
         }
+
+        // if ($week) {
+        //     $meals = ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6'];
+        //     foreach ($meals as $meal) {
+        //         $week->load([$meal . '.removedingredients' => function ($q) use ($week, $meal) {
+        //             $q->where('week_id', $week->id)->whereIn('meal_id', $meal->pluck('id'));
+        //         }]);
+        //     }
+        // }
+
+        // if ($week) {
+        //     $meals = ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6'];
+        //     foreach ($meals as $mealName) {
+        //         $week->load([$mealName . '.removedingredients' => function ($q) use ($week, $mealName) {
+        //             // Retrieve the meal model instance based on its name
+        //             $meal = Meal::where('id', $week->{$mealName . '_id'})->first();
+        //             $q->where('week_id', $week->id)->whereIn('meal_id', $meal->pluck('id'));
+        //         }]);
+        //     }
+        // }
+
+        // if ($week) {
+        //     $meals = ['meal1_id', 'meal2_id', 'meal3_id', 'meal4_id', 'meal5_id', 'meal6_id'];
+        //     foreach ($meals as $mealId) {
+        //         $week->load(['meal1.removedingredients' => function ($q) use ($week, $mealId) {
+        //             // Retrieve the meal model instance based on its ID
+        //             $meal = Meal::find($week->{$mealId});
+        //             $q->where('week_id', $week->id)->whereIn('meal_id', $meal->pluck('id'));
+        //         }]);
+        //     }
+        // }
+
+
 
         return response()->json([
             'status' => 200,

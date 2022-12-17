@@ -69,6 +69,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Endpoint for pendings
     Route::resource('/pending', PendingController::class);
     // Endpoint for subscriptions
+    Route::get('/cancelauto', [SubscriptionController::class, 'cancelAutoSubscription']);
+    Route::get('/activateauto', [SubscriptionController::class, 'activateAutoSubscription']);
     Route::resource('/subscription', SubscriptionController::class);
     // Endpoint for weeks
     Route::resource('/weeks', WeekController::class);
