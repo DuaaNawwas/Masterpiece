@@ -6,6 +6,7 @@ import { HiInformationCircle } from "react-icons/hi";
 import { AuthContext } from "../../context/AuthContext";
 import { DataContext } from "../../context/DataContext";
 import Button from "../Button";
+import MapComponent from "../map/MapComponent";
 
 export default function Details(props) {
 	const { user, setUser, cookies } = useContext(AuthContext);
@@ -14,6 +15,7 @@ export default function Details(props) {
 	const token = cookies.Token;
 	const [isChangedContact, setIsChangedContact] = useState(false);
 	const [isChangedDod, setIsChangedDod] = useState(false);
+	const [position, setPosition] = useState({ lat: 31.9539, lng: 35.9106 });
 
 	const [updatedUser, setUpdatedUser] = useState({
 		phone: user?.phone,
@@ -53,6 +55,7 @@ export default function Details(props) {
 		const data = {
 			...updatedUser,
 			day_of_delivery: dod,
+			address: position,
 		};
 
 		axios
@@ -71,6 +74,7 @@ export default function Details(props) {
 						street: updatedUser.street,
 						building: updatedUser.building,
 						floor: updatedUser.floor,
+						// address: position,
 					});
 					setIsChangedContact(true);
 					setPendingData({ ...pendingData, day_of_delivery: dod });
@@ -286,7 +290,7 @@ export default function Details(props) {
 						<h2 className="text-3xl text-darkRed font-bold sm:text-4xl text-center py-5 sm:pt-32 sm:pb-5 lg:py-5">
 							Refine Location
 						</h2>
-						<iframe
+						{/* <iframe
 							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d433875.4492923406!2d35.37324930415098!3d31.834470148162954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151b5fb85d7981af%3A0x631c30c0f8dc65e8!2sAmman!5e0!3m2!1sen!2sjo!4v1667574218991!5m2!1sen!2sjo"
 							className="w-[300px] h-[200px] sm:w-[400px] sm:h-[300px]"
 							// width="400"
@@ -294,7 +298,10 @@ export default function Details(props) {
 							allowfullscreen=""
 							loading="lazy"
 							referrerpolicy="no-referrer-when-downgrade"
-						></iframe>
+						></iframe> */}
+
+						<MapComponent position={position} setPosition={setPosition} />
+
 						<div className="py-10">
 							{isChangedContact && isChangedDod ? (
 								<Button

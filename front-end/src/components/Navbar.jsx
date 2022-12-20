@@ -27,6 +27,8 @@ export default function Navbar() {
 	useEffect(() => {
 		if (user?.is_sub === 1) {
 			setPages(["home", "menu", "about", "contact"]);
+		} else {
+			setPages(["home", "menu", "plans", "about", "contact"]);
 		}
 	}, [user]);
 
