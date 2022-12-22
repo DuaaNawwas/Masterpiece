@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PendingController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
@@ -43,6 +44,8 @@ Route::resource('/meals', MealController::class);
 
 // Endpoint for getting pricings
 Route::get('/pricing', [SubscriptionController::class, 'pricings']);
+// Endpoint for submitting contact message
+Route::post('/contact', [ContactController::class, 'store']);
 
 
 // Protected routes---------------------------------------
