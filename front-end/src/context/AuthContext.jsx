@@ -18,6 +18,7 @@ export default function AuthProvider({ children }) {
 
 	// logged in user
 	const [user, setUser] = useState({});
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	// Get logged in user data
 	useEffect(() => {
@@ -32,6 +33,11 @@ export default function AuthProvider({ children }) {
 				})
 				.then((res) => {
 					setUser(res.data.user);
+					if (res.data.user.role === "admin") {
+						setIsAdmin(true);
+					} else {
+						setIsAdmin(false);
+					}
 				});
 			console.log(user);
 		} else {
@@ -62,6 +68,11 @@ export default function AuthProvider({ children }) {
 					setCookie("Token", token, { path: "/" });
 					setStateToken(token);
 					setUser(res.data.user);
+					if (res.data.user.role === "admin") {
+						setIsAdmin(true);
+					} else {
+						setIsAdmin(false);
+					}
 					navigate("/", { replace: true });
 				} else {
 					console.log(res);
@@ -88,6 +99,11 @@ export default function AuthProvider({ children }) {
 					setCookie("Token", token, { path: "/" });
 					setStateToken(token);
 					setUser(res.data.user);
+					if (res.data.user.role === "admin") {
+						setIsAdmin(true);
+					} else {
+						setIsAdmin(false);
+					}
 					navigate("/", { replace: true });
 				} else {
 					console.log(res);
@@ -108,6 +124,8 @@ export default function AuthProvider({ children }) {
 				loginWithFacebook,
 				stateToken,
 				setStateToken,
+				isAdmin,
+				setIsAdmin,
 			}}
 		>
 			{children}

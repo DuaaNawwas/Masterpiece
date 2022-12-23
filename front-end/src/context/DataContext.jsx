@@ -102,6 +102,7 @@ export default function DataProvider({ children }) {
 		<DataContext.Provider
 			value={{
 				categories,
+				setCategories,
 				pricing,
 				selectedData,
 				selectedCateg,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -79,3 +80,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('/weeks', WeekController::class);
     Route::post('/deletemeal', [WeekController::class, 'deleteMeal']);
 });
+
+
+// Admin Routes ---------------------------------------
+// Route::group(['middleware' => ['auth:sanctum', 'abilities:admin']], function () {
+Route::post('/categories/add', [AdminController::class, 'addCategory']);
+Route::delete('/category/{id}', [AdminController::class, 'deleteCategory']);
+Route::post('/category/edit', [AdminController::class, 'editCategory']);
+// });

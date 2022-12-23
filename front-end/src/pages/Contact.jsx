@@ -11,7 +11,7 @@ import swal from "sweetalert";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 export default function Contact() {
-	const { user } = useContext(AuthContext);
+	const { user, cookies } = useContext(AuthContext);
 	// Initialize animation library
 	useEffect(() => {
 		AOS.init();
@@ -28,6 +28,8 @@ export default function Contact() {
 	useEffect(() => {
 		if (contactData.email != "" && contactData.message != "") {
 			setEnableBtn(true);
+		} else {
+			setEnableBtn(false);
 		}
 	}, [contactData]);
 
@@ -97,8 +99,8 @@ export default function Contact() {
 													email: e.target.value,
 												})
 											}
-											value={user ? user?.email : contactData?.email}
-											disabled={user ? true : false}
+											value={cookies.Token ? user?.email : contactData?.email}
+											disabled={cookies.Token ? true : false}
 										/>
 										<small className="text-darkRed">{errors?.email}</small>
 									</div>

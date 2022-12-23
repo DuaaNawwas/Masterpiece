@@ -18,7 +18,8 @@ export default function RegisterForm() {
 	// Do same handling to register by google/ faceboook
 	// --------------------------------------------
 
-	const { setCookie, setUser, setStateToken } = useContext(AuthContext);
+	const { setCookie, setUser, setStateToken, setIsAdmin } =
+		useContext(AuthContext);
 	const { selectedData, selectedCateg } = useContext(DataContext);
 	// Take inputs from user
 	const [register, setRegister] = useState({
@@ -55,6 +56,11 @@ export default function RegisterForm() {
 					setCookie("Token", token, { path: "/" });
 					setStateToken(token);
 					setUser(res.data.user);
+					if (res.data.user.role === "admin") {
+						setIsAdmin(true);
+					} else {
+						setIsAdmin(false);
+					}
 
 					const data2 = {
 						people_num: selectedData.ppl_num,

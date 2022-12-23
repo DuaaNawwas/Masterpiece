@@ -7,7 +7,8 @@ import SocialLogin from "./SocialLogin";
 
 export default function LoginForm() {
 	// Get necessary functions from context
-	const { setUser, setCookie, setStateToken } = useContext(AuthContext);
+	const { setUser, setCookie, setStateToken, setIsAdmin } =
+		useContext(AuthContext);
 
 	// Navigation hook
 	const navigate = useNavigate();
@@ -43,6 +44,11 @@ export default function LoginForm() {
 					setCookie("Token", token, { path: "/" });
 					setStateToken(token);
 					setUser(res.data.user);
+					if (res.data.user.role === "admin") {
+						setIsAdmin(true);
+					} else {
+						setIsAdmin(false);
+					}
 					navigate("/", { replace: true });
 				} else {
 					console.log(res);

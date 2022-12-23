@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('building')->nullable();
             $table->string('floor')->nullable();
             $table->string('address')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->default("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
             $table->boolean('is_sub')->nullable();
             $table->boolean('is_auto_renewed')->nullable();
             $table->timestamp('email_verified_at')->nullable();

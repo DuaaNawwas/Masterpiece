@@ -22,7 +22,7 @@ export default function Navbar() {
 
 	const navigate = useNavigate();
 
-	const { user, setUser, cookies, removeCookie, stateToken } =
+	const { user, setUser, cookies, removeCookie, stateToken, setIsAdmin } =
 		useContext(AuthContext);
 	useEffect(() => {
 		if (user?.is_sub === 1) {
@@ -49,6 +49,7 @@ export default function Navbar() {
 				localStorage.removeItem("selectedData");
 				localStorage.removeItem("details");
 				localStorage.removeItem("dod");
+				setIsAdmin(false);
 				// setSelectedCateg([]);
 				navigate("/login");
 			})

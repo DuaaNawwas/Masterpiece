@@ -1,6 +1,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./index.css";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -16,9 +16,16 @@ import lottie from "lottie-web";
 import { defineElement } from "lord-icon-element";
 import axios from "axios";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import AuthProvider from "./context/AuthContext";
+import AuthProvider, { AuthContext } from "./context/AuthContext";
 import Registration from "./pages/Registration";
 import DataProvider from "./context/DataContext";
+import UserEnd from "./layouts/UserEnd";
+import AdminEnd from "./layouts/AdminEnd";
+import Dashboard from "./pages/admin/Dashboard";
+import AddCategory from "./pages/admin/AddCategory";
+import Categories from "./pages/admin/Categories";
+import AddMeal from "./pages/admin/AddMeal";
+import Meals from "./pages/admin/Meals";
 
 // define axios defaults
 axios.defaults.baseURL = "http://localhost:8000/";
@@ -32,6 +39,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_ID);
 defineElement(lottie.loadAnimation);
 
 function App() {
+	// const { user, cookies } = useContext(AuthContext);
 	return (
 		<>
 			<Elements stripe={stripePromise}>
@@ -40,7 +48,44 @@ function App() {
 				>
 					<AuthProvider>
 						<DataProvider>
-							<Navbar />
+							<Routes>
+								<Route path="/" element={<UserEnd />}>
+									<Route index element={<Home />} />
+									<Route path="/home" element={<Home />} />
+									<Route path="/about" element={<About />} />
+									<Route path="/contact" element={<Contact />} />
+									<Route path="/subscribe" element={<Subscribe />} />
+									<Route path="/login" element={<Login />} />
+									<Route path="/register" element={<Registration />} />
+									<Route path="/menu" element={<Menu />} />
+									<Route path="/profile" element={<Profile />} />
+									<Route path="*" element={<NotFound />} />
+								</Route>
+
+								<Route path="/dashboard" element={<AdminEnd />}>
+									{/* {(routeProps) => {
+										const { user } = useContext(AuthContext);
+										if (user && user.role === "admin") {
+											return <AdminEnd {...routeProps} />;
+										} else {
+											return <Redirect to="/" />;
+										}
+									}} */}
+
+									<Route index element={<Dashboard />} />
+									<Route
+										path="/dashboard/category/add"
+										element={<AddCategory />}
+									/>
+									<Route
+										path="/dashboard/categories"
+										element={<Categories />}
+									/>
+									<Route path="/dashboard/meal/add" element={<AddMeal />} />
+									<Route path="/dashboard/meals" element={<Meals />} />
+								</Route>
+							</Routes>
+							{/* <Navbar />
 							<Routes>
 								<Route path="/" element={<Home />} />
 								<Route path="/home" element={<Home />} />
@@ -53,7 +98,7 @@ function App() {
 								<Route path="/profile" element={<Profile />} />
 								<Route path="*" element={<NotFound />} />
 							</Routes>
-							<Footer />
+							<Footer /> */}
 						</DataProvider>
 					</AuthProvider>
 				</GoogleOAuthProvider>
