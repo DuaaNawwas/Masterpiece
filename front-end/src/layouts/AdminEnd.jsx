@@ -5,15 +5,15 @@ import Sidenav from "../components/admin/Sidenav";
 import { AuthContext } from "../context/AuthContext";
 
 export default function AdminEnd() {
-	// const { user, cookies, isAdmin } = useContext(AuthContext);
-	// const navigate = useNavigate();
-	// useEffect(() => {
-	// 	if (!cookies.Token) {
-	// 		navigate("/login");
-	// 	} else if (!isAdmin) {
-	// 		navigate("/");
-	// 	}
-	// }, [cookies.Token, isAdmin]);
+	const { user, cookies, isAdmin } = useContext(AuthContext);
+	const navigate = useNavigate();
+	useEffect(() => {
+		if (!cookies.Token) {
+			navigate("/login");
+		} else if (!localStorage.getItem("admin")) {
+			navigate("/");
+		}
+	}, [cookies.Token]);
 
 	return (
 		<div className="flex">

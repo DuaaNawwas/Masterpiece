@@ -49,6 +49,7 @@ export default function Navbar() {
 				localStorage.removeItem("selectedData");
 				localStorage.removeItem("details");
 				localStorage.removeItem("dod");
+				localStorage.removeItem("admin");
 				setIsAdmin(false);
 				// setSelectedCateg([]);
 				navigate("/login");

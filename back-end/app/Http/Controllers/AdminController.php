@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Ingredient;
+use App\Models\Meal;
+use App\Models\Nutrient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rules\File;
@@ -50,7 +53,9 @@ class AdminController extends Controller
 
     public function deleteCategory($id)
     {
-        Category::find($id)->delete();
+        $category =  Category::find($id);
+        Meal::whereBelongsTo($category)->delete();
+        $category->delete();
         $categories = Category::with('meals')->get();
 
         return response()->json([
@@ -87,5 +92,159 @@ class AdminController extends Controller
             'categories' => $categories
 
         ]);
+    }
+
+    public function getMeals()
+    {
+        $meals = Meal::with(['ingredients', 'nutrients'])->get();
+
+
+        return response()->json([
+            'status' => 200,
+            'meals' => $meals
+
+        ]);
+    }
+
+    public function addMeal(Request $request)
+    {
+
+        // $ingredients = json_decode($request->ingredients);
+
+        // return response()->json([
+        //     'status' => 'failure',
+        //     'request' => $ingredients,
+        // ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+
+                'name' => 'required',
+                'category_id' => 'required',
+                'short_desc' => 'required',
+                'long_desc' => 'required',
+                'prep_time' => 'required',
+                'image' =>  ['required', File::image()->max(20 * 1024)],
+                'calories' => 'required',
+                'fat' => 'required',
+                'saturated_fat' => 'required',
+                'carbs' => 'required',
+                'sugar' => 'required',
+                'fiber' => 'required',
+                'protein' => 'required',
+                'cholesterol' => 'required',
+                'sodium' => 'required',
+
+
+            ]
+        );
+
+
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'failure',
+                'errors' => $validator->messages(),
+            ]);
+        }
+
+        if ($request->file('image')) {
+
+            $file = $request->file('image');
+            $filename = uniqid() . "_" . $file->getClientOriginalName();
+            $file->move(public_path('public/images'), $filename);
+            $url = URL::to('/') . '/public/images/' . $filename;
+        }
+
+
+
+
+        $meal = Meal::create([
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'short_desc' => $request->short_desc,
+            'long_desc' => $request->long_desc,
+            'cost' => $request->cost,
+            'note' => $request->note,
+            'tags' => $request->tags,
+            'prep_time' => $request->prep_time,
+            'image' => $url
+        ]);
+
+        // for loop
+        $ingredientsArr = json_decode($request->ingredients);
+        for ($i = 0; $i < count($ingredientsArr); $i++) {
+            Ingredient::create([
+                'meal_id' => $meal->id,
+                'name' => $ingredientsArr[$i]->ingredient,
+                'is_optional' => $ingredientsArr[$i]->optional,
+            ]);
+        }
+
+        $nutrients = Nutrient::create([
+            'meal_id' => $meal->id,
+            'calories' => $request->calories,
+            'fat' => $request->fat,
+            'saturated_fat' => $request->saturated_fat,
+            'carbs' => $request->carbs,
+            'sugar' => $request->sugar,
+            'fiber' => $request->fiber,
+            'protein' => $request->protein,
+            'cholesterol' => $request->cholesterol,
+            'sodium' => $request->sodium,
+        ]);
+
+
+        return $this->getMeals();
+    }
+
+    public function deleteMeal($id)
+    {
+        $meal = Meal::find($id);
+        Ingredient::whereBelongsTo($meal)->delete();
+        Nutrient::whereBelongsTo($meal)->delete();
+        $meal->delete();
+        return $this->getMeals();
+    }
+
+    public function editMeal(Request $request)
+    {
+        $meal = Meal::find($request->id)->update([$request->key => $request->value]);
+
+
+        return $this->getMeals();
+    }
+    public function editMealImage(Request $request)
+    {
+        $meal = Meal::find($request->id);
+        $validator = Validator::make($request->all(), ['image' => ['required', File::image()->max(20 * 1024)]]);
+
+        if ($validator->fails()) return response()->json($validator->messages());
+
+
+
+        $file = $request->file('image');
+        $filename = uniqid() . "_" . $file->getClientOriginalName();
+        $file->move(public_path('public/images'), $filename);
+        $url = URL::to('/') . '/public/images/' . $filename;
+        $meal['image'] = $url;
+
+        $meal->save();
+
+        return $this->getMeals();
+    }
+    public function editIngredients(Request $request)
+    {
+        $ingredient = Ingredient::find($request->id)->update([$request->key => $request->value]);
+
+
+        return $this->getMeals();
+    }
+    public function editNutrients(Request $request)
+    {
+        $nutrient = Nutrient::find($request->id)->update([$request->key => $request->value]);
+
+
+        return $this->getMeals();
     }
 }

@@ -1,14 +1,22 @@
 import React, { useState } from "react";
+import { useContext } from "react";
 import { MdDelete } from "react-icons/md";
+import { AdminContext } from "../../../context/AdminContext";
 
 export default function AddIngredientsForm() {
-	const [inputFields, setInputFields] = useState([
-		{ ingredient: "", optional: false },
-	]);
+	// const [inputFields, setInputFields] = useState([
+	// 	{ ingredient: "", optional: false },
+	// ]);
+
+	const { inputFields, setInputFields, mealErrors } = useContext(AdminContext);
 
 	const handleFormChange = (i, e) => {
 		let data = [...inputFields];
-		data[i][e.target.name] = e.target.value;
+		if (e.target.name == "optional") {
+			data[i][e.target.name] = e.target.checked;
+		} else {
+			data[i][e.target.name] = e.target.value;
+		}
 		setInputFields(data);
 	};
 
@@ -68,7 +76,7 @@ export default function AddIngredientsForm() {
 									</div>
 									<button
 										onClick={() => removeFields(i)}
-										class=" text-darkRed  hover:underline"
+										class=" text-red-500  hover:underline"
 									>
 										<MdDelete size={20} />
 									</button>
@@ -77,6 +85,7 @@ export default function AddIngredientsForm() {
 						);
 					})}
 				</div>
+				<small className="text-red-500">{mealErrors?.ingredients}</small>
 			</div>
 			<div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
 				<button

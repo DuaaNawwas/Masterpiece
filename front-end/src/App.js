@@ -26,6 +26,8 @@ import AddCategory from "./pages/admin/AddCategory";
 import Categories from "./pages/admin/Categories";
 import AddMeal from "./pages/admin/AddMeal";
 import Meals from "./pages/admin/Meals";
+import AdminProvider from "./context/AdminContext";
+import EditMeal from "./pages/admin/EditMeal";
 
 // define axios defaults
 axios.defaults.baseURL = "http://localhost:8000/";
@@ -47,23 +49,24 @@ function App() {
 					clientId={`${process.env.REACT_APP_GOOGLE_API_CLIENT_ID}`}
 				>
 					<AuthProvider>
-						<DataProvider>
-							<Routes>
-								<Route path="/" element={<UserEnd />}>
-									<Route index element={<Home />} />
-									<Route path="/home" element={<Home />} />
-									<Route path="/about" element={<About />} />
-									<Route path="/contact" element={<Contact />} />
-									<Route path="/subscribe" element={<Subscribe />} />
-									<Route path="/login" element={<Login />} />
-									<Route path="/register" element={<Registration />} />
-									<Route path="/menu" element={<Menu />} />
-									<Route path="/profile" element={<Profile />} />
-									<Route path="*" element={<NotFound />} />
-								</Route>
+						<AdminProvider>
+							<DataProvider>
+								<Routes>
+									<Route path="/" element={<UserEnd />}>
+										<Route index element={<Home />} />
+										<Route path="/home" element={<Home />} />
+										<Route path="/about" element={<About />} />
+										<Route path="/contact" element={<Contact />} />
+										<Route path="/subscribe" element={<Subscribe />} />
+										<Route path="/login" element={<Login />} />
+										<Route path="/register" element={<Registration />} />
+										<Route path="/menu" element={<Menu />} />
+										<Route path="/profile" element={<Profile />} />
+										<Route path="*" element={<NotFound />} />
+									</Route>
 
-								<Route path="/dashboard" element={<AdminEnd />}>
-									{/* {(routeProps) => {
+									<Route path="/dashboard" element={<AdminEnd />}>
+										{/* {(routeProps) => {
 										const { user } = useContext(AuthContext);
 										if (user && user.role === "admin") {
 											return <AdminEnd {...routeProps} />;
@@ -72,20 +75,21 @@ function App() {
 										}
 									}} */}
 
-									<Route index element={<Dashboard />} />
-									<Route
-										path="/dashboard/category/add"
-										element={<AddCategory />}
-									/>
-									<Route
-										path="/dashboard/categories"
-										element={<Categories />}
-									/>
-									<Route path="/dashboard/meal/add" element={<AddMeal />} />
-									<Route path="/dashboard/meals" element={<Meals />} />
-								</Route>
-							</Routes>
-							{/* <Navbar />
+										<Route index element={<Dashboard />} />
+										<Route
+											path="/dashboard/category/add"
+											element={<AddCategory />}
+										/>
+										<Route
+											path="/dashboard/categories"
+											element={<Categories />}
+										/>
+										<Route path="/dashboard/meal/add" element={<AddMeal />} />
+										<Route path="/dashboard/meals" element={<Meals />} />
+										<Route path="/dashboard/meals/:id" element={<EditMeal />} />
+									</Route>
+								</Routes>
+								{/* <Navbar />
 							<Routes>
 								<Route path="/" element={<Home />} />
 								<Route path="/home" element={<Home />} />
@@ -99,7 +103,8 @@ function App() {
 								<Route path="*" element={<NotFound />} />
 							</Routes>
 							<Footer /> */}
-						</DataProvider>
+							</DataProvider>
+						</AdminProvider>
 					</AuthProvider>
 				</GoogleOAuthProvider>
 			</Elements>

@@ -46,6 +46,7 @@ export default function LoginForm() {
 					setUser(res.data.user);
 					if (res.data.user.role === "admin") {
 						setIsAdmin(true);
+						localStorage.setItem("admin", "true");
 					} else {
 						setIsAdmin(false);
 					}

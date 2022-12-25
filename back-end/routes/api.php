@@ -87,4 +87,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::post('/categories/add', [AdminController::class, 'addCategory']);
 Route::delete('/category/{id}', [AdminController::class, 'deleteCategory']);
 Route::post('/category/edit', [AdminController::class, 'editCategory']);
+Route::post('/meal/add', [AdminController::class, 'addMeal']);
+Route::get('/allmeals/get', [AdminController::class, 'getMeals']);
+Route::delete('/meal/{id}', [AdminController::class, 'deleteMeal']);
+Route::put('/editMeal', [AdminController::class, 'editMeal']);
+Route::post('/editMealImage', [AdminController::class, 'editMealImage']);
+Route::put('/editIngredients', [AdminController::class, 'editIngredients']);
+Route::put('/editNutrients', [AdminController::class, 'editNutrients']);
 // });
