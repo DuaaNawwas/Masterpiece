@@ -70,7 +70,7 @@ export default function WeekCard({ week_num, meals_per_week }) {
 						{week?.starting_date} to {week?.ending_date}
 					</span>
 				</h3>
-				<Button bgColor="bg-darkGreen" text="EDIT" />
+				{/* <Button bgColor="bg-darkGreen" text="EDIT" /> */}
 			</div>
 			<div className="flex flex-wrap gap-3 justify-start pt-5">
 				{meals?.map((meal, i) => {
@@ -84,7 +84,8 @@ export default function WeekCard({ week_num, meals_per_week }) {
 				) : (
 					<button
 						onClick={addMeals}
-						className="p-1 w-20 h-20 rounded-full ring-2 ring-gray-300 flex justify-center items-center"
+						className="p-1 w-20 h-20 rounded-full ring-2 ring-gray-300 flex justify-center items-center disabled:cursor-not-allowed disabled:text-gray-400"
+						disabled={week?.is_delivered}
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

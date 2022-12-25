@@ -120,6 +120,13 @@ export default function Navbar() {
 							<Dropdown.Item>
 								<Link to="/profile">Profile </Link>
 							</Dropdown.Item>
+							{localStorage.getItem("admin") ? (
+								<Dropdown.Item>
+									<Link to="/dashboard">Dashboard </Link>
+								</Dropdown.Item>
+							) : (
+								""
+							)}
 
 							<Dropdown.Divider />
 							<Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>

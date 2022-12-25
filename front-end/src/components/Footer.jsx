@@ -42,12 +42,12 @@ export default function Footer() {
 						</a>
 						<div className="mt-4 lg:max-w-sm">
 							<p className="text-sm text-deep-purple-50">
-								Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-								accusantium doloremque laudantium, totam rem aperiam.
+								Easy meals subscription service makes it easy to enjoy healthy,
+								home-cooked meals every day.
 							</p>
 							<p className="mt-4 text-sm text-deep-purple-50">
-								Name Eaque ipsa quae ab illo inventore veritatis et quasi
-								architecto beatae vitae dicta sunt explicabo.
+								With a variety of delicious and nutritious options to choose
+								from, there's something for every taste and dietary need.
 							</p>
 						</div>
 					</div>
@@ -111,13 +111,11 @@ export default function Footer() {
 							<p className="tracking-wide font-thin uppercase">Work with us</p>
 							<ul className="mt-2 space-y-2">
 								<li>
-									<Link className="transition-colors duration-300 hover:drop-shadow-lg">
-										Deliver
-									</Link>
-								</li>
-								<li>
-									<Link className="transition-colors duration-300 hover:drop-shadow-lg">
-										Groceries
+									<Link
+										to="/apply"
+										className="transition-colors duration-300 hover:drop-shadow-lg"
+									>
+										Apply
 									</Link>
 								</li>
 							</ul>

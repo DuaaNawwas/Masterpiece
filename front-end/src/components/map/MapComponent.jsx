@@ -1,5 +1,5 @@
-import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { LoadScript } from "@react-google-maps/api";
 
 function MapComponent({ position, setPosition }) {

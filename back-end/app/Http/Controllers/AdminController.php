@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Ingredient;
+use App\Models\Application;
 use App\Models\Meal;
+use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Nutrient;
+use App\Models\Ingredient;
+use App\Models\Payment;
+use App\Models\Subscription;
+use App\Models\User;
+use App\Models\Week;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rules\File;
@@ -246,5 +252,108 @@ class AdminController extends Controller
 
 
         return $this->getMeals();
+    }
+
+    public function allOrders()
+    {
+
+
+        $subscriptions = Subscription::where('status', 1)->with(['user', 'payment', 'weeks' => function ($query) {
+            $query->with(['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6']);
+        }])->get();
+
+        $subscriptions->each(function ($subscription) {
+            $subscription->weeks->each(function ($week) {
+                $meals = ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6'];
+                foreach ($meals as $meal) {
+                    $week->load([$meal . '.removedingredients' => function ($q) use ($week) {
+                        $q->where('week_id', $week->id);
+                    }]);
+                }
+            });
+        });
+
+
+
+        return response()->json([
+            'status' => 200,
+            'subscriptions' => $subscriptions
+        ]);
+    }
+
+    public function orderWeek($id)
+    {
+        $week = Week::where('id', $id)->with(['subscription.user'])->first();
+
+        if ($week) {
+            $meals = ['meal1', 'meal2', 'meal3', 'meal4', 'meal5', 'meal6'];
+            foreach ($meals as $meal) {
+                $week->load([$meal . '.removedingredients' => function ($q) use ($week) {
+                    $q->where('week_id', $week->id);
+                }, $meal . '.ingredients']);
+            }
+        }
+
+
+        return response()->json([
+            'status' => 200,
+            'week' => $week,
+        ]);
+    }
+
+    public function makeDelivered(Request $request)
+    {
+        $week = Week::where('id', $request->id)->first();
+
+        $week->is_delivered = $request->is_delivered;
+
+        $week->save();
+
+        return $this->orderWeek($request->id);
+    }
+
+    public function stats()
+    {
+        $users = User::count();
+        $subbedUsers = User::where('is_sub', 1)->count();
+        $usersRenewal = User::where('is_auto_renewed', 1)->count();
+        $categories = Category::count();
+        $meals = Meal::count();
+        $payments = Payment::sum('amount');
+        $activeSubscriptions = Subscription::where('status', 1)->count();
+
+        return response()->json([
+            'status' => 200,
+            'users' => $users,
+            'subbedUsers' => $subbedUsers,
+            'usersRenewal' => $usersRenewal,
+            'categories' => $categories,
+            'meals' => $meals,
+            'payments' => $payments,
+            'activeSubscriptions' => $activeSubscriptions,
+        ]);
+    }
+
+    public function allPayment()
+    {
+        return response()->json([
+            'status' => 200,
+            'payments' => Payment::with('user')->get(),
+        ]);
+    }
+
+    public function allContacts()
+    {
+        return response()->json([
+            'status' => 200,
+            'contacts' => Contact::all(),
+        ]);
+    }
+    public function allApplications()
+    {
+        return response()->json([
+            'status' => 200,
+            'applications' => Application::all(),
+        ]);
     }
 }

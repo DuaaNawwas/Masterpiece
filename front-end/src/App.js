@@ -28,6 +28,11 @@ import AddMeal from "./pages/admin/AddMeal";
 import Meals from "./pages/admin/Meals";
 import AdminProvider from "./context/AdminContext";
 import EditMeal from "./pages/admin/EditMeal";
+import SingleWeek from "./components/admin/orders/SingleWeek";
+import OrdersTable from "./pages/admin/OrdersTable";
+import ContactsTable from "./pages/admin/ContactsTable";
+import Apply from "./pages/Apply";
+import ApplicationTable from "./pages/admin/ApplicationTable";
 
 // define axios defaults
 axios.defaults.baseURL = "http://localhost:8000/";
@@ -62,19 +67,11 @@ function App() {
 										<Route path="/register" element={<Registration />} />
 										<Route path="/menu" element={<Menu />} />
 										<Route path="/profile" element={<Profile />} />
+										<Route path="/apply" element={<Apply />} />
 										<Route path="*" element={<NotFound />} />
 									</Route>
 
 									<Route path="/dashboard" element={<AdminEnd />}>
-										{/* {(routeProps) => {
-										const { user } = useContext(AuthContext);
-										if (user && user.role === "admin") {
-											return <AdminEnd {...routeProps} />;
-										} else {
-											return <Redirect to="/" />;
-										}
-									}} */}
-
 										<Route index element={<Dashboard />} />
 										<Route
 											path="/dashboard/category/add"
@@ -87,6 +84,19 @@ function App() {
 										<Route path="/dashboard/meal/add" element={<AddMeal />} />
 										<Route path="/dashboard/meals" element={<Meals />} />
 										<Route path="/dashboard/meals/:id" element={<EditMeal />} />
+										<Route path="/dashboard/orders" element={<OrdersTable />} />
+										<Route
+											path="/dashboard/orders/:id"
+											element={<SingleWeek />}
+										/>
+										<Route
+											path="/dashboard/contacts"
+											element={<ContactsTable />}
+										/>
+										<Route
+											path="/dashboard/applications"
+											element={<ApplicationTable />}
+										/>
 									</Route>
 								</Routes>
 								{/* <Navbar />

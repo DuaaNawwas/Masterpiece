@@ -12,7 +12,7 @@ import swal from "sweetalert";
 import { useLocation } from "react-router-dom";
 
 export default function ModalRecipe(props) {
-	const { cookies } = useContext(AuthContext);
+	const { cookies, user } = useContext(AuthContext);
 	// Get meal data from database
 	const [meal, setMeal] = useState();
 	const [loading, setLoading] = useState(true);
@@ -322,49 +322,55 @@ export default function ModalRecipe(props) {
 						<Button color="gray" onClick={closeModal}>
 							Cancel
 						</Button>
-						<div className="flex w-56 gap-2">
-							{/* <div className="w-1/3"> */}
-							<select
-								id="countries"
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								onChange={(e) => setWeekNum(parseInt(e.target.value))}
-							>
-								<option selected={weekNum === 1} value="1">
-									Week 1
-								</option>
-								<option selected={weekNum === 2} value="2">
-									Week 2
-								</option>
-								<option selected={weekNum === 3} value="3">
-									Week 3
-								</option>
-								<option selected={weekNum === 4} value="4">
-									Week 4
-								</option>
-							</select>
-							{/* </div> */}
-							<button
-								type="button"
-								className="text-white bg-rusty hover:bg-rustySh focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2"
-								onClick={addMeal}
-							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className="w-6 h-6"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M12 4.5v15m7.5-7.5h-15"
-									/>
-								</svg>
 
-								<span className="sr-only">Icon description</span>
-							</button>
+						<div className="flex w-56 gap-2">
+							{user && user?.is_sub === 1 ? (
+								<>
+									<select
+										id="countries"
+										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										onChange={(e) => setWeekNum(parseInt(e.target.value))}
+									>
+										<option selected={weekNum === 1} value="1">
+											Week 1
+										</option>
+										<option selected={weekNum === 2} value="2">
+											Week 2
+										</option>
+										<option selected={weekNum === 3} value="3">
+											Week 3
+										</option>
+										<option selected={weekNum === 4} value="4">
+											Week 4
+										</option>
+									</select>
+
+									<button
+										type="button"
+										className="text-white bg-rusty hover:bg-rustySh focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2"
+										onClick={addMeal}
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											strokeWidth={1.5}
+											stroke="currentColor"
+											className="w-6 h-6"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												d="M12 4.5v15m7.5-7.5h-15"
+											/>
+										</svg>
+
+										<span className="sr-only">Icon description</span>
+									</button>
+								</>
+							) : (
+								""
+							)}
 						</div>
 					</Modal.Footer>
 				</Modal>

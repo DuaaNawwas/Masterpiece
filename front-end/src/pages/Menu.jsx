@@ -21,7 +21,7 @@ export default function Menu() {
 	const [modalTutorial, setModalTutorial] = useState(false);
 
 	const { categories } = useContext(DataContext);
-	const { stateToken, cookies } = useContext(AuthContext);
+	const { user, cookies } = useContext(AuthContext);
 
 	const token = cookies.Token;
 	const [forYouMeals, setForYourMeals] = useState();
@@ -32,7 +32,7 @@ export default function Menu() {
 	useEffect(() => {
 		setModalTutorial(true);
 
-		if (fromSpecificPage) {
+		if (fromSpecificPage || !user || user?.is_sub === 0) {
 			setModalTutorial(false);
 		}
 	}, []);
@@ -66,7 +66,7 @@ export default function Menu() {
 	}, []);
 	return (
 		<>
-			{modalTutorial && (
+			{modalTutorial && user?.is_sub === 1 && (
 				<ModalTutorial close={hideModalTutorial} show={modalTutorial} />
 			)}
 

@@ -62,28 +62,31 @@ export default function WeekMeals({ meal, setWeek, week }) {
 				alt=""
 				onClick={() => setShow(true)}
 			/>
-
-			<button
-				onClick={() => deleteMeal(meal.id)}
-				className="hidden bg-red-600 text-white top-0 left-14 absolute  text-sm font-semibold group-hover:inline-flex items-center p-1.5 rounded-full"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					strokeWidth={1.5}
-					stroke="currentColor"
-					className="w-3 h-3"
+			{week?.is_delivered === 0 ? (
+				<button
+					onClick={() => deleteMeal(meal.id)}
+					className="hidden bg-red-600 text-white top-0 left-14 absolute  text-sm font-semibold group-hover:inline-flex items-center p-1.5 rounded-full"
 				>
-					<path
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						d="M6 18L18 6M6 6l12 12"
-					/>
-				</svg>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						strokeWidth={1.5}
+						stroke="currentColor"
+						className="w-3 h-3"
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M6 18L18 6M6 6l12 12"
+						/>
+					</svg>
 
-				<span className="sr-only">Icon description</span>
-			</button>
+					<span className="sr-only">Icon description</span>
+				</button>
+			) : (
+				""
+			)}
 		</div>
 	);
 }

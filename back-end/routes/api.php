@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ApplicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -47,6 +48,7 @@ Route::resource('/meals', MealController::class);
 Route::get('/pricing', [SubscriptionController::class, 'pricings']);
 // Endpoint for submitting contact message
 Route::post('/contact', [ContactController::class, 'store']);
+Route::post('/apply', [ApplicationController::class, 'store']);
 
 
 // Protected routes---------------------------------------
@@ -94,4 +96,11 @@ Route::put('/editMeal', [AdminController::class, 'editMeal']);
 Route::post('/editMealImage', [AdminController::class, 'editMealImage']);
 Route::put('/editIngredients', [AdminController::class, 'editIngredients']);
 Route::put('/editNutrients', [AdminController::class, 'editNutrients']);
+Route::get('/orders', [AdminController::class, 'allOrders']);
+Route::get('/orders/week/{id}', [AdminController::class, 'orderWeek']);
+Route::post('/makeDelivered', [AdminController::class, 'makeDelivered']);
+Route::get('/stats', [AdminController::class, 'stats']);
+Route::get('/payments', [AdminController::class, 'allPayment']);
+Route::get('/allContacts', [AdminController::class, 'allContacts']);
+Route::get('/allApplications', [AdminController::class, 'allApplications']);
 // });
