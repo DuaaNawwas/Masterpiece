@@ -14,6 +14,8 @@ export default function RegisterForm() {
 	const navigate = useNavigate();
 	const { fromSpecificPage } = state || {};
 
+	const from = state?.from?.pathname || "/";
+
 	// --------------------------------------------
 	// Do same handling to register by google/ faceboook
 	// --------------------------------------------
@@ -57,10 +59,7 @@ export default function RegisterForm() {
 					setStateToken(token);
 					setUser(res.data.user);
 					if (res.data.user.role === "admin") {
-						setIsAdmin(true);
 						localStorage.setItem("admin", "true");
-					} else {
-						setIsAdmin(false);
 					}
 
 					const data2 = {
@@ -83,7 +82,8 @@ export default function RegisterForm() {
 								}
 							});
 					} else {
-						navigate("/", { replace: true });
+						// navigate("/", { replace: true });
+						navigate(from, { replace: true });
 					}
 				} else {
 					console.log(res);

@@ -42,7 +42,6 @@ export default function Payment() {
 					};
 
 					const data = {
-						// serialNum: res.paymentMethod.id,
 						people_num: planDetails.ppl_num,
 						meals_per_week: planDetails.meals_per_week,
 						price: price_per_serving.total_price,
@@ -102,8 +101,6 @@ export default function Payment() {
 									{price_per_serving?.total_price} Jd
 								</span>
 							</p>
-							<p className="mt-4  text-xl ">Note:</p>
-							<p className="mt-2  text-sm ">Lorem ipsum dolor sit amet.</p>
 						</div>
 					</div>
 

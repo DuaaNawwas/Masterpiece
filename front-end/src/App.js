@@ -33,6 +33,13 @@ import OrdersTable from "./pages/admin/OrdersTable";
 import ContactsTable from "./pages/admin/ContactsTable";
 import Apply from "./pages/Apply";
 import ApplicationTable from "./pages/admin/ApplicationTable";
+import UserRoute from "./helpers/UserRoute";
+import AdminRoute from "./helpers/AdminRoute";
+import NotSubscribedRoute from "./helpers/NotSubscribedRoute";
+import SubscribedRoute from "./helpers/SubscribedRoute";
+import Unauthorized from "./pages/Unauthorized";
+import RequireAuth from "./helpers/RequireAuth";
+import GuestRoute from "./helpers/GuestRoute";
 
 // define axios defaults
 axios.defaults.baseURL = "http://localhost:8000/";
@@ -40,13 +47,12 @@ axios.defaults.headers.post["Content-Type"] = "application/vnd.api+json";
 axios.defaults.headers.post["Accept"] = "application/vnd.api+json";
 axios.defaults.withCredentials = true;
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_ID);
+const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE_API_ID}`);
 
 // define "lord-icon" custom element with default properties
 defineElement(lottie.loadAnimation);
 
 function App() {
-	// const { user, cookies } = useContext(AuthContext);
 	return (
 		<>
 			<Elements stripe={stripePromise}>
@@ -62,16 +68,44 @@ function App() {
 										<Route path="/home" element={<Home />} />
 										<Route path="/about" element={<About />} />
 										<Route path="/contact" element={<Contact />} />
-										<Route path="/subscribe" element={<Subscribe />} />
-										<Route path="/login" element={<Login />} />
-										<Route path="/register" element={<Registration />} />
+										<Route
+											path="/subscribe"
+											element={
+												<SubscribedRoute>
+													<Subscribe />
+												</SubscribedRoute>
+											}
+										/>
+										<Route element={<GuestRoute />}>
+											<Route path="/login" element={<Login />} />
+											<Route path="/register" element={<Registration />} />
+										</Route>
 										<Route path="/menu" element={<Menu />} />
-										<Route path="/profile" element={<Profile />} />
+										<Route
+											path="/profile"
+											element={
+												<UserRoute>
+													<NotSubscribedRoute>
+														<Profile />
+													</NotSubscribedRoute>
+												</UserRoute>
+											}
+										/>
 										<Route path="/apply" element={<Apply />} />
-										<Route path="*" element={<NotFound />} />
 									</Route>
+									<Route path="/unauthorized" element={<Unauthorized />} />
 
-									<Route path="/dashboard" element={<AdminEnd />}>
+									<Route path="*" element={<NotFound />} />
+
+									<Route
+										path="/dashboard"
+										element={
+											<AdminRoute>
+												<AdminEnd />
+											</AdminRoute>
+										}
+									>
+										{/* <Route element={<RequireAuth allowedRoles={["Admin"]} />}> */}
 										<Route index element={<Dashboard />} />
 										<Route
 											path="/dashboard/category/add"
@@ -98,21 +132,8 @@ function App() {
 											element={<ApplicationTable />}
 										/>
 									</Route>
+									{/* </Route> */}
 								</Routes>
-								{/* <Navbar />
-							<Routes>
-								<Route path="/" element={<Home />} />
-								<Route path="/home" element={<Home />} />
-								<Route path="/about" element={<About />} />
-								<Route path="/contact" element={<Contact />} />
-								<Route path="/subscribe" element={<Subscribe />} />
-								<Route path="/login" element={<Login />} />
-								<Route path="/register" element={<Registration />} />
-								<Route path="/menu" element={<Menu />} />
-								<Route path="/profile" element={<Profile />} />
-								<Route path="*" element={<NotFound />} />
-							</Routes>
-							<Footer /> */}
 							</DataProvider>
 						</AdminProvider>
 					</AuthProvider>

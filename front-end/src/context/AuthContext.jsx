@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { createContext } from "react";
 import { useCookies } from "react-cookie";
 import jwt_decode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Create auth context
 export const AuthContext = createContext();
@@ -11,6 +11,8 @@ export const AuthContext = createContext();
 // Create the provider
 export default function AuthProvider({ children }) {
 	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || "/";
 	// cookies
 	const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
@@ -18,7 +20,6 @@ export default function AuthProvider({ children }) {
 
 	// logged in user
 	const [user, setUser] = useState({});
-	const [isAdmin, setIsAdmin] = useState(false);
 
 	// Get logged in user data
 	useEffect(() => {
@@ -34,10 +35,7 @@ export default function AuthProvider({ children }) {
 				.then((res) => {
 					setUser(res.data.user);
 					if (res.data.user.role === "admin") {
-						setIsAdmin(true);
 						localStorage.setItem("admin", "true");
-					} else {
-						setIsAdmin(false);
 					}
 				});
 			console.log(user);
@@ -70,12 +68,10 @@ export default function AuthProvider({ children }) {
 					setStateToken(token);
 					setUser(res.data.user);
 					if (res.data.user.role === "admin") {
-						setIsAdmin(true);
 						localStorage.setItem("admin", "true");
-					} else {
-						setIsAdmin(false);
 					}
-					navigate("/", { replace: true });
+					// navigate("/", { replace: true });
+					navigate(from, { replace: true });
 				} else {
 					console.log(res);
 				}
@@ -102,12 +98,10 @@ export default function AuthProvider({ children }) {
 					setStateToken(token);
 					setUser(res.data.user);
 					if (res.data.user.role === "admin") {
-						setIsAdmin(true);
 						localStorage.setItem("admin", "true");
-					} else {
-						setIsAdmin(false);
 					}
-					navigate("/", { replace: true });
+					// navigate("/", { replace: true });
+					navigate(from, { replace: true });
 				} else {
 					console.log(res);
 				}
@@ -127,8 +121,6 @@ export default function AuthProvider({ children }) {
 				loginWithFacebook,
 				stateToken,
 				setStateToken,
-				isAdmin,
-				setIsAdmin,
 			}}
 		>
 			{children}

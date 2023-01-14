@@ -7,7 +7,6 @@ import logo from "../images/logo.svg";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
-import { DataContext } from "../context/DataContext";
 import { useEffect } from "react";
 
 export default function Navbar() {
@@ -31,8 +30,6 @@ export default function Navbar() {
 			setPages(["home", "menu", "plans", "about", "contact"]);
 		}
 	}, [user]);
-
-	const { setSelectedCateg } = useContext(DataContext);
 
 	// Log out the user
 	const handleLogout = () => {

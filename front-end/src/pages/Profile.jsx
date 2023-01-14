@@ -20,14 +20,14 @@ export default function Profile() {
 	const { user, cookies, setUser } = useContext(AuthContext);
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (!cookies.Token) {
-			navigate("/login");
-		}
-		if (user?.is_sub === null) {
-			navigate("/subscribe");
-		}
-	}, [cookies.Token]);
+	// useEffect(() => {
+	// 	if (!cookies.Token) {
+	// 		navigate("/login");
+	// 	}
+	// 	if (user?.is_sub === null) {
+	// 		navigate("/subscribe");
+	// 	}
+	// }, [cookies.Token]);
 
 	const [plan, setPlan] = useState();
 

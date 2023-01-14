@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "../Button";
 import SocialLogin from "./SocialLogin";
@@ -11,7 +11,10 @@ export default function LoginForm() {
 		useContext(AuthContext);
 
 	// Navigation hook
+
 	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || "/";
 
 	// Get inputs from user
 	const [loginData, setLoginData] = useState({
@@ -45,12 +48,10 @@ export default function LoginForm() {
 					setStateToken(token);
 					setUser(res.data.user);
 					if (res.data.user.role === "admin") {
-						setIsAdmin(true);
 						localStorage.setItem("admin", "true");
-					} else {
-						setIsAdmin(false);
 					}
-					navigate("/", { replace: true });
+					// navigate("/", { replace: true });
+					navigate(from, { replace: true });
 				} else {
 					console.log(res);
 					setLoginData({ ...loginData, errors: res.data.errors });
@@ -127,9 +128,9 @@ export default function LoginForm() {
 									Remember Me
 								</label>
 							</div> */}
-							<a className="inline-block text-sm text-darkRed align-baseline hover:text-darkRed">
+							{/* <a className="inline-block text-sm text-darkRed align-baseline hover:text-darkRed">
 								Forgot Password?
-							</a>
+							</a> */}
 						</div>
 
 						<Button

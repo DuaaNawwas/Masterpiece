@@ -18,11 +18,11 @@ export default function Subscribe() {
 
 	const { user } = useContext(AuthContext);
 	const navigate = useNavigate();
-	useEffect(() => {
-		if (user?.is_sub == 1) {
-			navigate("/profile", { replace: true });
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (user?.is_sub == 1) {
+	// 		navigate("/profile", { replace: true });
+	// 	}
+	// }, []);
 
 	const [step, setStep] = useState(1);
 

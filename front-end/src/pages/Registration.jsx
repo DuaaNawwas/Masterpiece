@@ -8,16 +8,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function Registration() {
-	const { cookies } = useContext(AuthContext);
 	const { state } = useLocation();
-	const navigate = useNavigate();
-	const { fromSpecificPage } = state || {};
 
-	useEffect(() => {
-		if (cookies.Token) {
-			navigate("/profile", { replace: true });
-		}
-	}, []);
+	const { fromSpecificPage } = state || {};
 
 	return (
 		<>

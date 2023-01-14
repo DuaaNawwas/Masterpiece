@@ -111,7 +111,6 @@ class SubscriptionController extends Controller
             'subscription' => $subscription,
             'payment' => $payment,
             'weeks' => $weeks,
-            // 'preferred_categs' => $preferred_categs
         ]);
     }
 

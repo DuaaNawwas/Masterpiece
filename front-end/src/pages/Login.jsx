@@ -5,14 +5,5 @@ import LoginForm from "../components/login/LoginForm";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
-	const { cookies } = useContext(AuthContext);
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (cookies.Token) {
-			navigate("/profile", { replace: true });
-		}
-	}, []);
-
 	return <LoginForm />;
 }

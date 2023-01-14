@@ -32,14 +32,14 @@ export default function Footer() {
 					className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-6"
 				>
 					<div className="md:max-w-md lg:col-span-2">
-						<a
-							href="/"
+						<Link
+							to="/"
 							aria-label="Go home"
 							title="Company"
 							className="inline-flex items-center"
 						>
 							<img src={logo} alt="" className="w-24 rounded-md ml-32" />
-						</a>
+						</Link>
 						<div className="mt-4 lg:max-w-sm">
 							<p className="text-sm text-deep-purple-50">
 								Easy meals subscription service makes it easy to enjoy healthy,
