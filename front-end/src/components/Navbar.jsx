@@ -47,7 +47,7 @@ export default function Navbar() {
 				localStorage.removeItem("details");
 				localStorage.removeItem("dod");
 				localStorage.removeItem("admin");
-				setIsAdmin(false);
+				// setIsAdmin(false);
 				// setSelectedCateg([]);
 				navigate("/login");
 			})
@@ -252,6 +252,13 @@ export default function Navbar() {
 													{" "}
 													<Link to="/profile">Profile </Link>
 												</Dropdown.Item>
+												{localStorage.getItem("admin") ? (
+													<Dropdown.Item>
+														<Link to="/dashboard">Dashboard </Link>
+													</Dropdown.Item>
+												) : (
+													""
+												)}
 
 												<Dropdown.Divider />
 												<Dropdown.Item onClick={handleLogout}>

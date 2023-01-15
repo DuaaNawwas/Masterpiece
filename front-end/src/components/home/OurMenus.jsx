@@ -68,19 +68,19 @@ export default function OurMenus() {
 						modules={[Pagination, Navigation, Autoplay]}
 						className="mySwiper"
 					>
-						{categories?.map((categ) => {
+						{categories?.map((categ, i) => {
 							return (
-								<SwiperSlide>
-									<div class="group relative mb-10">
-										<div class="relative h-80 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
+								<SwiperSlide key={i}>
+									<div className="group relative mb-10">
+										<div className="relative h-80 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
 											<img
 												src={categ?.image}
 												alt=""
-												class="h-full w-full object-cover object-center group-hover:scale-110 ease-in duration-100"
+												className="h-full w-full object-cover object-center group-hover:scale-110 ease-in duration-100"
 											/>
 										</div>
-										<h3 class="mt-6 text-sm text-gray-500">Category</h3>
-										<p class="text-base font-semibold text-gray-900">
+										<h3 className="mt-6 text-sm text-gray-500">Category</h3>
+										<p className="text-base font-semibold text-gray-900">
 											{categ?.name}
 										</p>
 									</div>

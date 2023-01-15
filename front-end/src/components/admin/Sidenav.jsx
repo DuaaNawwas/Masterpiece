@@ -65,9 +65,9 @@ export default function Sidenav() {
 									fill="currentColor"
 								>
 									<path
-										fill-rule="evenodd"
+										fillRule="evenodd"
 										d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-										clip-rule="evenodd"
+										clipRule="evenodd"
 									/>
 								</svg>
 							</span>
@@ -120,9 +120,9 @@ export default function Sidenav() {
 									fill="currentColor"
 								>
 									<path
-										fill-rule="evenodd"
+										fillRule="evenodd"
 										d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-										clip-rule="evenodd"
+										clipRule="evenodd"
 									/>
 								</svg>
 							</span>
@@ -174,11 +174,11 @@ export default function Sidenav() {
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
-							stroke-width="2"
+							strokeWidth="2"
 						>
 							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
+								strokeLinecap="round"
+								strokeLinejoin="round"
 								d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
 							/>
 						</svg>

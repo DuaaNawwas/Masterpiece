@@ -22,26 +22,26 @@ export default function MealOrder({ meal }) {
 		}
 	}, []);
 	return (
-		<article class="group">
+		<article className="group">
 			<img
 				alt=""
 				src={meal?.image}
-				class="h-56 w-full rounded-xl object-cover shadow-xl transition group-hover:grayscale-[50%]"
+				className="h-56 w-full rounded-xl object-cover shadow-xl transition group-hover:grayscale-[50%]"
 			/>
 
-			<div class="p-4">
+			<div className="p-4">
 				<a href="#">
-					<h3 class="text-lg font-medium text-gray-900">{meal?.name}</h3>
+					<h3 className="text-lg font-medium text-gray-900">{meal?.name}</h3>
 				</a>
 				{removedIngs ? (
-					<p class="mt-2 text-sm leading-relaxed text-gray-500 ">
+					<div className="mt-2 text-sm leading-relaxed text-gray-500 ">
 						Removed ingredients:{" "}
 						<ul>
-							{removedIngs?.map((ing) => {
-								return <li>- {ing.name}</li>;
+							{removedIngs?.map((ing, i) => {
+								return <li key={i}>- {ing.name}</li>;
 							})}
 						</ul>
-					</p>
+					</div>
 				) : (
 					""
 				)}

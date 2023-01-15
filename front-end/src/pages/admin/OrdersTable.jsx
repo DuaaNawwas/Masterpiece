@@ -195,27 +195,27 @@ export default function OrdersTable() {
 										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
 											{item.id}
 										</td>
-										<Tooltip
-											content={
-												<div className="flex flex-col gap-2">
-													<span className="flex gap-2 items-center">
-														<img
-															src={item.user.img}
-															className="rounded-full w-7 h-7"
-															alt=""
-														/>
+										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white cursor-pointer hover:text-blue-500 hover:dark:text-blue-500">
+											<Tooltip
+												content={
+													<div className="flex flex-col gap-2">
+														<span className="flex gap-2 items-center">
+															<img
+																src={item.user.img}
+																className="rounded-full w-7 h-7"
+																alt=""
+															/>
 
-														<span>{item.user.name}</span>
-													</span>
-													<span>Phone : {item.user.phone}</span>
-													<span>City : {item.user.city}</span>
-												</div>
-											}
-										>
-											<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white cursor-pointer hover:text-blue-500 hover:dark:text-blue-500">
+															<span>{item.user.name}</span>
+														</span>
+														<span>Phone : {item.user.phone}</span>
+														<span>City : {item.user.city}</span>
+													</div>
+												}
+											>
 												{item.user.email}
-											</td>
-										</Tooltip>
+											</Tooltip>
+										</td>
 										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
 											{item.p_m}
 										</td>

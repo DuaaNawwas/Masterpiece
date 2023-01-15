@@ -181,32 +181,33 @@ export default function PaymentsTable() {
 								return (
 									<tr
 										key={i}
-										className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+										className="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
 									>
 										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
 											{item.id}
 										</td>
-										<Tooltip
-											content={
-												<div className="flex flex-col gap-2">
-													<span className="flex gap-2 items-center">
-														<img
-															src={item.img}
-															className="rounded-full w-7 h-7"
-															alt=""
-														/>
+										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white cursor-pointer hover:text-blue-500 hover:dark:text-blue-500">
+											<Tooltip
+												content={
+													<div className="flex flex-col gap-2">
+														<span className="flex gap-2 items-center">
+															<img
+																src={item.img}
+																className="rounded-full w-7 h-7"
+																alt=""
+																referrerPolicy="no-referrer"
+															/>
 
-														<span>{item.name}</span>
-													</span>
-													<span>Phone : {item.phone}</span>
-													<span>City : {item.city}</span>
-												</div>
-											}
-										>
-											<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white cursor-pointer hover:text-blue-500 hover:dark:text-blue-500">
+															<span>{item.name}</span>
+														</span>
+														<span>Phone : {item.phone}</span>
+														<span>City : {item.city}</span>
+													</div>
+												}
+											>
 												{item.email}
-											</td>
-										</Tooltip>
+											</Tooltip>
+										</td>
 										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
 											{item.last4}
 										</td>
