@@ -4,9 +4,11 @@ import { useContext } from "react";
 import swal from "sweetalert";
 import MealCardDash from "../../components/admin/meals/MealCardDash";
 import { AdminContext } from "../../context/AdminContext";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Meals() {
 	const { meals, setMeals } = useContext(AdminContext);
+	const { cookies } = useContext(AuthContext);
 
 	const handleDelete = (id) => {
 		swal({
@@ -17,13 +19,21 @@ export default function Meals() {
 			dangerMode: true,
 		}).then((willDelete) => {
 			if (willDelete) {
-				axios.delete(`/api/meal/${id}`).then((res) => {
-					if (res.data.status === 200) {
-						setMeals(res.data.meals);
-					}
-				});
+				axios
+					.delete(`/api/meal/${id}`, {
+						headers: {
+							Authorization: `Bearer ${cookies.Token}`,
+						},
+					})
+					.then((res) => {
+						if (res.data.status === 200) {
+							setMeals(res.data.meals);
+						}
+					});
 				swal("Poof! meal has been deleted!", {
 					icon: "success",
+				}).catch((err) => {
+					swal("Error", err, "error");
 				});
 			} else {
 				swal("Your meal is safe!");

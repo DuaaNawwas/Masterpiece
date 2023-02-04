@@ -1,11 +1,14 @@
 import axios from "axios";
+import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { createContext } from "react";
 import swal from "sweetalert";
+import { AuthContext } from "./AuthContext";
 
 export const AdminContext = createContext();
 
 export default function AdminProvider({ children }) {
+	const { cookies } = useContext(AuthContext);
 	const [meals, setMeals] = useState([]);
 
 	const [mealData, setMealData] = useState({
@@ -42,12 +45,23 @@ export default function AdminProvider({ children }) {
 	]);
 	// Get all meals
 	useEffect(() => {
-		axios.get("/api/allmeals/get").then((res) => {
-			if (res.data.status === 200) {
-				console.log(res);
-				setMeals(res.data.meals);
-			}
-		});
+		if (cookies.Token && localStorage.getItem("admin")) {
+			axios
+				.get("/api/allmeals/get", {
+					headers: {
+						Authorization: `Bearer ${cookies.Token}`,
+					},
+				})
+				.then((res) => {
+					if (res.data.status === 200) {
+						console.log(res);
+						setMeals(res.data.meals);
+					}
+				})
+				.catch((err) => {
+					swal("Error", err, "error");
+				});
+		}
 	}, []);
 
 	const handleInputMeals = (e) => {
@@ -148,40 +162,52 @@ export default function AdminProvider({ children }) {
 			formData.append("sodium", mealData.sodium);
 			formData.append("ingredients", JSON.stringify(mealData.ingredients));
 
-			axios.post("/api/meal/add", formData).then((res) => {
-				if (res.data.status === 200) {
-					console.log(res);
-					setMeals(res.data.meals);
-					setMealData({
-						name: "",
-						image: "",
-						category_id: "",
-						short_desc: "",
-						long_desc: "",
-						cost: "",
-						note: "",
-						tags: "",
-						prep_time: "",
-						calories: "",
-						fat: "",
-						saturated_fat: "",
-						carbs: "",
-						sugar: "",
-						fiber: "",
-						protein: "",
-						cholesterol: "",
-						sodium: "",
-						ingredients: [],
+			if (cookies.Token && localStorage.getItem("admin")) {
+				axios
+					.post("/api/meal/add", formData, {
+						headers: {
+							Authorization: `Bearer ${cookies.Token}`,
+						},
+					})
+					.then((res) => {
+						if (res.data.status === 200) {
+							console.log(res);
+							setMeals(res.data.meals);
+							setMealData({
+								name: "",
+								image: "",
+								category_id: "",
+								short_desc: "",
+								long_desc: "",
+								cost: "",
+								note: "",
+								tags: "",
+								prep_time: "",
+								calories: "",
+								fat: "",
+								saturated_fat: "",
+								carbs: "",
+								sugar: "",
+								fiber: "",
+								protein: "",
+								cholesterol: "",
+								sodium: "",
+								ingredients: [],
+							}).catch((err) => {
+								swal("Error", err, "error");
+							});
+							setInputFields([{ ingredient: "", optional: false }]);
+							setUrl(null);
+							setMealErrors({});
+							swal("Meal added successfully", "", "success");
+						} else if (res.data.status === "failure") {
+							console.log(res);
+							setMealErrors(res.data.errors);
+						}
 					});
-					setInputFields([{ ingredient: "", optional: false }]);
-					setUrl(null);
-					setMealErrors({});
-					swal("Meal added successfully", "", "success");
-				} else if (res.data.status === "failure") {
-					console.log(res);
-					setMealErrors(res.data.errors);
-				}
-			});
+			} else {
+				swal("Error", "Not Authorized", "error");
+			}
 		}
 	};
 	return (

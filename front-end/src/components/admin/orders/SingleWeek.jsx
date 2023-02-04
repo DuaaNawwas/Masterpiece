@@ -8,25 +8,40 @@ import { LoadScript } from "@react-google-maps/api";
 import { Badge, Button } from "flowbite-react";
 import MealOrder from "./MealOrder";
 import NotFound from "../../../pages/NotFound";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+import swal from "sweetalert";
 
 export default function SingleWeek() {
+	const { cookies } = useContext(AuthContext);
 	const { id } = useParams();
 	const [week, setWeek] = useState();
 	const [meals, setMeals] = useState();
 	const [position, setPosition] = useState();
 	useEffect(() => {
-		axios.get(`/api/orders/week/${id}`).then((res) => {
-			if (res.data.status === 200) {
-				console.log("res.data.week");
-				console.log(res.data.week);
-				if (res.data.week) {
-					setWeek(res.data.week);
-					setPosition(JSON.parse(res.data.week.subscription.user.address));
-				} else {
-					setWeek("No Data");
-				}
-			}
-		});
+		if (cookies.Token && localStorage.getItem("admin")) {
+			axios
+				.get(`/api/orders/week/${id}`, {
+					headers: {
+						Authorization: `Bearer ${cookies.Token}`,
+					},
+				})
+				.then((res) => {
+					if (res.data.status === 200) {
+						console.log("res.data.week");
+						console.log(res.data.week);
+						if (res.data.week) {
+							setWeek(res.data.week);
+							setPosition(JSON.parse(res.data.week.subscription.user.address));
+						} else {
+							setWeek("No Data");
+						}
+					}
+				})
+				.catch((err) => {
+					swal("Error", err, "error");
+				});
+		}
 	}, []);
 
 	useEffect(() => {
@@ -53,12 +68,21 @@ export default function SingleWeek() {
 			id: id,
 			is_delivered: status,
 		};
-		axios.post("/api/makeDelivered", data).then((res) => {
-			if (res.data.status === 200) {
-				setWeek(res.data.week);
-				setPosition(JSON.parse(res.data.week.subscription.user.address));
-			}
-		});
+		axios
+			.post("/api/makeDelivered", data, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					setWeek(res.data.week);
+					setPosition(JSON.parse(res.data.week.subscription.user.address));
+				}
+			})
+			.catch((err) => {
+				swal("Error", err, "error");
+			});
 	};
 
 	if (week === "No Data") {

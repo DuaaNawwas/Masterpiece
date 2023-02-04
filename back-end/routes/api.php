@@ -52,7 +52,7 @@ Route::post('/apply', [ApplicationController::class, 'store']);
 
 
 // Protected routes---------------------------------------
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'ability:user,admin']], function () {
     // Endpoint for logout api
     Route::get('/logout', [AuthController::class, 'logout']);
     // Endpoint for getting user
@@ -85,22 +85,22 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
 // Admin Routes ---------------------------------------
-// Route::group(['middleware' => ['auth:sanctum', 'abilities:admin']], function () {
-Route::post('/categories/add', [AdminController::class, 'addCategory']);
-Route::delete('/category/{id}', [AdminController::class, 'deleteCategory']);
-Route::post('/category/edit', [AdminController::class, 'editCategory']);
-Route::post('/meal/add', [AdminController::class, 'addMeal']);
-Route::get('/allmeals/get', [AdminController::class, 'getMeals']);
-Route::delete('/meal/{id}', [AdminController::class, 'deleteMeal']);
-Route::put('/editMeal', [AdminController::class, 'editMeal']);
-Route::post('/editMealImage', [AdminController::class, 'editMealImage']);
-Route::put('/editIngredients', [AdminController::class, 'editIngredients']);
-Route::put('/editNutrients', [AdminController::class, 'editNutrients']);
-Route::get('/orders', [AdminController::class, 'allOrders']);
-Route::get('/orders/week/{id}', [AdminController::class, 'orderWeek']);
-Route::post('/makeDelivered', [AdminController::class, 'makeDelivered']);
-Route::get('/stats', [AdminController::class, 'stats']);
-Route::get('/payments', [AdminController::class, 'allPayment']);
-Route::get('/allContacts', [AdminController::class, 'allContacts']);
-Route::get('/allApplications', [AdminController::class, 'allApplications']);
-// });
+Route::group(['middleware' => ['auth:sanctum', 'abilities:admin']], function () {
+    Route::post('/categories/add', [AdminController::class, 'addCategory']);
+    Route::delete('/category/{id}', [AdminController::class, 'deleteCategory']);
+    Route::post('/category/edit', [AdminController::class, 'editCategory']);
+    Route::post('/meal/add', [AdminController::class, 'addMeal']);
+    Route::get('/allmeals/get', [AdminController::class, 'getMeals']);
+    Route::delete('/meal/{id}', [AdminController::class, 'deleteMeal']);
+    Route::put('/editMeal', [AdminController::class, 'editMeal']);
+    Route::post('/editMealImage', [AdminController::class, 'editMealImage']);
+    Route::put('/editIngredients', [AdminController::class, 'editIngredients']);
+    Route::put('/editNutrients', [AdminController::class, 'editNutrients']);
+    Route::get('/orders', [AdminController::class, 'allOrders']);
+    Route::get('/orders/week/{id}', [AdminController::class, 'orderWeek']);
+    Route::post('/makeDelivered', [AdminController::class, 'makeDelivered']);
+    Route::get('/stats', [AdminController::class, 'stats']);
+    Route::get('/payments', [AdminController::class, 'allPayment']);
+    Route::get('/allContacts', [AdminController::class, 'allContacts']);
+    Route::get('/allApplications', [AdminController::class, 'allApplications']);
+});

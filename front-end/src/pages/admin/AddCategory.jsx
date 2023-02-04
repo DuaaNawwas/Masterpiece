@@ -7,6 +7,7 @@ import { DataContext } from "../../context/DataContext";
 
 export default function AddCategory() {
 	const { setCategories } = useContext(DataContext);
+	const { cookies } = useContext(AuthContext);
 	const [data, setData] = useState({
 		name: "",
 		image: "",
@@ -37,6 +38,7 @@ export default function AddCategory() {
 				.post("/api/categories/add", formData, {
 					headers: {
 						"Content-type": "multipart/form-data",
+						Authorization: `Bearer ${cookies.Token}`,
 					},
 				})
 				.then((res) => {
@@ -52,6 +54,9 @@ export default function AddCategory() {
 					} else if (res.data.status === "failure") {
 						setErrors(res.data.errors);
 					}
+				})
+				.catch((err) => {
+					swal("Error", err, "error");
 				});
 		} else {
 			swal("All inputs are required", "", "error");

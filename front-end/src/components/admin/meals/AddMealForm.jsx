@@ -13,9 +13,7 @@ export default function AddMealForm() {
 			setUrl(URL.createObjectURL(mealData.image));
 		}
 	}, [mealData]);
-	// const handleInput = (e) => {
-	// 	setMealData({ ...mealData, [e.target.name]: e.target.value });
-	// };
+
 	return (
 		<>
 			<div className="space-y-6 bg-white px-4 py-5 sm:p-6">

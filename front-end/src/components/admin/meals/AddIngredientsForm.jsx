@@ -4,10 +4,6 @@ import { MdDelete } from "react-icons/md";
 import { AdminContext } from "../../../context/AdminContext";
 
 export default function AddIngredientsForm() {
-	// const [inputFields, setInputFields] = useState([
-	// 	{ ingredient: "", optional: false },
-	// ]);
-
 	const { inputFields, setInputFields, mealErrors } = useContext(AdminContext);
 
 	const handleFormChange = (i, e) => {
@@ -76,7 +72,7 @@ export default function AddIngredientsForm() {
 									</div>
 									<button
 										onClick={() => removeFields(i)}
-										class=" text-red-500  hover:underline"
+										className=" text-red-500  hover:underline"
 									>
 										<MdDelete size={20} />
 									</button>

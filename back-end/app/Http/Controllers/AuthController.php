@@ -44,7 +44,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'user' => $user,
-            'token' => $user->createToken('API Token of ' . $user->email)->plainTextToken
+            'token' => $user->createToken('API Token of ' . $user->email, ['user'])->plainTextToken
         ]);
     }
 
@@ -71,11 +71,21 @@ class AuthController extends Controller
             ]);
         }
 
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-            'token' => $user->createToken('API token of ' . $user->email)->plainTextToken
-        ]);
+        if ($user->role === 'admin') {
+
+            return response()->json([
+                'status' => 'success',
+                'user' => $user,
+                'token' => $user->createToken('API token of ' . $user->email, ['admin'])->plainTextToken
+            ]);
+        } else {
+
+            return response()->json([
+                'status' => 'success',
+                'user' => $user,
+                'token' => $user->createToken('API token of ' . $user->email, ['user'])->plainTextToken
+            ]);
+        }
     }
 
 
@@ -85,10 +95,17 @@ class AuthController extends Controller
         $finduser = User::where('google_id', $request->google_id)->first();
 
         if ($finduser) {
-            return response()->json([
-                'user' => $finduser,
-                'token' => $finduser->createToken('API token of ' . $finduser->email)->plainTextToken
-            ]);
+            if ($finduser->role === 'admin') {
+                return response()->json([
+                    'user' => $finduser,
+                    'token' => $finduser->createToken('API token of ' . $finduser->email, ['admin'])->plainTextToken
+                ]);
+            } else {
+                return response()->json([
+                    'user' => $finduser,
+                    'token' => $finduser->createToken('API token of ' . $finduser->email, ['user'])->plainTextToken
+                ]);
+            }
         } else {
             $user = User::create([
                 'first_name' => $request->first_name,
@@ -99,7 +116,7 @@ class AuthController extends Controller
             ]);
             return response()->json([
                 'user' => $user,
-                'token' => $user->createToken('API Token of ' . $user->email)->plainTextToken
+                'token' => $user->createToken('API Token of ' . $user->email, ['user'])->plainTextToken
             ]);
         }
     }
@@ -110,10 +127,17 @@ class AuthController extends Controller
         $finduser = User::where('facebook_id', $request->facebook_id)->first();
 
         if ($finduser) {
-            return response()->json([
-                'user' => $finduser,
-                'token' => $finduser->createToken('API token of ' . $finduser->email)->plainTextToken
-            ]);
+            if ($finduser->role === 'admin') {
+                return response()->json([
+                    'user' => $finduser,
+                    'token' => $finduser->createToken('API token of ' . $finduser->email, ['admin'])->plainTextToken
+                ]);
+            } else {
+                return response()->json([
+                    'user' => $finduser,
+                    'token' => $finduser->createToken('API token of ' . $finduser->email, ['user'])->plainTextToken
+                ]);
+            }
         } else {
             $user = User::create([
                 'first_name' => $request->first_name,
@@ -124,7 +148,7 @@ class AuthController extends Controller
             ]);
             return response()->json([
                 'user' => $user,
-                'token' => $user->createToken('API Token of ' . $user->email)->plainTextToken
+                'token' => $user->createToken('API Token of ' . $user->email, ['user'])->plainTextToken
             ]);
         }
     }

@@ -4,9 +4,11 @@ import { useContext } from "react";
 
 import { MdDelete } from "react-icons/md";
 import swal from "sweetalert";
+import { AuthContext } from "../../context/AuthContext";
 import { DataContext } from "../../context/DataContext";
 export default function Categories() {
 	const { categories, setCategories } = useContext(DataContext);
+	const { cookies } = useContext(AuthContext);
 
 	const handleDelete = (id) => {
 		swal({
@@ -17,11 +19,20 @@ export default function Categories() {
 			dangerMode: true,
 		}).then((willDelete) => {
 			if (willDelete) {
-				axios.delete(`/api/category/${id}`).then((res) => {
-					if (res.data.status === 200) {
-						setCategories(res.data.categories);
-					}
-				});
+				axios
+					.delete(`/api/category/${id}`, {
+						headers: {
+							Authorization: `Bearer ${cookies.Token}`,
+						},
+					})
+					.then((res) => {
+						if (res.data.status === 200) {
+							setCategories(res.data.categories);
+						}
+					})
+					.catch((err) => {
+						swal("Error", err, "error");
+					});
 				swal("Poof! Category has been deleted!", {
 					icon: "success",
 				});
@@ -39,24 +50,42 @@ export default function Categories() {
 			id: id,
 			name: newname,
 		};
-		axios.post("/api/category/edit", data).then((res) => {
-			if (res.data.status === 200) {
-				setCategories(res.data.categories);
-				swal("Category edited successfully", "", "success");
-			}
-		});
+		axios
+			.post("/api/category/edit", data, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					setCategories(res.data.categories);
+					swal("Category edited successfully", "", "success");
+				}
+			})
+			.catch((err) => {
+				swal("Error", err.message, "error");
+			});
 	};
 	const handleImageEdit = (image, id) => {
 		const formData = new FormData();
 		formData.append("id", id);
 		formData.append("image", image);
 
-		axios.post("/api/category/edit", formData).then((res) => {
-			if (res.data.status === 200) {
-				setCategories(res.data.categories);
-				swal("Category edited successfully", "", "success");
-			}
-		});
+		axios
+			.post("/api/category/edit", formData, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					setCategories(res.data.categories);
+					swal("Category edited successfully", "", "success");
+				}
+			})
+			.catch((err) => {
+				swal("Error", err, "error");
+			});
 	};
 	return (
 		<section className="w-7/12 m-auto p-6  bg-white rounded-md shadow-md dark:bg-gray-800 space-y-5">

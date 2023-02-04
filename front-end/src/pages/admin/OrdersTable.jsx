@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { Pagination, TextInput, Tooltip } from "flowbite-react";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import swal from "sweetalert";
 export default function OrdersTable() {
-	// const { concertData, loadingT, setLoadingT, searchTicket, setSearchTicket } = useContext(AdminContext);
+	const { cookies } = useContext(AuthContext);
+
 	const [data, setData] = useState();
 	const [search, setSearch] = useState("");
 	const [columns, setColumns] = useState();
@@ -61,11 +64,22 @@ export default function OrdersTable() {
 		setData(dataForTable);
 	};
 	useEffect(() => {
-		axios.get("/api/orders").then((res) => {
-			console.log("res");
-			console.log(res);
-			reArrangeData(res.data.subscriptions);
-		});
+		if (cookies.Token && localStorage.getItem("admin")) {
+			axios
+				.get("/api/orders", {
+					headers: {
+						Authorization: `Bearer ${cookies.Token}`,
+					},
+				})
+				.then((res) => {
+					console.log("res");
+					console.log(res);
+					reArrangeData(res.data.subscriptions);
+				})
+				.catch((err) => {
+					swal("Error", err, "error");
+				});
+		}
 	}, []);
 
 	useEffect(() => {

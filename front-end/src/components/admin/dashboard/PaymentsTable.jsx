@@ -4,8 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { Pagination, TextInput, Tooltip } from "flowbite-react";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+import swal from "sweetalert";
 export default function PaymentsTable() {
-	// const { concertData, loadingT, setLoadingT, searchTicket, setSearchTicket } = useContext(AdminContext);
+	const { cookies } = useContext(AuthContext);
 	const [data, setData] = useState();
 	const [search, setSearch] = useState("");
 	const [columns, setColumns] = useState();
@@ -54,9 +57,20 @@ export default function PaymentsTable() {
 		setData(dataForTable);
 	};
 	useEffect(() => {
-		axios.get("/api/payments").then((res) => {
-			reArrangeData(res.data.payments);
-		});
+		if (cookies.Token && localStorage.getItem("admin")) {
+			axios
+				.get("/api/payments", {
+					headers: {
+						Authorization: `Bearer ${cookies.Token}`,
+					},
+				})
+				.then((res) => {
+					reArrangeData(res.data.payments);
+				})
+				.catch((err) => {
+					swal("Error", err, "error");
+				});
+		}
 	}, []);
 
 	useEffect(() => {
@@ -149,13 +163,13 @@ export default function PaymentsTable() {
 				className="w-52 my-2"
 				onChange={(e) => setSearch(e.target.value)}
 			/>
-			<div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-				<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+			<div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+				<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+					<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 						<tr>
 							{columns?.map((col, i) => {
 								return (
-									<th key={i} scope="col" class="py-3 px-6">
+									<th key={i} scope="col" className="py-3 px-6">
 										{col.sort ? (
 											<span
 												onClick={() => sortByKey(data, col.id, w)}

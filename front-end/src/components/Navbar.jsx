@@ -49,7 +49,7 @@ export default function Navbar() {
 				localStorage.removeItem("admin");
 				// setIsAdmin(false);
 				// setSelectedCateg([]);
-				navigate("/login");
+				navigate("/login", { replace: true });
 			})
 			.catch((err) => {
 				console.log(err);

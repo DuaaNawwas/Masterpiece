@@ -6,20 +6,32 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
 import { AdminContext } from "../../context/AdminContext";
+import { AuthContext } from "../../context/AuthContext";
 import { DataContext } from "../../context/DataContext";
 
 export default function EditMeal() {
+	const { cookies } = useContext(AuthContext);
+
 	const { id } = useParams();
 	const [meal, setMeal] = useState();
 	const [url, setUrl] = useState(null);
 	const { categories } = useContext(DataContext);
 	const { setMeals } = useContext(AdminContext);
 	useEffect(() => {
-		axios.get(`/api/meals/${id}`).then((res) => {
-			if (res.data.status === 200) {
-				setMeal(res.data.meal);
-			}
-		});
+		axios
+			.get(`/api/meals/${id}`, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					setMeal(res.data.meal);
+				}
+			})
+			.catch((err) => {
+				swal("Error", err, "error");
+			});
 	}, []);
 
 	const handleEditMeal = (e, oldValue) => {
@@ -36,12 +48,21 @@ export default function EditMeal() {
 			value: e.target.value,
 		};
 
-		axios.put("/api/editMeal", data).then((res) => {
-			if (res.data.status === 200) {
-				setMeals(res.data.meals);
-				swal("Edited successfully", "", "success");
-			}
-		});
+		axios
+			.put("/api/editMeal", data, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					setMeals(res.data.meals);
+					swal("Edited successfully", "", "success");
+				}
+			})
+			.catch((err) => {
+				swal("Error", err, "error");
+			});
 	};
 	const handleEditIngredients = (e, id, oldValue) => {
 		if (
@@ -57,12 +78,21 @@ export default function EditMeal() {
 			value: e.target.value,
 		};
 
-		axios.put("/api/editIngredients", data).then((res) => {
-			if (res.data.status === 200) {
-				setMeals(res.data.meals);
-				swal("Edited successfully", "", "success");
-			}
-		});
+		axios
+			.put("/api/editIngredients", data, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					setMeals(res.data.meals);
+					swal("Edited successfully", "", "success");
+				}
+			})
+			.catch((err) => {
+				swal("Error", err, "error");
+			});
 	};
 	const handleEditIngredientsOptional = (e, id) => {
 		const data = {
@@ -71,12 +101,21 @@ export default function EditMeal() {
 			value: e.target.checked,
 		};
 
-		axios.put("/api/editIngredients", data).then((res) => {
-			if (res.data.status === 200) {
-				setMeals(res.data.meals);
-				swal("Edited successfully", "", "success");
-			}
-		});
+		axios
+			.put("/api/editIngredients", data, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					setMeals(res.data.meals);
+					swal("Edited successfully", "", "success");
+				}
+			})
+			.catch((err) => {
+				swal("Error", err, "error");
+			});
 	};
 	const handleEditNutrients = (e, id, oldValue) => {
 		if (
@@ -92,12 +131,21 @@ export default function EditMeal() {
 			value: e.target.value,
 		};
 
-		axios.put("/api/editNutrients", data).then((res) => {
-			if (res.data.status === 200) {
-				setMeals(res.data.meals);
-				swal("Edited successfully", "", "success");
-			}
-		});
+		axios
+			.put("/api/editNutrients", data, {
+				headers: {
+					Authorization: `Bearer ${cookies.Token}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.status === 200) {
+					setMeals(res.data.meals);
+					swal("Edited successfully", "", "success");
+				}
+			})
+			.catch((err) => {
+				swal("Error", err, "error");
+			});
 	};
 
 	const handleMealImage = (e) => {
@@ -111,6 +159,7 @@ export default function EditMeal() {
 			.post("/api/editMealImage", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${cookies.Token}`,
 				},
 			})
 			.then((res) => {
@@ -127,6 +176,7 @@ export default function EditMeal() {
 				if (res.response.status === 413) {
 					swal("Oops!", res.response.statusText, "error");
 				}
+				swal("Oops!", res.response.statusText, "error");
 			});
 	};
 	return (

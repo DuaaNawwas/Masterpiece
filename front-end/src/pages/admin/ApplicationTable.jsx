@@ -1,10 +1,13 @@
 import axios from "axios";
 import { Pagination, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import swal from "sweetalert";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function ApplicationTable() {
-	// const { concertData, loadingT, setLoadingT, searchTicket, setSearchTicket } = useContext(AdminContext);
+	const { cookies } = useContext(AuthContext);
 	const [data, setData] = useState();
 	const [search, setSearch] = useState("");
 	const [columns, setColumns] = useState();
@@ -36,9 +39,20 @@ export default function ApplicationTable() {
 		setData(dataForTable);
 	};
 	useEffect(() => {
-		axios.get("/api/allApplications").then((res) => {
-			reArrangeData(res.data.applications);
-		});
+		if (cookies.Token && localStorage.getItem("admin")) {
+			axios
+				.get("/api/allApplications", {
+					headers: {
+						Authorization: `Bearer ${cookies.Token}`,
+					},
+				})
+				.then((res) => {
+					reArrangeData(res.data.applications);
+				})
+				.catch((err) => {
+					swal("Error", err, "error");
+				});
+		}
 	}, []);
 
 	useEffect(() => {
@@ -137,7 +151,7 @@ export default function ApplicationTable() {
 	return (
 		<section className="w-7/12 m-auto p-6  bg-white rounded-md shadow-md dark:bg-gray-800 space-y-5">
 			<h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white">
-				Contacts
+				Applications
 			</h2>
 			<TextInput
 				id="email1"
