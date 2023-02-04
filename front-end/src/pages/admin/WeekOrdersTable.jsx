@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdRemoveCircle } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { Pagination, TextInput, Tooltip } from "flowbite-react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import swal from "sweetalert";
-export default function OrdersTable() {
+import WeekMeals from "../../components/profile/WeekMeals";
+import { BsCheckSquareFill } from "react-icons/bs";
+export default function WeekOrdersTable() {
 	const { cookies } = useContext(AuthContext);
 
 	const [data, setData] = useState();
@@ -25,39 +27,38 @@ export default function OrdersTable() {
 	const [currentRecords, setCurrentRecords] = useState([]);
 	// const currentRecords = data?.slice(indexOfFirstRecord, indexOfLastRecord);
 	const navigate = useNavigate();
-	function transformDate(dateString) {
-		const date = new Date(dateString);
-		const options = {
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-			hour: "numeric",
-			minute: "numeric",
-			second: "numeric",
-		};
-		return date.toLocaleDateString("en-US", options);
-	}
+	const getDayName = (dayNum) => {
+		const days = [
+			"Saturday",
+			"Sunday",
+			"Monday",
+			"Tuesday",
+			"Wednesday",
+			"Thursday",
+			"Friday",
+		];
+		return days[dayNum % 7];
+	};
+
 	const reArrangeData = (data) => {
-		const dataForTable = data?.map((sub) => ({
-			id: sub.id,
+		const dataForTable = data?.map((week) => ({
+			id: week.id,
 			user: {
-				email: sub.user.email,
-				img: sub.user.image,
-				name: sub.user.first_name + " " + sub.user.last_name,
-				city: sub.user.city,
-				phone: sub.user.phone,
+				email: week.subscription.user.email,
+				img: week.subscription.user.image,
+				name:
+					week.subscription.user.first_name +
+					" " +
+					week.subscription.user.last_name,
+				city: week.subscription.user.city,
+				phone: week.subscription.user.phone,
 			},
-			p_m: sub.people_num + " / " + sub.meals_per_week,
-			ends_at: sub.ending_date,
-			weeks: [
-				{ week_id: sub.weeks[0].id, delivered: sub.weeks[0].is_delivered },
-				{ week_id: sub.weeks[1].id, delivered: sub.weeks[1].is_delivered },
-				{ week_id: sub.weeks[2].id, delivered: sub.weeks[2].is_delivered },
-				{ week_id: sub.weeks[3].id, delivered: sub.weeks[3].is_delivered },
-			],
-			price: sub.price,
-			email: sub.user.email,
-			name: sub.user.name,
+			p_m:
+				week.subscription.people_num + " / " + week.subscription.meals_per_week,
+			ends_at: week.ending_date,
+			email: week.subscription.user.email,
+			delivered: week.is_delivered,
+			dod: week.day_of_delivery,
 		}));
 		console.log("dataForTable");
 		console.log(dataForTable);
@@ -66,7 +67,7 @@ export default function OrdersTable() {
 	useEffect(() => {
 		if (cookies.Token && localStorage.getItem("admin")) {
 			axios
-				.get("/api/orders", {
+				.get("/api/orders/currentweek", {
 					headers: {
 						Authorization: `Bearer ${cookies.Token}`,
 					},
@@ -74,7 +75,7 @@ export default function OrdersTable() {
 				.then((res) => {
 					console.log("res");
 					console.log(res);
-					reArrangeData(res.data.subscriptions);
+					reArrangeData(res.data.orders);
 				})
 				.catch((err) => {
 					swal("Error", err.message, "error");
@@ -91,7 +92,7 @@ export default function OrdersTable() {
 			},
 			{
 				name: "Email",
-				id: "user",
+				id: "email",
 				sort: true,
 			},
 			{
@@ -105,13 +106,13 @@ export default function OrdersTable() {
 				sort: true,
 			},
 			{
-				name: "Price",
-				id: "price",
+				name: "Delivery",
+				id: "dod",
 				sort: true,
 			},
 			{
-				name: "Weeks",
-				id: "weeks",
+				name: "Status",
+				id: "delivered",
 				sort: false,
 			},
 		]);
@@ -162,9 +163,9 @@ export default function OrdersTable() {
 	return (
 		<section className="w-7/12 m-auto p-6  bg-white rounded-md shadow-md dark:bg-gray-800 space-y-5">
 			<h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white">
-				Manage Subscriptions{" "}
+				Manage Orders{" "}
 				<span className="text-gray-500 text-sm">
-					- Select week to view order details
+					- Click on row to view order details
 				</span>
 			</h2>
 			<TextInput
@@ -207,7 +208,8 @@ export default function OrdersTable() {
 								return (
 									<tr
 										key={i}
-										className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+										onClick={() => viewWeek(item.id)}
+										className="bg-white cursor-pointer border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
 									>
 										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
 											{item.id}
@@ -240,33 +242,14 @@ export default function OrdersTable() {
 											{item.ends_at}
 										</td>
 										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
-											{item.price}
+											{getDayName(item.dod)}
 										</td>
 										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
-											<select
-												onChange={(e) => viewWeek(e.target.value)}
-												className="text-xs rounded-md"
-												name=""
-												id=""
-											>
-												<option selected>Show Week</option>
-												{item?.weeks?.map((week, i) => {
-													return (
-														<>
-															<option
-																className={`${
-																	week.delivered === 1
-																		? "text-green-500"
-																		: "text-darkYellow"
-																}`}
-																value={week.week_id}
-															>
-																Week {i + 1}
-															</option>
-														</>
-													);
-												})}
-											</select>
+											{item.delivered ? (
+												<div className="text-green-500">Delivered</div>
+											) : (
+												<div className="text-darkYellow">Not Delivered</div>
+											)}
 										</td>
 									</tr>
 								);

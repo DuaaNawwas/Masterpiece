@@ -103,4 +103,5 @@ Route::group(['middleware' => ['auth:sanctum', 'abilities:admin']], function () 
     Route::get('/payments', [AdminController::class, 'allPayment']);
     Route::get('/allContacts', [AdminController::class, 'allContacts']);
     Route::get('/allApplications', [AdminController::class, 'allApplications']);
+    Route::get('/orders/currentweek', [AdminController::class, 'ordersForCurrentWeek']);
 });

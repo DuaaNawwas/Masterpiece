@@ -52,6 +52,8 @@ export default function ModalMeal({
 			console.log(removed);
 			console.log("kkoljihib");
 			console.log(ings);
+		} else {
+			setAllIngredients(meal?.ingredients);
 		}
 	}, [removedIng, show]);
 
@@ -117,7 +119,7 @@ export default function ModalMeal({
 									<div className="grid z-10 grid-cols-2 w-auto text-sm dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
 										<div className="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
 											<ul
-												className="gap-x-32 gap-y-3 flex flex-col flex-wrap max-h-32 "
+												className="gap-x-10 gap-y-3 flex flex-col flex-wrap max-h-32 "
 												aria-labelledby="mega-menu-icons-dropdown-button"
 											>
 												{allIngredients?.map((ingredient) => {

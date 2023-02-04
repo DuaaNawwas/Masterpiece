@@ -12,6 +12,7 @@ use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\User;
 use App\Models\Week;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rules\File;
@@ -354,6 +355,21 @@ class AdminController extends Controller
         return response()->json([
             'status' => 200,
             'applications' => Application::all(),
+        ]);
+    }
+
+    public function ordersForCurrentWeek()
+    {
+        $currentDate = Carbon::now();
+
+        $orders = Week::where('ending_date', '>=', $currentDate)
+            ->where('starting_date', '<', $currentDate)
+            ->with('subscription.user')
+            ->get();
+
+        return response()->json([
+            'status' => 200,
+            'orders' => $orders
         ]);
     }
 }

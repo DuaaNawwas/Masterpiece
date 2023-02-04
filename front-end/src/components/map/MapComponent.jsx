@@ -31,7 +31,7 @@ function MapComponent({ position, setPosition }) {
 					height: "400px",
 					width: "400px",
 				}}
-				zoom={8}
+				zoom={15}
 				center={position}
 			>
 				<MarkerF

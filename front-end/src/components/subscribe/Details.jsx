@@ -159,27 +159,6 @@ export default function Details(props) {
 								<div className="relative">
 									<input
 										type="text"
-										id="street"
-										name="street"
-										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
-										placeholder=" "
-										defaultValue={updatedUser?.street}
-										onChange={handleInput}
-									/>
-									<label
-										htmlFor="street"
-										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-darkRed peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-									>
-										Street
-									</label>
-									<small className="text-red-500">
-										{updatedUser?.errors.street}
-									</small>
-								</div>
-
-								<div className="relative">
-									<input
-										type="text"
 										id="city"
 										name="city"
 										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
@@ -195,6 +174,26 @@ export default function Details(props) {
 									</label>
 									<small className="text-red-500">
 										{updatedUser?.errors.city}
+									</small>
+								</div>
+								<div className="relative">
+									<input
+										type="text"
+										id="street"
+										name="street"
+										className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-darkRed peer"
+										placeholder=" "
+										defaultValue={updatedUser?.street}
+										onChange={handleInput}
+									/>
+									<label
+										htmlFor="street"
+										className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-darkRed peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+									>
+										Street
+									</label>
+									<small className="text-red-500">
+										{updatedUser?.errors.street}
 									</small>
 								</div>
 							</div>
