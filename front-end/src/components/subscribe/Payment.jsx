@@ -73,7 +73,7 @@ export default function Payment() {
 	};
 
 	return (
-		<div className="relative block rounded-xl bg-white border border-gray-100 pb-5 pt-0 lg:p-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12 mx-auto mt-20 mb-44">
+		<div className="relative block rounded-xl bg-white border border-gray-100 pb-5 pt-0 lg:p-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12 mx-auto mt-2 mb-44">
 			<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-2/3 -translate-y-2/3 bg-gray-300"></div>
 
 			<div className="mx-auto max-w-screen-xl px-4 pb-20 pt-0 lg:pt-8  sm:px-6 lg:px-8">

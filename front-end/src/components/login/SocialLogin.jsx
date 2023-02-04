@@ -8,7 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 export default function SocialLogin() {
 	const { loginWithGoogle, loginWithFacebook } = useContext(AuthContext);
 	return (
-		<div className="flex gap-10 justify-center">
+		<div key={Math.random()} className="flex gap-10 justify-center">
 			<GoogleLogin
 				type="icon"
 				shape="circle"

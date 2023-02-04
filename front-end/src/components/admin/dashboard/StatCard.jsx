@@ -10,7 +10,7 @@ export default function StatCard(props) {
 						{/* <HiUser size="20" className="group-text-white" /> */}
 					</div>
 				</div>
-				<h1 className="text-3xl sm:text-4xl xl:text-5xl font-bold mt-5 text-gray-50">
+				<h1 className="text-2xl sm:text-3xl xl:text-4xl font-bold mt-5 text-gray-50">
 					{props.number}
 				</h1>
 				<div className="flex flex-row justify-between text-gray-200">

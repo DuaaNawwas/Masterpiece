@@ -10,6 +10,8 @@ import axios from "axios";
 import swal from "sweetalert";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { MdMarkEmailRead, MdMarkEmailUnread } from "react-icons/md";
+import { FaPhone } from "react-icons/fa";
 export default function Contact() {
 	const { user, cookies } = useContext(AuthContext);
 	// Initialize animation library
@@ -71,11 +73,16 @@ export default function Contact() {
 					</h2>
 					<div className="mx-auto max-w-screen-xl px-4 py-4 lg:py-16 sm:px-6 xl:px-8">
 						<div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16  justify-items-center">
-							<p className=" text-xl text-gray-600 text-justify lg:w-2/3 xl:w-1/2 justify-self-center mx-auto">
-								Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut
-								qui hic atque tenetur quis eius quos ea neque sunt, accusantium
-								soluta minus veniam tempora deserunt? Molestiae eius quidem quam
-								repellat.
+							<p className="space-y-2 text-xl text-gray-600 lg:w-2/3 xl:w-1/2 justify-self-center mx-auto">
+								You can contact us at
+								<p className="mt-2 text-lg flex items-center gap-2">
+									{" "}
+									<MdMarkEmailRead /> <span>info@easymeals.com</span>{" "}
+								</p>
+								<p className="flex text-lg items-center gap-2">
+									{" "}
+									<FaPhone /> <span>0778086357</span>{" "}
+								</p>
 							</p>
 
 							<div className="w-full lg:w-9/12 sm:h-80 lg:h-full flex flex-col ">

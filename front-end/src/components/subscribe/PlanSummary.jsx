@@ -48,7 +48,6 @@ export default function PlanSummary(props) {
 				<p className="mt-2 text-sm block ">
 					Price per meal: {price_per_serving?.price_per_serving} Jd
 				</p>
-				<p className="mt-2 text-sm block ">Shipping fees:</p>
 				<p className="mt-2 text-sm block ">
 					Total price: {price_per_serving?.total_price} Jd
 				</p>

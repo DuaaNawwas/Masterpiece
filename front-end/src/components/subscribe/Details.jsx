@@ -120,7 +120,7 @@ export default function Details(props) {
 	console.log(isChangedDod);
 
 	return (
-		<div className="relative block rounded-xl bg-white border border-gray-100 p-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12 mx-auto mt-20 mb-44">
+		<div className="relative block rounded-xl bg-white border border-gray-100 p-5 shadow-xl w-11/12 md:w-9/12  lg:w-11/12 xl:w-9/12 mx-auto mt-2 mb-44">
 			<div className="hidden lg:block absolute left-1/2 -ml-0.5 w-0.5 h-56 top-1/2 -translate-y-1/2 bg-gray-300"></div>
 			<section>
 				{/* <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8"> */}

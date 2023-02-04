@@ -17,6 +17,8 @@ export default function AddMealForm() {
 	return (
 		<>
 			<div className="space-y-6 bg-white px-4 py-5 sm:p-6">
+				<span className="text-xl font-semibold">Add Meal</span>
+
 				<div className="grid grid-cols-6 gap-6">
 					<div className="col-span-6 sm:col-span-3">
 						<label
@@ -145,7 +147,6 @@ export default function AddMealForm() {
 						<small className="text-red-500">{mealErrors?.tags}</small>
 					</div>
 				</div>
-
 				<div className="grid grid-cols-3 gap-6">
 					<div className="col-span-3">
 						<label
@@ -167,7 +168,6 @@ export default function AddMealForm() {
 						<small className="text-red-500">{mealErrors?.short_desc}</small>
 					</div>
 				</div>
-
 				<div>
 					<label
 						htmlFor="long_description"
@@ -188,7 +188,6 @@ export default function AddMealForm() {
 					</div>
 					<small className="text-red-500">{mealErrors?.long_desc}</small>
 				</div>
-
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
 						Image *

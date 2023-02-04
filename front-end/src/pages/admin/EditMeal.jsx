@@ -185,6 +185,12 @@ export default function EditMeal() {
 				<div className="mt-5 md:col-span-2 md:mt-0">
 					<div className="shadow sm:overflow-hidden sm:rounded-md">
 						<div className="space-y-6 bg-white px-4 py-5 sm:p-6">
+							<div className="text-xl font-semibold">
+								Edit Meal{" "}
+								<span className="text-black/40">
+									- Change each field to edit it
+								</span>{" "}
+							</div>
 							<div className="grid grid-cols-6 gap-6">
 								<div className="col-span-6 sm:col-span-3">
 									<label

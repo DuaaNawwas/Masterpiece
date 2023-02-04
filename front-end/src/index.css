@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @import url("https://fonts.googleapis.com/css2?family=Sassy+Frass&display=swap"); */
+/* @import url("https://fonts.googleapis.com/css2?family=Merriweather&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600&display=swap");
 body {
-	font-family: "Merriweather", serif;
+	/* font-family: "Merriweather", serif; */
+	font-family: "Overpass", sans-serif;
+	/* font-family: "Sassy Frass", cursive; */
 	background-color: #eeecea;
 	position: relative;
 	width: 100%;
