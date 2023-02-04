@@ -28,12 +28,15 @@ export default function Contact() {
 	const [errors, setErrors] = useState({});
 
 	useEffect(() => {
+		if (cookies.Token) {
+			setContactData({ ...contactData, email: user?.email });
+		}
 		if (contactData.email != "" && contactData.message != "") {
 			setEnableBtn(true);
 		} else {
 			setEnableBtn(false);
 		}
-	}, [contactData]);
+	}, [contactData, cookies]);
 
 	const handleContact = () => {
 		if (enableBtn) {
