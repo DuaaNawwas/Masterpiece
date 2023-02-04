@@ -33,7 +33,7 @@ export default function Meals() {
 				swal("Poof! meal has been deleted!", {
 					icon: "success",
 				}).catch((err) => {
-					swal("Error", err, "error");
+					swal("Error", err.message, "error");
 				});
 			} else {
 				swal("Your meal is safe!");

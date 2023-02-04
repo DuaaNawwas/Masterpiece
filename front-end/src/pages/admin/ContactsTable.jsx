@@ -45,7 +45,7 @@ export default function ContactsTable() {
 					reArrangeData(res.data.contacts);
 				})
 				.catch((err) => {
-					swal("Error", err, "error");
+					swal("Error", err.message, "error");
 				});
 		}
 	}, []);

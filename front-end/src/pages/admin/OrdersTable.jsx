@@ -77,7 +77,7 @@ export default function OrdersTable() {
 					reArrangeData(res.data.subscriptions);
 				})
 				.catch((err) => {
-					swal("Error", err, "error");
+					swal("Error", err.message, "error");
 				});
 		}
 	}, []);

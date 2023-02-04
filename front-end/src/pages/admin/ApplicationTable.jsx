@@ -50,7 +50,7 @@ export default function ApplicationTable() {
 					reArrangeData(res.data.applications);
 				})
 				.catch((err) => {
-					swal("Error", err, "error");
+					swal("Error", err.message, "error");
 				});
 		}
 	}, []);

@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import { IoIosArrowDown } from "react-icons/io";
-import { Pagination, TextInput, Tooltip } from "flowbite-react";
 import axios from "axios";
+import { Pagination, TextInput } from "flowbite-react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { AuthContext } from "../../../context/AuthContext";
+import { IoIosArrowDown } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
+import { TbEdit } from "react-icons/tb";
+import { Link } from "react-router-dom";
 import swal from "sweetalert";
-export default function PaymentsTable() {
+import Button from "../../components/Button";
+import { AdminContext } from "../../context/AdminContext";
+import { AuthContext } from "../../context/AuthContext";
+
+export default function MealsTable() {
+	const { meals, setMeals } = useContext(AdminContext);
+
 	const { cookies } = useContext(AuthContext);
 	const [data, setData] = useState();
 	const [search, setSearch] = useState("");
@@ -23,49 +29,31 @@ export default function PaymentsTable() {
 			? 0
 			: indexOfLastRecord - recordsPerPage;
 	const [currentRecords, setCurrentRecords] = useState([]);
-	// const currentRecords = data?.slice(indexOfFirstRecord, indexOfLastRecord);
-	const navigate = useNavigate();
-	function transformDate(dateString) {
-		const date = new Date(dateString);
-		const options = {
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-			hour: "numeric",
-			minute: "numeric",
-			second: "numeric",
-		};
-		return date.toLocaleDateString("en-US", options);
-	}
+
 	const reArrangeData = (data) => {
-		console.log("data");
-		console.log(data);
-		const dataForTable = data?.map((payment) => ({
-			id: payment.id,
-			date: makeDateHumanReadable(payment.created_at),
-			amount: payment.amount,
-			email: payment.user.email,
-			name: payment.user.first_name + " " + payment.user.last_name,
-			city: payment.user.city,
-			img: payment.user.image,
-			phone: payment.user.phone,
-			brand: JSON.parse(payment.card_num).brand,
-			last4: JSON.parse(payment.card_num).last4,
+		const dataForTable = data?.map((meal) => ({
+			id: meal.id,
+			image: meal.image,
+			name: meal.name,
+			desc: meal.short_desc,
 		}));
-		console.log("dataForTable");
-		console.log(dataForTable);
+
 		setData(dataForTable);
 	};
 	useEffect(() => {
 		if (cookies.Token && localStorage.getItem("admin")) {
 			axios
-				.get("/api/payments", {
+				.get("/api/allmeals/get", {
 					headers: {
 						Authorization: `Bearer ${cookies.Token}`,
 					},
 				})
 				.then((res) => {
-					reArrangeData(res.data.payments);
+					if (res.data.status === 200) {
+						console.log(res);
+						setMeals(res.data.meals);
+						reArrangeData(res.data.meals);
+					}
 				})
 				.catch((err) => {
 					swal("Error", err.message, "error");
@@ -81,29 +69,25 @@ export default function PaymentsTable() {
 				sort: true,
 			},
 			{
-				name: "Email",
-				id: "email",
+				name: "Image",
+				id: "image",
+				sort: false,
+			},
+			{
+				name: "Name",
+				id: "name",
+				sort: true,
+			},
+
+			{
+				name: "Description",
+				id: "desc",
 				sort: true,
 			},
 			{
-				name: "Last 4 Card .Num",
-				id: "last4",
-				sort: true,
-			},
-			{
-				name: "Card brand",
-				id: "brand",
-				sort: true,
-			},
-			{
-				name: "Amount",
-				id: "amount",
-				sort: true,
-			},
-			{
-				name: "Date",
-				id: "date",
-				sort: true,
+				name: "Actions",
+				id: "actions",
+				sort: false,
 			},
 		]);
 	}, []);
@@ -150,10 +134,42 @@ export default function PaymentsTable() {
 		const date = new Date(dateString);
 		return date.toLocaleDateString() + " " + date.toLocaleTimeString();
 	}
+
+	const handleDelete = (id) => {
+		swal({
+			title: "Are you sure?",
+			text: "This meal will be deleted!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		}).then((willDelete) => {
+			if (willDelete) {
+				axios
+					.delete(`/api/meal/${id}`, {
+						headers: {
+							Authorization: `Bearer ${cookies.Token}`,
+						},
+					})
+					.then((res) => {
+						if (res.data.status === 200) {
+							setMeals(res.data.meals);
+							reArrangeData(res.data.meals);
+						}
+					});
+				swal("Poof! meal has been deleted!", {
+					icon: "success",
+				}).catch((err) => {
+					swal("Error", err.message, "error");
+				});
+			} else {
+				swal("Your meal is safe!");
+			}
+		});
+	};
 	return (
-		<section className="w-9/12 m-auto p-6  bg-white rounded-md shadow-md dark:bg-gray-800 space-y-5">
+		<section className="w-8/12 my-10 mx-auto p-6  bg-white rounded-md shadow-md dark:bg-gray-800 space-y-5">
 			<h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white">
-				Payments
+				Meals
 			</h2>
 			<TextInput
 				id="email1"
@@ -195,44 +211,43 @@ export default function PaymentsTable() {
 								return (
 									<tr
 										key={i}
-										className="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+										className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
 									>
 										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
 											{item.id}
 										</td>
-										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white cursor-pointer hover:text-blue-500 hover:dark:text-blue-500">
-											<Tooltip
-												content={
-													<div className="flex flex-col gap-2">
-														<span className="flex gap-2 items-center">
-															<img
-																src={item.img}
-																className="rounded-full w-7 h-7"
-																alt=""
-																referrerPolicy="no-referrer"
-															/>
 
-															<span>{item.name}</span>
-														</span>
-														<span>Phone : {item.phone}</span>
-														<span>City : {item.city}</span>
-													</div>
+										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
+											<img
+												class="w-10 h-10 rounded-full"
+												src={item.image}
+												alt=""
+											/>
+										</td>
+										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
+											{item.name}
+										</td>
+
+										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
+											{item.desc}
+										</td>
+										<td className="whitespace-nowrap flex space-x-2 px-2 py-2 font-medium text-gray-900 dark:text-white">
+											<Link
+												to={`/dashboard/meals/${item?.id}`}
+												className={
+													"bg-darkGreen text-white px-2 inline-flex items-center justify-center py-2 font-medium  rounded shadow-md  hover:drop-shadow-lg focus:shadow-outline focus:outline-none tracking-wide transition duration-200 disabled:cursor-not-allowed disabled:bg-darkGreen/40 disabled:hover:shadow-md disabled:hover:bg-darkGreen/40"
 												}
 											>
-												{item.email}
-											</Tooltip>
-										</td>
-										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
-											{item.last4}
-										</td>
-										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
-											{item.brand}
-										</td>
-										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
-											{item.amount}
-										</td>
-										<td className="whitespace-nowrap px-2 py-2 font-medium text-gray-900 dark:text-white">
-											{item.date}
+												<TbEdit />
+											</Link>
+											<Button
+												bgColor="bg-red-500"
+												hoverColor="hover:bg-rustySh"
+												text={<MdDelete />}
+												onClick={() => handleDelete(item?.id)}
+												style=" px-2"
+												type="button"
+											/>
 										</td>
 									</tr>
 								);

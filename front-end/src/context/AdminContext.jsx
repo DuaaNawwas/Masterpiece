@@ -45,7 +45,7 @@ export default function AdminProvider({ children }) {
 	]);
 	// Get all meals
 	useEffect(() => {
-		if (cookies.Token && localStorage.getItem("admin")) {
+		if (localStorage.getItem("admin")) {
 			axios
 				.get("/api/allmeals/get", {
 					headers: {
@@ -59,7 +59,7 @@ export default function AdminProvider({ children }) {
 					}
 				})
 				.catch((err) => {
-					swal("Error", err, "error");
+					swal("Error", err.message, "error");
 				});
 		}
 	}, []);
@@ -194,7 +194,7 @@ export default function AdminProvider({ children }) {
 								sodium: "",
 								ingredients: [],
 							}).catch((err) => {
-								swal("Error", err, "error");
+								swal("Error", err.message, "error");
 							});
 							setInputFields([{ ingredient: "", optional: false }]);
 							setUrl(null);

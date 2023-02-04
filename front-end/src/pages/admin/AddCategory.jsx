@@ -56,7 +56,7 @@ export default function AddCategory() {
 					}
 				})
 				.catch((err) => {
-					swal("Error", err, "error");
+					swal("Error", err.message, "error");
 				});
 		} else {
 			swal("All inputs are required", "", "error");

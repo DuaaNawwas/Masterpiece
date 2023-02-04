@@ -39,13 +39,13 @@ export default function SingleWeek() {
 					}
 				})
 				.catch((err) => {
-					swal("Error", err, "error");
+					swal("Error", err.message, "error");
 				});
 		}
 	}, []);
 
 	useEffect(() => {
-		console.log(week);
+		console.log("week---------", week);
 		if (week) {
 			const weekMeals = Object.keys(week)
 				.filter(
@@ -60,6 +60,7 @@ export default function SingleWeek() {
 
 			const allMeals = Object.values(weekMeals);
 			setMeals(allMeals);
+			console.log("allMeals----------", allMeals);
 		}
 	}, [week]);
 
@@ -81,7 +82,7 @@ export default function SingleWeek() {
 				}
 			})
 			.catch((err) => {
-				swal("Error", err, "error");
+				swal("Error", err.message, "error");
 			});
 	};
 

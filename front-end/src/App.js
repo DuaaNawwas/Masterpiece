@@ -40,6 +40,7 @@ import SubscribedRoute from "./helpers/SubscribedRoute";
 import Unauthorized from "./pages/Unauthorized";
 import RequireAuth from "./helpers/RequireAuth";
 import GuestRoute from "./helpers/GuestRoute";
+import MealsTable from "./pages/admin/MealsTable";
 
 // define axios defaults
 axios.defaults.baseURL = "http://localhost:8000/";
@@ -116,7 +117,13 @@ function App() {
 											element={<Categories />}
 										/>
 										<Route path="/dashboard/meal/add" element={<AddMeal />} />
-										<Route path="/dashboard/meals" element={<Meals />} />
+										<Route
+											path="/dashboard/meals"
+											element={
+												// <Meals />
+												<MealsTable />
+											}
+										/>
 										<Route path="/dashboard/meals/:id" element={<EditMeal />} />
 										<Route path="/dashboard/orders" element={<OrdersTable />} />
 										<Route

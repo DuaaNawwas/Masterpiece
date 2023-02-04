@@ -31,7 +31,7 @@ export default function Categories() {
 						}
 					})
 					.catch((err) => {
-						swal("Error", err, "error");
+						swal("Error", err.message, "error");
 					});
 				swal("Poof! Category has been deleted!", {
 					icon: "success",
@@ -84,7 +84,7 @@ export default function Categories() {
 				}
 			})
 			.catch((err) => {
-				swal("Error", err, "error");
+				swal("Error", err.message, "error");
 			});
 	};
 	return (

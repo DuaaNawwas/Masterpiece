@@ -29,7 +29,7 @@ export default function Dashboard() {
 					}
 				})
 				.catch((err) => {
-					swal("Error", err, "error");
+					swal("Error", err.message, "error");
 				});
 		}
 	}, []);

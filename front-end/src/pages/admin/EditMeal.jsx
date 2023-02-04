@@ -30,7 +30,7 @@ export default function EditMeal() {
 				}
 			})
 			.catch((err) => {
-				swal("Error", err, "error");
+				swal("Error", err.message, "error");
 			});
 	}, []);
 
@@ -61,7 +61,7 @@ export default function EditMeal() {
 				}
 			})
 			.catch((err) => {
-				swal("Error", err, "error");
+				swal("Error", err.message, "error");
 			});
 	};
 	const handleEditIngredients = (e, id, oldValue) => {
@@ -91,7 +91,7 @@ export default function EditMeal() {
 				}
 			})
 			.catch((err) => {
-				swal("Error", err, "error");
+				swal("Error", err.message, "error");
 			});
 	};
 	const handleEditIngredientsOptional = (e, id) => {
@@ -114,7 +114,7 @@ export default function EditMeal() {
 				}
 			})
 			.catch((err) => {
-				swal("Error", err, "error");
+				swal("Error", err.message, "error");
 			});
 	};
 	const handleEditNutrients = (e, id, oldValue) => {
@@ -144,7 +144,7 @@ export default function EditMeal() {
 				}
 			})
 			.catch((err) => {
-				swal("Error", err, "error");
+				swal("Error", err.message, "error");
 			});
 	};
 
