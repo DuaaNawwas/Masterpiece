@@ -22,11 +22,13 @@ export default function MealCard(props) {
 							</div>
 						</div> */}
 
-						<h4 className="mt-1 text-xl font-semibold uppercase leading-tight truncate">
+						<h4 className="mt-1 text-md font-semibold uppercase leading-tight truncate">
 							{props.title}
 						</h4>
 
-						<div className="mt-1 truncate whitespace-normal">{props.desc}</div>
+						<div className="mt-1 text-sm truncate whitespace-normal">
+							{props.desc}
+						</div>
 						<Button
 							bgColor="bg-rusty"
 							hoverColor="hover:bg-rustySh"

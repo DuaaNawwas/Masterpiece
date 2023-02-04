@@ -165,6 +165,7 @@ export default function EditMeal() {
 			.then((res) => {
 				if (res.data.status === 200) {
 					setMeals(res.data.meals);
+					swal("Edited successfully", "", "success");
 					console.log(res);
 				} else {
 					swal("Oops!", res.data.image[0], "error");

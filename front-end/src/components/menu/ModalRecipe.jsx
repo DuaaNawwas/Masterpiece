@@ -136,15 +136,28 @@ export default function ModalRecipe(props) {
 									className="object-cover object-center h-72 w-full"
 								/>
 								<div className="space-y-1 p-3 flex flex-col items-start">
-									<Badge
-										color="success"
-										size="sm"
-										className="rounded-sm py-1"
-										icon={HiClock}
-									>
-										{" "}
-										{meal?.prep_time}
-									</Badge>
+									<div className="flex gap-5 items-center">
+										<Badge
+											color="success"
+											size="sm"
+											className="rounded-sm py-1"
+											icon={HiClock}
+										>
+											{" "}
+											{meal?.prep_time}
+										</Badge>
+										{meal?.tags && (
+											<Badge
+												color="warning"
+												size="sm"
+												className="rounded-sm py-3"
+											>
+												{" "}
+												{meal?.tags}
+											</Badge>
+										)}
+									</div>
+
 									<h4 className="mt-1 mb-0 pb-0 text-xl font-semibold uppercase leading-tight">
 										{meal?.name}
 									</h4>
@@ -160,7 +173,7 @@ export default function ModalRecipe(props) {
 									<div className="grid z-10 grid-cols-2 w-auto text-sm dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
 										<div className="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
 											<ul
-												className="gap-x-32 gap-y-3 flex flex-col flex-wrap max-h-32 "
+												className="gap-x-10 gap-y-3 flex flex-col flex-wrap max-h-32 "
 												aria-labelledby="mega-menu-icons-dropdown-button"
 											>
 												{meal?.ingredients?.map((ingredient, i) => {

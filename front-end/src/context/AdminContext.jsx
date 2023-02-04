@@ -193,8 +193,6 @@ export default function AdminProvider({ children }) {
 								cholesterol: "",
 								sodium: "",
 								ingredients: [],
-							}).catch((err) => {
-								swal("Error", err.message, "error");
 							});
 							setInputFields([{ ingredient: "", optional: false }]);
 							setUrl(null);
@@ -204,6 +202,9 @@ export default function AdminProvider({ children }) {
 							console.log(res);
 							setMealErrors(res.data.errors);
 						}
+					})
+					.catch((err) => {
+						swal("Error", err.message, "error");
 					});
 			} else {
 				swal("Error", "Not Authorized", "error");
