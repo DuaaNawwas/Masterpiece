@@ -98,7 +98,10 @@ export default function Navbar() {
 							label={
 								<img
 									class="w-10 h-10 rounded-full"
-									src={user?.image}
+									src={
+										user?.image ||
+										"https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+									}
 									alt=""
 									referrerPolicy="no-referrer"
 								/>
@@ -230,7 +233,10 @@ export default function Navbar() {
 												label={
 													<Avatar
 														alt=""
-														img={user?.image}
+														img={
+															user?.image ||
+															"https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+														}
 														rounded={true}
 														referrerPolicy="no-referrer"
 													/>

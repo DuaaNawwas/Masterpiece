@@ -82,8 +82,8 @@ export default function RegisterForm() {
 								}
 							});
 					} else {
-						// navigate("/", { replace: true });
-						navigate(from, { replace: true });
+						navigate("/subscribe", { replace: true });
+						// navigate(from, { replace: true });
 					}
 				} else {
 					console.log(res);

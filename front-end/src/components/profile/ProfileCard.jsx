@@ -45,7 +45,10 @@ export default function ProfileCard() {
 			<div className="relative flex justify-center -mt-16 group">
 				<img
 					class="w-20 h-20 rounded-full"
-					src={user?.image}
+					src={
+						user?.image ||
+						"https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+					}
 					alt=""
 					referrerPolicy="no-referrer"
 				/>
